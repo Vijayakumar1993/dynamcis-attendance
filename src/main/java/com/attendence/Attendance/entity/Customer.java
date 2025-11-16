@@ -17,6 +17,9 @@ public class Customer {
 
     private String phone;
 
+    private String gender;
+    private String status;
+
     public Customer() {
     }
 
@@ -24,6 +27,12 @@ public class Customer {
         this.name = name;
         this.email = email;
         this.phone = phone;
+    }
+
+    public Customer(String name, String email, String phone,String gender, String status) {
+        this(name,email,phone);
+        this.gender = gender;
+        this.status = status;
     }
 
     public Long getId() {
@@ -56,5 +65,21 @@ public class Customer {
 
     public void setPhone(String phone) {
         this.phone = phone;
+    }
+
+    public String getGender() {
+        return gender;
+    }
+
+    public void setGender(String gender) {
+        this.gender = gender;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
     }
 }

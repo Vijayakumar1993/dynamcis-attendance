@@ -6,12 +6,13 @@
 
     <div class="mb-3">
       <label for="studentName" class="form-label">Student Name:</label>
-      <input type="text" id="studentName" name="id" class="form-control" placeholder="Enter student name" required>
+         <input type="text" class="form-control" name="name" id="studentNames" placeholder="Search by Name" <#if name?has_content>value="${name?if_exists}" </#if>>
+        <input type="hidden" class="form-control" name="id" id="studentId" placeholder="Search by Name" <#if id?has_content>value="${id?if_exists}" </#if>>
     </div>
 
     <div class="mb-3">
       <label for="attendanceDate" class="form-label">Date:</label>
-      <input type="date" id="attendanceDate" name="attendanceDate" class="form-control" required>
+      <input type="date" id="attendanceDate" name="attendanceDate" class="form-control" required value="${.now?string('yyyy-MM-dd')}">
     </div>
 
     <button type="submit" class="btn btn-primary">Submit</button>

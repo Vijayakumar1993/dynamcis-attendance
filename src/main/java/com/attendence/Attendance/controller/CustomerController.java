@@ -16,33 +16,43 @@ public class CustomerController {
     @Autowired
     private CustomerRepostitary customerRepostitary;
 
-    @GetMapping("")
+    @GetMapping("createCustomer")
     public String customer(){
         return "customer";
     }
-    @PostMapping("/createCustomer")
+    @PostMapping("addCustomer")
     public String createCustomer(@ModelAttribute Customer customer){
         customerRepostitary.save(customer);
-        System.out.println("Create customer is under constructions...!");
-        return "customer";
+        return "redirect:/customer/viewCustomers";
     }
 
-    @GetMapping("/customer/{id}")
-    public String getCustomer(@PathVariable("id") String id, Model model){
-        Customer customer = customerRepostitary.getById(Integer.parseInt(id));
-        model.addAttribute("customer",customer);
-        System.out.println("Customer  is "+customer.getName());
-        return "customer";
-    }
-    @GetMapping("find")
-    public String findCustomers(Model model){
+
+    @GetMapping("viewCustomers")
+    public String viewCustomers(Model model){
         List<Customer> customers = customerRepostitary.findAll();
         model.addAttribute("customers",customers);
         return "findCustomers";
     }
 
-    @GetMapping("find/{id}")
-    public Customer findByCustomerId(@PathVariable("id") String id){
-        return customerRepostitary.findById(Integer.parseInt(id)).get();
+    @GetMapping("viewCustomer/{id}")
+    public String viewCustomerById(@PathVariable("id") String id, Model model){
+        Customer customer =  customerRepostitary.findById(Long.parseLong(id)).get();
+        model.addAttribute("customer",customer);
+        return "customer";
     }
+
+    @GetMapping("deleteCustomer/{id}")
+    public String deleteCustomer(@PathVariable("id") String id){
+        Customer customer = customerRepostitary.findById(Long.parseLong(id)).get();
+        customer.setStatus("INACTIVE");
+        customerRepostitary.save(customer);
+        return "redirect:/customer/viewCustomers";
+    }
+
+    @PostMapping("findCustomers")
+    public String findCustomers(@RequestParam("name") String name, @RequestParam("email") String email,
+                                @RequestParam("gender") String gender, @RequestParam("status") String status, Model model){
+        List<Customer> customers = customerRepostitary.searchCustomers(name,email,gender,status);
+        model.addAttribute("customers",customers);
+        return "redirect:/customer/viewCustomers"; }
 }

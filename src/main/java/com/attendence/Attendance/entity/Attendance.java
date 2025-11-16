@@ -13,12 +13,12 @@ public class Attendance {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private Integer customerId;
+    private Long customerId;
     private LocalDate date;
 
     public Attendance(){}
 
-    public Attendance(Integer customerId, LocalDate date) {
+    public Attendance(Long customerId, LocalDate date) {
         this.customerId = customerId;
         this.date = date;
     }
@@ -31,11 +31,11 @@ public class Attendance {
         this.id = id;
     }
 
-    public Integer getCustomerId() {
+    public Long getCustomerId() {
         return customerId;
     }
 
-    public void setCustomerId(Integer customerId) {
+    public void setCustomerId(Long customerId) {
         this.customerId = customerId;
     }
 
