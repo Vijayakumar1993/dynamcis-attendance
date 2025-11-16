@@ -1,5 +1,5 @@
 <#include "home.ftl">
-<div class="container my-5">
+<div class=" my-5">
   <h2 class="mb-4">Attendance Form</h2>
 
   <form action="createAttendance" method="post">

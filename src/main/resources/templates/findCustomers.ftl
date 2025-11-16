@@ -1,6 +1,6 @@
 <#include "home.ftl">
 
-<div class="container my-5">
+<div class=" my-5">
   <h2 class="mb-4">Student  Form</h2>
             <form action="/customer/viewCustomers" method="post">
 
@@ -57,8 +57,8 @@
             </form>
 </div>
 
-<div class="container mt-5">
-    <h2 class="mb-4">Customer List</h2>
+<div class=" mt-5">
+    <h2 class="mb-4">Students List</h2>
 
     <div class="table-responsive">
         <table class="table table-striped table-bordered">

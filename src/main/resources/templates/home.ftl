@@ -30,17 +30,39 @@ background-color: #f8d7da !important; /* red */
 .padding-bottom-5{
     padding-bottom: 5px;
 }
+input.form-control{
+    padding-bottom: 5px !important;
+}
+.content {
+    margin-left: 260px;
+    padding: 30px;
+}
+.card {
+    border-radius: 12px;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+}
+.padding-top-5{
+    padding-top: 5px !important;
+}
+
+.padding-left-5{
+padding-left: 5px !important;
+}
+
+.padding-right-5{
+padding-right: 5px !important;
+}
 </style>
 
 </head>
-<div class="row">
+<div class="row padding-left-5 padding-right-5">
     <nav class="navbar navbar-inverse">
   <div class="container-fluid">
     <div class="navbar-header">
-      <a class="navbar-brand" href="#">Dynamics 101 MMA</a>
+      <a class="navbar-brand" href="${baseUrl}/">Dynamics 101 MMA</a>
     </div>
     <ul class="nav navbar-nav">
-      <li class="active"><a href="#">Home</a></li>
+      <li class="active"><a href="${baseUrl}/">Home</a></li>
       <li class="dropdown">
           <a href="#" class="dropdown-toggle" data-toggle="dropdown">
             Students <span class="caret"></span>
@@ -64,3 +86,4 @@ background-color: #f8d7da !important; /* red */
   </div>
 </nav>
 </div>
+<div class="container-fluid">

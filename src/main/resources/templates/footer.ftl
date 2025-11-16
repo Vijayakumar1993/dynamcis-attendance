@@ -1,3 +1,4 @@
+</div>
 <script>
 // Build autocomplete list as label + value
 var names = [

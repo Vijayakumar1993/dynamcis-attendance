@@ -1,6 +1,6 @@
 <#include "home.ftl" />
 
-<div class="container mt-4">
+<div class=" mt-4">
 
    <div class="panel panel-primary">
         <div class="panel-heading">Student's Details</div>

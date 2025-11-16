@@ -1,5 +1,5 @@
 <#include "home.ftl">
-<div class="container mt-5">
+<div class=" mt-5">
     <h2 class="mb-4">Customer List</h2>
 
     <div class="table-responsive">

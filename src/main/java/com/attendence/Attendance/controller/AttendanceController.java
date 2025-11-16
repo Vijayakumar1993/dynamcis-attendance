@@ -108,7 +108,7 @@ public class AttendanceController {
     public String deleteAttendance(@RequestParam("id") String id, @RequestParam("attendanceDate") String attendanceDate, Model model){
         Customer customer = customerRepostitary.findById(Long.parseLong(id)).get();
         LocalDate attandenceDate = LocalDate.parse(attendanceDate);
-        repositary.deleteByCustomerIdAndDate(Integer.parseInt(customer.getId().toString()),attandenceDate);
+        repositary.deleteByCustomerIdAndDate(Long.parseLong(customer.getId().toString()),attandenceDate);
         return "redirect:/attendance";
     }
 }
