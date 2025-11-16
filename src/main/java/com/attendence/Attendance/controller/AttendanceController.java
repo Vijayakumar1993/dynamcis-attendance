@@ -90,12 +90,14 @@ public class AttendanceController {
         return  "AddAttendance";
     }
     @GetMapping("removeAttendance")
-    public String removeAttendance(){
+    public String removeAttendance( Model model){
+        model.addAttribute("customers", customerRepostitary.findAll());
         return  "DeleteAttendance";
     }
     @PostMapping("createAttendance")
     @Transactional
-    public String createAttendance(@RequestParam("id") String id, @RequestParam("attendanceDate") String attendanceDate){
+    public String createAttendance(@RequestParam("id") String id, @RequestParam("attendanceDate") String attendanceDate, Model model){
+        model.addAttribute("customers", customerRepostitary.findAll());
         Customer customer = customerRepostitary.findById(Long.parseLong(id)).get();
         LocalDate attandenceDate = LocalDate.parse(attendanceDate);
         repositary.save(new Attendance(Long.parseLong(customer.getId().toString()),attandenceDate));
@@ -103,10 +105,10 @@ public class AttendanceController {
     }
     @PostMapping("deleteAttendance")
     @Transactional
-    public String deleteAttendance(@RequestParam("id") String id, @RequestParam("attendanceDate") String attendanceDate){
+    public String deleteAttendance(@RequestParam("id") String id, @RequestParam("attendanceDate") String attendanceDate, Model model){
         Customer customer = customerRepostitary.findById(Long.parseLong(id)).get();
         LocalDate attandenceDate = LocalDate.parse(attendanceDate);
         repositary.deleteByCustomerIdAndDate(Integer.parseInt(customer.getId().toString()),attandenceDate);
-        return "AddAttendance";
+        return "redirect:/attendance";
     }
 }

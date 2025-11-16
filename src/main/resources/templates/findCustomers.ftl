@@ -2,52 +2,52 @@
 
 <div class="container my-5">
   <h2 class="mb-4">Student  Form</h2>
-            <form action="/customer/findCustomers" method="post">
+            <form action="/customer/viewCustomers" method="post">
 
               <div class="row">
 
         <!-- Name -->
-        <div class="col-md-6 mb-3">
+        <div class="col-md-6 mb-3 padding-bottom-5">
             <input type="text" name="name" class="form-control"
                    placeholder="Full Name"
-                   value="<#if customer??>${customer.name?if_exists}</#if>">
+                   value="<#if name??>${name?if_exists}</#if>">
         </div>
 
         <!-- Phone -->
-        <div class="col-md-6 mb-3">
+        <div class="col-md-6 mb-3 padding-bottom-5">
             <input type="text" name="phone" class="form-control"
                    placeholder="Phone Number"
-                   value="<#if customer??>${customer.phone?if_exists}</#if>">
+                   value="<#if phone??>${phone?if_exists}</#if>">
         </div>
 
         <!-- Gender -->
-        <div class="col-md-6 mb-3">
+        <div class="col-md-6 mb-3 padding-bottom-5">
             <select name="gender" class="form-control form-select">
-                <option value="">Gender</option>
-                <option value="male" <#if customer?has_content && customer.gender == "male">selected</#if>>Male</option>
-                <option value="female" <#if customer?has_content && customer.gender == "female">selected</#if>>Female</option>
-                <option value="other" <#if customer?has_content && customer.gender == "other">selected</#if>>Other</option>
+                <option value="">-</option>
+                <option value="male" <#if gender?has_content && gender == "male">selected</#if>>Male</option>
+                <option value="female" <#if gender?has_content && gender == "female">selected</#if>>Female</option>
+                <option value="other" <#if gender?has_content && gender == "other">selected</#if>>Other</option>
             </select>
         </div>
 
         <!-- Email -->
-        <div class="col-md-6 mb-3">
+        <div class="col-md-6 mb-3 padding-bottom-5">
             <input type="email" name="email" class="form-control"
                    placeholder="Email"
-                   value="<#if customer??>${customer.email?if_exists}</#if>">
+                   value="<#if email??>${email?if_exists}</#if>">
         </div>
 
         <!-- Status -->
-        <div class="col-md-6 mb-3">
+        <div class="col-md-6 mb-3 padding-bottom-5">
             <select name="status" class="form-control form-select">
-                <option value="">Status</option>
-                <option value="ACTIVE" <#if customer?has_content && customer.status=='ACTIVE'>selected</#if>>Active</option>
-                <option value="INACTIVE" <#if customer?has_content && customer.status=='INACTIVE'>selected</#if>>Inactive</option>
+                <option value="">-</option>
+                <option value="ACTIVE" <#if status?has_content && status=='ACTIVE'>selected</#if>>Active</option>
+                <option value="INACTIVE" <#if status?has_content && status=='INACTIVE'>selected</#if>>Inactive</option>
             </select>
         </div>
 
         <!-- Submit Btn -->
-        <div class="col-md-6 mb-3">
+        <div class="col-md-6 mb-3 padding-bottom-5">
             <button type="submit" class="btn btn-primary w-100">
                 Search
             </button>

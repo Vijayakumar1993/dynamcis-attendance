@@ -27,6 +27,9 @@ background-color: #d4edda !important; /* green */
 .absent {
 background-color: #f8d7da !important; /* red */
 }
+.padding-bottom-5{
+    padding-bottom: 5px;
+}
 </style>
 
 </head>
@@ -43,17 +46,17 @@ background-color: #f8d7da !important; /* red */
             Students <span class="caret"></span>
           </a>
           <ul class="dropdown-menu">
-            <li><a href="${baseUrl}/customer/createCustomer">Create Student</a></li>
-            <li><a href="${baseUrl}/customer/viewCustomers">View Students</a></li>
+            <li class="padding-bottom-5"><a href="${baseUrl}/customer/createCustomer">Create Student</a></li>
+            <li class="padding-bottom-5"><a href="${baseUrl}/customer/viewCustomers">View Students</a></li>
           </ul>
         <li class="dropdown">
           <a href="#" class="dropdown-toggle" data-toggle="dropdown">
             Attendance <span class="caret"></span>
           </a>
           <ul class="dropdown-menu">
-            <li><a href="${baseUrl}/attendance/addAttendance">Create Attendance</a></li>
-            <li><a href="${baseUrl}/attendance/removeAttendance">Remove Attendance</a></li>
-            <li><a href="${baseUrl}/attendance">View Attendance</a></li>
+            <li class="padding-bottom-5"><a href="${baseUrl}/attendance/addAttendance">Create Attendance</a></li>
+            <li class="padding-bottom-5"><a href="${baseUrl}/attendance/removeAttendance">Remove Attendance</a></li>
+            <li class="padding-bottom-5"><a href="${baseUrl}/attendance">View Attendance</a></li>
           </ul>
         </li>
       <li><a href="#">Report</a></li>

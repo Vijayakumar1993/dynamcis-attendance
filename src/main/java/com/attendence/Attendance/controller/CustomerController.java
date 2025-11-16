@@ -26,10 +26,27 @@ public class CustomerController {
         return "redirect:/customer/viewCustomers";
     }
 
-
     @GetMapping("viewCustomers")
     public String viewCustomers(Model model){
         List<Customer> customers = customerRepostitary.findAll();
+        model.addAttribute("customers",customers);
+        return "findCustomers";
+    }
+
+    @PostMapping("viewCustomers")
+    public String viewCustomers(@RequestParam(value = "name",required = false) String name,@RequestParam(value = "phone",required = false) String phone, @RequestParam(value = "email",required = false) String email,
+                                @RequestParam(value = "gender",required = false) String gender, @RequestParam(value = "status",required = false) String status, Model model){
+        model.addAttribute("name", name);
+        model.addAttribute("phone",phone);
+        model.addAttribute("email",email);
+        model.addAttribute("gender",gender);
+        model.addAttribute("status",status);
+        if (name != null && name.isBlank()) name = null;
+        if (email != null && email.isBlank()) email = null;
+        if (phone != null && phone.isBlank()) phone = null;
+        if (gender != null && gender.isBlank()) gender = null;
+        if (status != null && status.isBlank()) status = null;
+        List<Customer> customers = customerRepostitary.searchCustomer(name,email, phone, gender, status);
         model.addAttribute("customers",customers);
         return "findCustomers";
     }
@@ -48,11 +65,4 @@ public class CustomerController {
         customerRepostitary.save(customer);
         return "redirect:/customer/viewCustomers";
     }
-
-    @PostMapping("findCustomers")
-    public String findCustomers(@RequestParam("name") String name, @RequestParam("email") String email,
-                                @RequestParam("gender") String gender, @RequestParam("status") String status, Model model){
-        List<Customer> customers = customerRepostitary.searchCustomers(name,email,gender,status);
-        model.addAttribute("customers",customers);
-        return "redirect:/customer/viewCustomers"; }
 }
