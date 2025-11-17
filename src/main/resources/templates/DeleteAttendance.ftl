@@ -11,7 +11,7 @@
 
     <div class="mb-3">
       <label for="attendanceDate" class="form-label">Date:</label>
-      <input type="date" id="attendanceDate" name="attendanceDate" class="form-control" required>
+      <input type="date" id="attendanceDate" name="attendanceDate" class="form-control" required value="${.now?string('yyyy-MM-dd')}">
     </div>
 
     <button type="submit" class="btn btn-primary">Delete Entry</button>

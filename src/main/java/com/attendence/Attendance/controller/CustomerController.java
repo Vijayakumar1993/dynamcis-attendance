@@ -1,7 +1,9 @@
 package com.attendence.Attendance.controller;
 
 import com.attendence.Attendance.entity.Customer;
+import com.attendence.Attendance.entity.Payment;
 import com.attendence.Attendance.repostitary.CustomerRepostitary;
+import com.attendence.Attendance.repostitary.PaymentRepositary;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -15,6 +17,9 @@ public class CustomerController {
 
     @Autowired
     private CustomerRepostitary customerRepostitary;
+
+    @Autowired
+    private PaymentRepositary paymentRepositary;
 
     @GetMapping("createCustomer")
     public String customer(){
@@ -54,8 +59,10 @@ public class CustomerController {
     @GetMapping("viewCustomer/{id}")
     public String viewCustomerById(@PathVariable("id") String id, Model model){
         Customer customer =  customerRepostitary.findById(Long.parseLong(id)).get();
+        List<Payment> payments = paymentRepositary.findByCustomerId(Long.parseLong(id));
         model.addAttribute("customer",customer);
-        return "customer";
+        model.addAttribute("payments",payments);
+        return "viewCustomers";
     }
 
     @GetMapping("deleteCustomer/{id}")

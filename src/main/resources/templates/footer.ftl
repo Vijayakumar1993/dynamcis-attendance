@@ -23,5 +23,6 @@ $("#studentId").val(""); // clear id
 }
     });
 </script>
+
 </body>
 </html>

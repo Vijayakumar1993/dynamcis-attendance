@@ -46,6 +46,11 @@
                     <textarea name="address" class="form-control" rows="3" placeholder="Enter full address" ><#if customer??>${customer.name?if_exists}</#if></textarea>
                 </div>
 
+                <div class="mb-3">
+                      <label for="joiningDate" class="form-label">Joined Date:</label>
+                      <input type="date" id="joiningDate" name="joiningDate" class="form-control" required value="<#if customer??>${customer.joiningDate?if_exists}</#if>">
+                </div>
+
  <!-- Status -->
                 <div class="mb-3">
                     <label class="form-label">Status</label>

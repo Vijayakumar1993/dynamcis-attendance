@@ -2,6 +2,8 @@ package com.attendence.Attendance.entity;
 
 import jakarta.persistence.*;
 
+import java.time.LocalDate;
+
 @Entity
 @Table(name = "customers")
 public class Customer {
@@ -19,6 +21,8 @@ public class Customer {
 
     private String gender;
     private String status;
+    private LocalDate joiningDate;
+    private Long period;
 
     public Customer() {
     }
@@ -29,10 +33,12 @@ public class Customer {
         this.phone = phone;
     }
 
-    public Customer(String name, String email, String phone,String gender, String status) {
+    public Customer(String name, String email, String phone,String gender, String status, LocalDate joiningDate, Long period) {
         this(name,email,phone);
         this.gender = gender;
         this.status = status;
+        this.joiningDate = joiningDate;
+        this.period = period;
     }
 
     public Long getId() {
@@ -81,5 +87,21 @@ public class Customer {
 
     public void setStatus(String status) {
         this.status = status;
+    }
+
+    public LocalDate getJoiningDate() {
+        return joiningDate;
+    }
+
+    public void setJoiningDate(LocalDate joiningDate) {
+        this.joiningDate = joiningDate;
+    }
+
+    public Long getPeriod() {
+        return period;
+    }
+
+    public void setPeriod(Long period) {
+        this.period = period;
     }
 }

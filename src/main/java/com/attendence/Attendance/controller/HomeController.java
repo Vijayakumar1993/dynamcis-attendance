@@ -2,8 +2,10 @@ package com.attendence.Attendance.controller;
 
 import com.attendence.Attendance.entity.Attendance;
 import com.attendence.Attendance.entity.Customer;
+import com.attendence.Attendance.entity.Payment;
 import com.attendence.Attendance.repostitary.AttendanceRepositary;
 import com.attendence.Attendance.repostitary.CustomerRepostitary;
+import com.attendence.Attendance.repostitary.PaymentRepositary;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,6 +14,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
 import java.time.LocalDate;
+import java.time.temporal.ChronoUnit;
 import java.util.LinkedHashMap;
 import java.util.LinkedList;
 import java.util.List;
@@ -27,6 +30,9 @@ public class HomeController {
     @Autowired
     private AttendanceRepositary attendanceRepositary;
 
+    @Autowired
+    private PaymentRepositary paymentRepositary;
+
     @GetMapping("/")
     public String home(HttpServletRequest request, HttpSession session, Model model){
         String baseUrl = request.getScheme() + "://" +
@@ -36,25 +42,60 @@ public class HomeController {
         session.setAttribute("baseUrl", baseUrl);
         List<Customer> customers = customerRepostitary.findAll();
         model.addAttribute("total", customers.size());
-        model.addAttribute("presents",attendanceRepositary.countByDate(LocalDate.now()));
+        LocalDate currentDate = LocalDate.now();
+        model.addAttribute("presents",attendanceRepositary.countByDate(currentDate));
         List<Long> customerIds = customers.stream()
                 .map(Customer::getId).toList();
-        List<Long> attCustomerIds = attendanceRepositary.getCustomerIdByDate(LocalDate.now());
+        List<Long> attCustomerIds = attendanceRepositary.getCustomerIdByDate(currentDate);
         List<Long> immutableCustomerIds = new LinkedList<>();
         immutableCustomerIds.addAll(customerIds);
         immutableCustomerIds.removeAll(attCustomerIds);
         model.addAttribute("absents",immutableCustomerIds.size());
 
         //recent attendence
-        List<Attendance> attendanceList = attendanceRepositary.findByDate(LocalDate.now());
+        List<Attendance> attendanceList = attendanceRepositary.findByDate(currentDate);
         List<Map<String, String>> lists = new LinkedList<>();
         attendanceList.forEach(attendance -> {
             Map<String, String> entries = new LinkedHashMap<>();
+            entries.put("id", attendance.getCustomerId().toString());
             entries.put("name", customerRepostitary.findById(attendance.getCustomerId()).get().getName());
             entries.put("date", attendance.getDate().toString());
             lists.add(entries);
         });
         model.addAttribute("attendance", lists);
+
+        //find the fees pending from the customer
+        List<Customer> thirtyDays = new LinkedList<>();
+        List<Customer> sixtyDays = new LinkedList<>();
+        List<Customer> nintyDays = new LinkedList<>();
+        List<Customer> otherDays = new LinkedList<>();
+
+        customers.forEach(customer -> {
+            List<Payment> payments = paymentRepositary.findByCustomerIdOrderByPaymentIdDesc(customer.getId());
+            if(payments.size()>0){
+                Payment payment = payments.get(0);
+                LocalDate compareDate = payment.getPaymentDate();
+                Long tenure = payment.getTenure();
+                LocalDate customerDate =  compareDate.plusMonths(tenure);
+                if(currentDate.isAfter(customerDate)){
+                    Long daysDiff = ChronoUnit.DAYS.between(customerDate,currentDate);
+                    if(daysDiff<=30){
+                        thirtyDays.add(customer);
+                    }else if(daysDiff>31 && daysDiff<=60){
+                        sixtyDays.add(customer);
+                    }else if(daysDiff>=61 && daysDiff<=90){
+                        nintyDays.add(customer);
+                    }else {
+                        otherDays.add(customer);
+                    }
+                }
+            }
+        });
+        model.addAttribute("fees", thirtyDays.size()+sixtyDays.size()+nintyDays.size()+otherDays.size());
+        model.addAttribute("thirtyDays", thirtyDays);
+        model.addAttribute("sixtyDays", sixtyDays);
+        model.addAttribute("nintyDays", nintyDays);
+        model.addAttribute("otherDays", otherDays);
         return "dashboard";
     }
 

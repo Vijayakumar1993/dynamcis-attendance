@@ -69,6 +69,7 @@
                     <th>Gender</th>
                     <th>Phone</th>
                     <th>Email</th>
+                    <th>Joined Date</th>
                     <th></th>
                 </tr>
             </thead>
@@ -76,13 +77,14 @@
                 <#if customers?? && customers?size gt 0>
                     <#list customers as c>
                         <tr <#if c.status=="INACTIVE"> class="absent" </#if>>
-                            <td>${c.id?if_exists}</td>
+                            <td><a href="${baseUrl?if_exists}/customer/viewCustomer/${c.id?if_exists}">${c.id?if_exists}</a></td>
                             <td>${c.name?if_exists}</td>
                             <td>${c.gender?if_exists}</td>
                             <td>${c.phone?if_exists}</td>
                             <td>${c.email?if_exists}</td>
+                            <td>${c.joiningDate?if_exists}</td>
                             <td>
-               <a href="${baseUrl?if_exists}/customer/deleteCustomer/${c.id?if_exists}" class="btn btn-danger">Delete</a>
+               <a href="${baseUrl?if_exists}/customer/deleteCustomer/${c.id?if_exists}" class="btn btn-danger">Deactivate</a>
                <a href="${baseUrl?if_exists}/customer/viewCustomer/${c.id?if_exists}" class="btn btn-primary">Edit</a>
 </td>
                         </tr>

@@ -40,6 +40,7 @@ input.form-control{
 .card {
     border-radius: 12px;
     box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+    padding: 2px !important;
 }
 .padding-top-5{
     padding-top: 5px !important;
