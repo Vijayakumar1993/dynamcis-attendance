@@ -85,7 +85,7 @@
                             <td>${c.joiningDate?if_exists}</td>
                             <td>
                <a href="${baseUrl?if_exists}/customer/deleteCustomer/${c.id?if_exists}" class="btn btn-danger">Deactivate</a>
-               <a href="${baseUrl?if_exists}/customer/viewCustomer/${c.id?if_exists}" class="btn btn-primary">Edit</a>
+               <a href="${baseUrl?if_exists}/customer/editCustomer/${c.id?if_exists}" class="btn btn-primary">Edit</a>
 </td>
                         </tr>
                     </#list>

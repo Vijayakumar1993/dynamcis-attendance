@@ -19,9 +19,11 @@ public class Payment {
     private String paymentMethod;
     private String remarks;
     private Long amount;
+    private Long balance;
+    private String status;
 
     public Payment(){}
-    public Payment(Long paymentId, Long customerId, LocalDate paymentDate, Long tenure, String paymentMethod, String remarks, Long amount) {
+    public Payment(Long paymentId, Long customerId, LocalDate paymentDate, Long tenure, String paymentMethod, String remarks, Long amount, Long balance) {
         this.paymentId = paymentId;
         this.customerId = customerId;
         this.paymentDate = paymentDate;
@@ -29,6 +31,7 @@ public class Payment {
         this.paymentMethod = paymentMethod;
         this.remarks = remarks;
         this.amount = amount;
+        this.balance = balance;
     }
 
     public Long getPaymentId() {
@@ -85,5 +88,35 @@ public class Payment {
 
     public void setAmount(Long amount) {
         this.amount = amount;
+    }
+
+    public Long getBalance() {
+        return balance;
+    }
+
+    public void setBalance(Long balance) {
+        this.balance = balance;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
+    @Override
+    public String toString() {
+        return "Payment{" +
+                "paymentId=" + paymentId +
+                ", customerId=" + customerId +
+                ", paymentDate=" + paymentDate +
+                ", tenure=" + tenure +
+                ", paymentMethod='" + paymentMethod + '\'' +
+                ", remarks='" + remarks + '\'' +
+                ", amount=" + amount +
+                ", balance=" + balance +
+                '}';
     }
 }

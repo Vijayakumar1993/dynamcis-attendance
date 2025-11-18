@@ -17,7 +17,7 @@
 
                 <!-- Age -->
                 <div class="mb-3">
-                    <label class="form-label">Phone Number</labPel>
+                    <label class="form-label">Phone Number</label>
                     <input type="text" name="phone" class="form-control" placeholder="Enter Phone Number"  value="<#if customer??>${customer.phone?if_exists}</#if>"  required>
                 </div>
 
@@ -48,7 +48,7 @@
 
                 <div class="mb-3">
                       <label for="joiningDate" class="form-label">Joined Date:</label>
-                      <input type="date" id="joiningDate" name="joiningDate" class="form-control" required value="<#if customer??>${customer.joiningDate?if_exists}</#if>">
+                      <input type="date" id="joiningDate" name="joiningDate" class="form-control" required value="<#if customer??>${customer.joiningDate?if_exists}<#else>${.now?string('yyyy-MM-dd')}</#if>">
                 </div>
 
  <!-- Status -->

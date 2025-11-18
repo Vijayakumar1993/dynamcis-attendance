@@ -56,6 +56,12 @@ public class CustomerController {
         return "findCustomers";
     }
 
+    @GetMapping("editCustomer/{id}")
+    public String editCustomer(@PathVariable("id") String id, Model model){
+        Customer customer =  customerRepostitary.findById(Long.parseLong(id)).get();
+        model.addAttribute("customer",customer);
+        return "customer";
+    }
     @GetMapping("viewCustomer/{id}")
     public String viewCustomerById(@PathVariable("id") String id, Model model){
         Customer customer =  customerRepostitary.findById(Long.parseLong(id)).get();

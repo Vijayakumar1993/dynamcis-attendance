@@ -27,7 +27,7 @@
                     </tr>
                     <tr>
                         <th>Gender</th>
-                        <td>${customer.gender?if_exists}</td>
+                        <td>${customer.gender?if_exists?capitalize}</td>
                     </tr>
                     <tr>
                         <th>Status</th>
@@ -35,7 +35,7 @@
                     </tr>
                     <tr>
                         <th>Joined Date</th>
-                        <td>${customer.joinedDate?if_exists}</td>
+                        <td>${customer.joiningDate?if_exists?date("yyyy-MM-dd")?string("EEE, MMM d yyyy")}</td>
                     </tr>
                 </tbody>
             </table>
@@ -57,10 +57,12 @@
         <tr class="info">
             <th>Payment Id</th>
             <th>Amount</th>
+            <th>Balance</th>
             <th>Payment Date</th>
             <th>Mode</th>
             <th>Tenure (Months)</th>
             <th>Remarks</th>
+            <th>Update</th>
         </tr>
     </thead>
 
@@ -68,12 +70,17 @@
     <#if payments?has_content>
         <#list payments as p>
             <tr>
-                <td>${p.paymentId}</td>
-                <td>₹${p.amount}</td>
-                <td>${p.paymentDate}</td>
-                <td>${p.paymentMethod}</td>
-                <td>${p.tenure}</td>
+                <td>${p.paymentId?if_exists}</td>
+                <td>₹${p.amount?if_exists}</td>
+                <td>₹${p.balance?if_exists}</td>
+                <td>${p.paymentDate?if_exists}</td>
+                <td>${p.paymentMethod?if_exists?capitalize}</td>
+                <td>${p.tenure?if_exists}</td>
                 <td>${p.remarks!""}</td>
+<td>
+<a href="${baseUrl?if_exists}/payment/receivePayment/${customer.id?if_exists}?paymentId=${p.paymentId?if_exists}" class="btn btn-primary">Update Payment</a>
+<a href="${baseUrl?if_exists}/payment/removePayment/${p.paymentId?if_exists}?customerId=${customer.id?if_exists}" class="btn btn-danger">Remove Payment</a>
+</td>
             </tr>
         </#list>
     <#else>

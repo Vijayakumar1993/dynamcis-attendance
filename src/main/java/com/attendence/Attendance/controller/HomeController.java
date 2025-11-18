@@ -19,7 +19,6 @@ import java.util.LinkedHashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
 
 @Controller
 public class HomeController {
@@ -35,11 +34,6 @@ public class HomeController {
 
     @GetMapping("/")
     public String home(HttpServletRequest request, HttpSession session, Model model){
-        String baseUrl = request.getScheme() + "://" +
-                request.getServerName() + ":" +
-                request.getServerPort();
-
-        session.setAttribute("baseUrl", baseUrl);
         List<Customer> customers = customerRepostitary.findAll();
         model.addAttribute("total", customers.size());
         LocalDate currentDate = LocalDate.now();
@@ -65,37 +59,53 @@ public class HomeController {
         model.addAttribute("attendance", lists);
 
         //find the fees pending from the customer
-        List<Customer> thirtyDays = new LinkedList<>();
-        List<Customer> sixtyDays = new LinkedList<>();
-        List<Customer> nintyDays = new LinkedList<>();
-        List<Customer> otherDays = new LinkedList<>();
+        List<Map<String, String>> thirtyDays = new LinkedList<>();
+        List<Map<String, String>> sixtyDays = new LinkedList<>();
+        List<Map<String, String>> nintyDays = new LinkedList<>();
+        List<Map<String, String>> otherDays = new LinkedList<>();
+        List<Map<String, String>> pendings = new LinkedList<>();
 
         customers.forEach(customer -> {
             List<Payment> payments = paymentRepositary.findByCustomerIdOrderByPaymentIdDesc(customer.getId());
             if(payments.size()>0){
-                Payment payment = payments.get(0);
-                LocalDate compareDate = payment.getPaymentDate();
-                Long tenure = payment.getTenure();
-                LocalDate customerDate =  compareDate.plusMonths(tenure);
-                if(currentDate.isAfter(customerDate)){
-                    Long daysDiff = ChronoUnit.DAYS.between(customerDate,currentDate);
-                    if(daysDiff<=30){
-                        thirtyDays.add(customer);
-                    }else if(daysDiff>31 && daysDiff<=60){
-                        sixtyDays.add(customer);
-                    }else if(daysDiff>=61 && daysDiff<=90){
-                        nintyDays.add(customer);
-                    }else {
-                        otherDays.add(customer);
+                payments.stream().filter(payment -> payment.getStatus().equalsIgnoreCase("open")).forEach(payment -> {
+                    Map<String, String> details = new LinkedHashMap<>();
+                    details.put("id",customer.getId().toString());
+                    details.put("name",customer.getName());
+                    details.put("email",customer.getEmail());
+                    details.put("phone",customer.getPhone());
+                    details.put("joiningDate",payment.getPaymentDate().toString());
+                    details.put("amount",payment.getAmount().toString());
+                    details.put("balance",payment.getBalance().toString());
+
+                    LocalDate compareDate = payment.getPaymentDate();
+                    Long tenure = payment.getTenure();
+                    LocalDate customerDate =  compareDate.plusMonths(tenure);
+                    if(currentDate.isAfter(customerDate)){
+                        Long daysDiff = ChronoUnit.DAYS.between(customerDate,currentDate);
+                        if(daysDiff<=30){
+                            thirtyDays.add(details);
+                        }else if(daysDiff>=31 && daysDiff<=60){
+                            sixtyDays.add(details);
+                        }else if(daysDiff>=61 && daysDiff<=90){
+                            nintyDays.add(details);
+                        }else {
+                            otherDays.add(details);
+                        }
                     }
-                }
+                    if(payment.getBalance()>0){
+                        pendings.add(details);
+                    }
+                });
+
             }
         });
-        model.addAttribute("fees", thirtyDays.size()+sixtyDays.size()+nintyDays.size()+otherDays.size());
+        model.addAttribute("fees", thirtyDays.size()+sixtyDays.size()+nintyDays.size()+otherDays.size()+pendings.size());
         model.addAttribute("thirtyDays", thirtyDays);
         model.addAttribute("sixtyDays", sixtyDays);
         model.addAttribute("nintyDays", nintyDays);
         model.addAttribute("otherDays", otherDays);
+        model.addAttribute("pendings", pendings);
         return "dashboard";
     }
 
