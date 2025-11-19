@@ -37,6 +37,13 @@ input.form-control{
     margin-left: 260px;
     padding: 30px;
 }
+h2{
+    background: #337ab7;
+    color: white;
+    padding: 4px;
+    border-radius: 5px;
+}
+
 .card {
     border-radius: 12px;
     box-shadow: 0 2px 6px rgba(0,0,0,0.1);
@@ -84,7 +91,42 @@ padding-right: 5px !important;
         </li>
       <li><a href="#">Report</a></li>
     </ul>
+  <!-- ============ RIGHT SIDE ============= -->
+    <ul class="nav navbar-nav navbar-right">
+
+      <!-- USERNAME DISPLAY -->
+      <li>
+ <#if userLogin?has_content>
+        <a href="${baseUrl?if_exists}/customer/viewCustomer/${userLogin.id?if_exists}">
+          <span class="glyphicon glyphicon-user">&nbsp;</span>${userLogin.name?if_exists}
+        </a>
+</#if>
+      </li>
+
+      <!-- LOGOUT BUTTON -->
+      <li>
+        <form action="${baseUrl}/logout" method="post" style="margin:0; padding:0;">
+          <button class="btn btn-danger navbar-btn" style="margin-right:10px;">
+            Logout
+          </button>
+        </form>
+      </li>
+    </ul>
   </div>
 </nav>
 </div>
 <div class="container-fluid">
+<#if error_msg?has_content>
+<div id="errorAlert"
+     class="alert alert-danger"
+     style="position: fixed; top: 20px; right: 20px; z-index: 9999; min-width: 250px;">
+    ${error_msg}
+</div>
+
+<script>
+    // Hide after 5 seconds
+    setTimeout(function() {
+$("#errorAlert").fadeOut("slow");
+}, 5000);
+</script>
+</#if>

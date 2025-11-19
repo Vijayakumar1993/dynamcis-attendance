@@ -24,4 +24,6 @@ AND   (:status IS NULL OR LOWER(c.status) = LOWER(:status))
             @Param("gender") String gender,
             @Param("status") String status
     );
+
+    List<Customer> findByPhone(String phone);
 }

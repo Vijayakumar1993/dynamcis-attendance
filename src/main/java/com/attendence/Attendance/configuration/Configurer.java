@@ -1,14 +1,51 @@
 package com.attendence.Attendance.configuration;
 
+import com.attendence.Attendance.entity.Authorities;
+import com.attendence.Attendance.entity.Customer;
+import com.attendence.Attendance.entity.Users;
+import com.attendence.Attendance.repostitary.AuthoritiesRepositary;
+import com.attendence.Attendance.repostitary.CustomerRepostitary;
+import com.attendence.Attendance.repostitary.LoginRepositary;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.CommandLineRunner;
+import org.springframework.boot.jdbc.DataSourceBuilder;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.provisioning.JdbcUserDetailsManager;
+import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
+import java.time.LocalDate;
+import java.util.List;
+
 @Configuration
 public class Configurer implements WebMvcConfigurer {
+
+    private static final Logger log = LoggerFactory.getLogger(Configurer.class);
+    @Value("${spring.datasource.url}")
+    private String url;
+    @Value("${spring.datasource.username}")
+    private String username;
+    @Value("${spring.datasource.password}")
+    private String password;
+
+    @Autowired
+    private LoginRepositary loginRepositary;
+
+    @Autowired
+    private CustomerRepostitary customerRepostitary;
 
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
@@ -18,9 +55,69 @@ public class Configurer implements WebMvcConfigurer {
                 String baseUrl = request.getScheme() + "://" +
                         request.getServerName() + ":" +
                         request.getServerPort();
-                request.getSession().setAttribute("baseUrl", baseUrl);
+                HttpSession session = request.getSession();
+                session.setAttribute("baseUrl", baseUrl);
+                String userLoginId = SecurityContextHolder.getContext().getAuthentication().getName();
+                List<Users> users = loginRepositary.findByUsername(userLoginId);
+                if(users.size()>0){
+                    Users user  = users.get(0);
+                    Customer customer = customerRepostitary.findById(user.getCustomerId()).get();
+                    session.setAttribute("userLogin",customer);
+                }
                 return true;
             }
         });
+    }
+
+    @Bean
+    public JdbcUserDetailsManager userDetailsManager(){
+        return new JdbcUserDetailsManager(DataSourceBuilder.create()
+                .url(url)
+                .username(username)
+                .password(password)
+                .build());
+    }
+
+    @Bean
+    public PasswordEncoder passwordEncoder(){
+        return new BCryptPasswordEncoder();
+    }
+
+    @Bean
+    public SecurityFilterChain filterChain(HttpSecurity security) throws Exception {
+       return security
+               .csrf(httpSecurityCsrfConfigurer -> httpSecurityCsrfConfigurer.disable())
+                .authorizeHttpRequests(authorizationManagerRequestMatcherRegistry
+                        -> authorizationManagerRequestMatcherRegistry
+                        .anyRequest().authenticated())
+               .formLogin(log->log
+                       .loginProcessingUrl("/login")
+                       .loginProcessingUrl("/doLogin")
+                       .defaultSuccessUrl("/")
+                       .permitAll())
+               .logout(httpSecurityLogoutConfigurer -> httpSecurityLogoutConfigurer
+                       .logoutUrl("/logout")
+                       .logoutSuccessUrl("/login")
+                       .permitAll())
+               .build();
+    }
+
+    @Bean
+    public CommandLineRunner initRunner(AuthoritiesRepositary authoritiesRepositary, LoginRepositary repositary, PasswordEncoder encoder){
+        return args -> {
+            List<Users> users = repositary.findByUsername("admin");
+            if(users.size()<=0){
+                Customer admin = new Customer("admin", "no_reply@gmail.com", "000000");
+                admin.setJoiningDate(LocalDate.now());
+                admin.setStatus("ACTIVE");
+                admin.setGender("male");
+                customerRepostitary.save(admin);
+                Users users1 = new Users("admin", encoder.encode("admin"),true);
+                users1.setCustomerId(customerRepostitary.findByNameContaining("admin").get(0).getId());
+                Authorities authorities = new Authorities("admin","ROLE_USER");
+                repositary.save(users1);
+                authoritiesRepositary.save(authorities);
+            }
+        };
     }
 }

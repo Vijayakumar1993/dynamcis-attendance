@@ -5,28 +5,28 @@
     <div class="col-md-3">
         <div class="card p-3 text-center bg-primary text-white">
             <h4>Total Students</h4>
-            <h2>${total?default("0")}</h2>
+            <h3>${total?default("0")}</h2>
         </div>
     </div>
 
     <div class="col-md-3">
         <div class="card p-3 text-center bg-success text-white">
             <h4>Present Today</h4>
-            <h2>${presents?default("0")}</h2>
+            <h3>${presents?default("0")}</h2>
         </div>
     </div>
 
     <div class="col-md-3">
         <div class="card p-3 text-center bg-danger text-white">
             <h4>Absent Today</h4>
-            <h2>${absents?default("0")}</h2>
+            <h3>${absents?default("0")}</h2>
         </div>
     </div>
 
     <div class="col-md-3">
         <div class="card p-3 text-center bg-warning text-white">
             <h4>Fees Pending</h4>
-            <h2>${fees?default("0")}</h2>
+            <h3>${fees?default("0")}</h2>
         </div>
     </div>
 </div>
@@ -76,7 +76,7 @@
                     </#list>
                 <#else>
                     <tr>
-                        <td colspan="4" class="text-center text-muted">No Records found.</td>
+                        <td colspan="6" class="text-center text-muted">No Records found.</td>
                     </tr>
                 </#if>
                 </tbody>
@@ -110,7 +110,7 @@
                     </#list>
                 <#else>
                     <tr>
-                        <td colspan="4" class="text-center text-muted">No Records found.</td>
+                        <td colspan="6" class="text-center text-muted">No Records found.</td>
                     </tr>
                 </#if>
                 </tbody>
@@ -144,7 +144,7 @@
                     </#list>
                 <#else>
                     <tr>
-                        <td colspan="4" class="text-center text-muted">No Records found.</td>
+                        <td colspan="6" class="text-center text-muted">No Records found.</td>
                     </tr>
                 </#if>
                 </tbody>
@@ -178,7 +178,7 @@
                     </#list>
                 <#else>
                     <tr>
-                        <td colspan="4" class="text-center text-muted">No Records found.</td>
+                        <td colspan="6" class="text-center text-muted">No Records found.</td>
                     </tr>
                 </#if>
                 </tbody>
@@ -213,7 +213,7 @@
                     </#list>
                 <#else>
                     <tr>
-                        <td colspan="4" class="text-center text-muted">No Records found.</td>
+                        <td colspan="6" class="text-center text-muted">No Records found.</td>
                     </tr>
                 </#if>
                 </tbody>

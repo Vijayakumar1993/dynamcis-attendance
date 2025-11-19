@@ -3,7 +3,8 @@
 <div class="mt-5">
 <h2 class="mb-4">
     ${customer.name?if_exists} Details
-    <a href="/payment/receivePayment/${customer.id?if_exists}" class="btn btn-primary pull-right">Recieve Payment</a>
+    &nbsp;<a href="/payment/receivePayment/${customer.id?if_exists}" class="btn btn-default pull-right">Recieve Payment</a>
+  &nbsp;<a href="/login/createLogin/${customer.id?if_exists}" class="btn btn-default pull-right" >Create Login</a>
 </h2>
     <#if customer??>
         <div class="table-responsive">
@@ -47,11 +48,38 @@
     </#if>
 
 </div>
+<h2>User Login Details</h2>
+<table class="table table-bordered table-striped table-hover">
+    <thead>
+        <tr class="info">
+            <th>Id</th>
+            <th>User name</th>
+            <th>Enabled</th>
+            <th>Update</th>
+        </tr>
+    </thead>
 
+    <tbody>
+    <#if users?has_content>
+        <#list users as p>
+            <tr>
+                <td>${p.id?if_exists}</td>
+                <td>${p.username?if_exists}</td>
+                <td><#if p.enabled?default(false)> Yes <#else> No </#if></td>
+<td>
+<a href="${baseUrl?if_exists}/login/removeLogin/${p.id?if_exists}" class="btn btn-danger">Remove Payment</a>
+</td>
+            </tr>
+        </#list>
+    <#else>
+        <tr>
+            <td colspan="6" class="text-center text-danger">No Logins found</td>
+        </tr>
+    </#if>
+    </tbody>
+</table>
 
-<h3>Payment List</h3>
-<hr>
-
+<h2>Payment List</h2>
 <table class="table table-bordered table-striped table-hover">
     <thead>
         <tr class="info">

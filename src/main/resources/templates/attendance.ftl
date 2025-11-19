@@ -49,7 +49,7 @@
         <table class="table table-bordered attendance-table">
             <thead class="table-dark">
                 <tr>
-                    <th>Roll No</th>
+                    <th>Id</th>
                     <th>Student Name</th>
 
                     <#if days?has_content>
@@ -67,7 +67,7 @@
                     <#list dates as key, atts>
                         <tr>
                             <td>${key.id!}</td>
-                            <td>${key.name!}</td>
+<td><a href="${baseUrl?if_exists}/customer/viewCustomer/${key.id!}" target="_BLANK">${key.name!}</a></td>
 
                             <#list days as day>
                                 <#assign valid = "N">

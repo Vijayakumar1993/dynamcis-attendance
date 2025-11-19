@@ -4,6 +4,7 @@ import com.attendence.Attendance.entity.Attendance;
 import com.attendence.Attendance.entity.Customer;
 import com.attendence.Attendance.repostitary.AttendanceRepositary;
 import com.attendence.Attendance.repostitary.CustomerRepostitary;
+import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
@@ -85,7 +86,7 @@ public class AttendanceController {
     }
 
     @GetMapping("addAttendance")
-    public String AddAttendance(Model model){
+    public String AddAttendance(HttpSession session, Model model){
         model.addAttribute("customers", customerRepostitary.findAll());
         return  "AddAttendance";
     }
