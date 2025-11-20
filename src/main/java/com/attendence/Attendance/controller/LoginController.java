@@ -34,23 +34,42 @@ public class LoginController {
         model.addAttribute("customer",customer);
         return "createLogin";
     }
+
+    @PostMapping("updateLoginSetup")
+    public String updateLogin(@ModelAttribute Users user, Model model){
+        boolean result = loginServices.createLogin(user);
+        if(!result){
+            model.addAttribute("user", user);
+            model.addAttribute("error_msg","User Login creation failed, may be username "+user.getUsername()+" already exists");
+            return "updateLogin";
+        }
+        return "redirect:/customer/viewCustomer/"+user.getCustomerId();
+    }
     @PostMapping("createLoginSetup")
-    public String createLoginSetup(@RequestParam("customerId") String customerId){
+    public String createLoginSetup(@RequestParam("customerId") String customerId,@RequestParam("username") String username, @RequestParam("password") String password, Model model){
         Customer customer = repostitary.findById(Long.parseLong(customerId)).get();
-        loginServices.createLogin(new Users(customer.getPhone().toString(), customer.getPhone().toString(),true));
+        Users users = new Users(username, password, true);
+        users.setCustomerId(customer.getId());
+        boolean result = loginServices.createLogin(users);
+        if(!result){
+            model.addAttribute("customer", customer);
+            model.addAttribute("error_msg","User Login creation failed, may be username "+users.getUsername()+" already exists");
+            return "createLogin";
+        }
         return "redirect:/customer/viewCustomer/"+customerId;
     }
     @GetMapping("removeLogin/{id}")
-    public String removeLogin(@PathVariable("id") String id, @RequestParam("customerId") String customerId){
-        repositary.deleteById(Long.parseLong(id));
-        return "redirect:/customer/viewCustomer/"+customerId;
+    public String removeLogin(@PathVariable("id") String id){
+        Users user = repositary.findById(Long.parseLong(id)).get();
+        repositary.delete(user);
+        return "redirect:/customer/viewCustomer/"+user.getCustomerId();
     }
 
-
-    @PostMapping("updateLogin")
-    public String updateLogin(@ModelAttribute("user") Users users){
-        loginServices.createLogin(users);
-        return "redirect:/customer/viewCustomer/"+users.getCustomerId();
+    @GetMapping("updateLogin/{id}")
+    public String updateLogin(@PathVariable("id") String userId, Model model){
+        Users user = repositary.findById(Long.parseLong(userId)).get();
+        model.addAttribute("user", user);
+        return "updateLogin";
     }
 
 }

@@ -9,6 +9,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 @Service
 public class LoginServices {
 
@@ -22,11 +24,21 @@ public class LoginServices {
     private PasswordEncoder encoder;
 
     @Transactional
-    public void createLogin(Users users){
+    public Boolean createLogin(Users users){
+        List<Users> existingUsers = loginRepositary.findByUsername(users.getUsername());
+        if(existingUsers.size()>0 && users.getId()==null){
+            return false;
+        }
+        users.setPassword(encoder.encode(users.getPassword()));
         loginRepositary.save(users);
         authoritiesRepositary.save(new Authorities(users.getUsername(),"ROLE_USER"));
+        return true;
     }
 
+
+    public List<Users> findUsers(String customerId){
+        return  loginRepositary.findByCustomerId(Long.parseLong(customerId));
+    }
     public void disable(Users user,Boolean isEnable){
         Users existingUser  = loginRepositary.findById(user.getId()).get();
         if(existingUser!=null){

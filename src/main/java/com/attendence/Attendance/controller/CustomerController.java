@@ -8,6 +8,7 @@ import com.attendence.Attendance.repostitary.LoginRepositary;
 import com.attendence.Attendance.repostitary.PaymentRepositary;
 import com.attendence.Attendance.services.LoginServices;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -22,6 +23,10 @@ public class CustomerController {
     @Autowired
     private CustomerRepostitary customerRepostitary;
 
+
+    @Autowired
+    private LoginRepositary loginRepositary;
+
     @Autowired
     private PasswordEncoder encoder;
 
@@ -31,9 +36,6 @@ public class CustomerController {
     @Autowired
     private PaymentRepositary paymentRepositary;
 
-    @Autowired
-    private LoginRepositary loginRepositary;
-
     @GetMapping("createCustomer")
     public String customer(){
         return "customer";
@@ -41,66 +43,89 @@ public class CustomerController {
     @PostMapping("addCustomer")
     public String createCustomer(@ModelAttribute Customer customer, Model model){
         List<Customer> existingCustomer  = customerRepostitary.findByPhone(customer.getPhone());
-        if(existingCustomer.size()>0){
-            model.addAttribute("customer",customer);
+        model.addAttribute("customer",customer);
+        if(existingCustomer.size()>0 && customer.getId()==null){
             model.addAttribute("error_msg","Already Student registered, please use different phone number");
             return "customer";
         }
         customerRepostitary.save(customer);
-        Users user = new Users(customer.getPhone().toString(), encoder.encode(customer.getPhone().toString()), true);
-        user.setCustomerId(customer.getId());
-        loginServices.createLogin(user);
-        return "redirect:/customer/viewCustomers";
-    }
 
-    @GetMapping("viewCustomers")
-    public String viewCustomers(Model model){
-        List<Customer> customers = customerRepostitary.findAll();
-        model.addAttribute("customers",customers);
-        return "findCustomers";
-    }
+        List<Users> existingUsers = loginServices.findUsers(customer.getId().toString());
+        if(existingUsers.size()>0){
+            existingUsers.forEach(user->{
+                user.setEnabled(customer.getStatus().equalsIgnoreCase("INACTIVE")?false: true);
+                loginRepositary.save(user);
+            });
+            return "redirect:/customer/viewCustomer/"+customer.getId();
+        }else{
+            Users user = new Users(customer.getPhone().toString(), customer.getPhone().toString(), customer.getStatus()=="INACTIVE"?false: true);
+            user.setCustomerId(customer.getId());
+            boolean result = loginServices.createLogin(user);
+            if(!result){
+                model.addAttribute("error_msg","User Login creation failed, may be username "+user.getUsername()+" already exists");
+                return "redirect:/customer/viewCustomers";
+            }
+            return "redirect:/customer/viewCustomer/"+customer.getId();
+        }
 
-    @PostMapping("viewCustomers")
-    public String viewCustomers(@RequestParam(value = "name",required = false) String name,@RequestParam(value = "phone",required = false) String phone, @RequestParam(value = "email",required = false) String email,
-                                @RequestParam(value = "gender",required = false) String gender, @RequestParam(value = "status",required = false) String status, Model model){
-        model.addAttribute("name", name);
-        model.addAttribute("phone",phone);
-        model.addAttribute("email",email);
-        model.addAttribute("gender",gender);
-        model.addAttribute("status",status);
-        if (name != null && name.isBlank()) name = null;
-        if (email != null && email.isBlank()) email = null;
-        if (phone != null && phone.isBlank()) phone = null;
-        if (gender != null && gender.isBlank()) gender = null;
-        if (status != null && status.isBlank()) status = null;
-        List<Customer> customers = customerRepostitary.searchCustomer(name,email, phone, gender, status);
-        model.addAttribute("customers",customers);
-        return "findCustomers";
-    }
+}
 
-    @GetMapping("editCustomer/{id}")
-    public String editCustomer(@PathVariable("id") String id, Model model){
-        Customer customer =  customerRepostitary.findById(Long.parseLong(id)).get();
-        model.addAttribute("customer",customer);
-        return "customer";
-    }
-    @GetMapping("viewCustomer/{id}")
-    public String viewCustomerById(@PathVariable("id") String id, Model model){
-        Customer customer =  customerRepostitary.findById(Long.parseLong(id)).get();
-        List<Payment> payments = paymentRepositary.findByCustomerId(Long.parseLong(id));
-        List<Users> users = loginRepositary.findByUsername(customer.getName());
-        model.addAttribute("customer",customer);
-        model.addAttribute("payments",payments);
-        model.addAttribute("users",users);
-        return "viewCustomers";
-    }
+@GetMapping("viewCustomers")
+public String viewCustomers(Model model){
+    List<Customer> customers = customerRepostitary.findAll();
+    model.addAttribute("customers",customers);
+    return "findCustomers";
+}
 
-    @GetMapping("deleteCustomer/{id}")
-    public String deleteCustomer(@PathVariable("id") String id){
-        Customer customer = customerRepostitary.findById(Long.parseLong(id)).get();
-        customer.setStatus("INACTIVE");
-        customerRepostitary.save(customer);
-        return "redirect:/customer/viewCustomers";
-    }
+@PostMapping("viewCustomers")
+public String viewCustomers(@RequestParam(value = "name",required = false) String name,@RequestParam(value = "phone",required = false) String phone, @RequestParam(value = "email",required = false) String email,
+                            @RequestParam(value = "gender",required = false) String gender, @RequestParam(value = "status",required = false) String status, Model model){
+    model.addAttribute("name", name);
+    model.addAttribute("phone",phone);
+    model.addAttribute("email",email);
+    model.addAttribute("gender",gender);
+    model.addAttribute("status",status);
+    if (name != null && name.isBlank()) name = null;
+    if (email != null && email.isBlank()) email = null;
+    if (phone != null && phone.isBlank()) phone = null;
+    if (gender != null && gender.isBlank()) gender = null;
+    if (status != null && status.isBlank()) status = null;
+    List<Customer> customers = customerRepostitary.searchCustomer(name,email, phone, gender, status);
+    model.addAttribute("customers",customers);
+    return "findCustomers";
+}
+
+@GetMapping("editCustomer/{id}")
+public String editCustomer(@PathVariable("id") String id, Model model){
+    Customer customer =  customerRepostitary.findById(Long.parseLong(id)).get();
+    model.addAttribute("customer",customer);
+    return "customer";
+}
+@GetMapping("viewCustomer/{id}")
+public String viewCustomerById(@PathVariable("id") String id, Model model){
+    Customer customer =  customerRepostitary.findById(Long.parseLong(id)).get();
+    List<Payment> payments = paymentRepositary.findByCustomerId(Long.parseLong(id));
+    List<Users> users = loginServices.findUsers(id);
+    model.addAttribute("customer",customer);
+    model.addAttribute("payments",payments);
+    model.addAttribute("users",users);
+    return "viewCustomers";
+}
+
+@GetMapping("deleteCustomer/{id}")
+public String deleteCustomer(@PathVariable("id") String id){
+    Customer customer = customerRepostitary.findById(Long.parseLong(id)).get();
+    customer.setStatus("INACTIVE");
+    customerRepostitary.save(customer);
+
+    List<Users> users = loginServices.findUsers(customer.getId().toString());
+    users.stream().forEach(user->{
+        user.setEnabled(false);
+        loginRepositary.save(user);
+    });
+
+
+    return "redirect:/customer/viewCustomers";
+}
 
 }

@@ -9,4 +9,5 @@ import java.util.List;
 @Repository
 public interface LoginRepositary extends JpaRepository<Users, Long> {
     List<Users> findByUsername(String username);
+    List<Users> findByCustomerId(Long customerId);
 }

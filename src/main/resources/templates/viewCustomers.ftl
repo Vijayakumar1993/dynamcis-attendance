@@ -67,7 +67,8 @@
                 <td>${p.username?if_exists}</td>
                 <td><#if p.enabled?default(false)> Yes <#else> No </#if></td>
 <td>
-<a href="${baseUrl?if_exists}/login/removeLogin/${p.id?if_exists}" class="btn btn-danger">Remove Payment</a>
+<a href="${baseUrl?if_exists}/login/removeLogin/${p.id?if_exists}" class="btn btn-danger">Remove</a>
+<a href="${baseUrl?if_exists}/login/updateLogin/${p.id?if_exists}" class="btn btn-primary">Update</a>
 </td>
             </tr>
         </#list>
