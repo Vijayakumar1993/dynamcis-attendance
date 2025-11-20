@@ -3,8 +3,8 @@
 <div class="mt-5">
 <h2 class="mb-4">
     ${customer.name?if_exists} Details
-    &nbsp;<a href="/payment/receivePayment/${customer.id?if_exists}" class="btn btn-default pull-right">Recieve Payment</a>
-  &nbsp;<a href="/login/createLogin/${customer.id?if_exists}" class="btn btn-default pull-right" >Create Login</a>
+   <#if admin_access> &nbsp;<a href="/payment/receivePayment/${customer.id?if_exists}" class="btn btn-default pull-right">Recieve Payment</a>
+  &nbsp;<a href="/login/createLogin/${customer.id?if_exists}" class="btn btn-default pull-right" >Create Login</a></#if>
 </h2>
     <#if customer??>
         <div class="table-responsive">
@@ -67,7 +67,8 @@
                 <td>${p.username?if_exists}</td>
                 <td><#if p.enabled?default(false)> Yes <#else> No </#if></td>
 <td>
-<a href="${baseUrl?if_exists}/login/removeLogin/${p.id?if_exists}" class="btn btn-danger">Remove</a>
+
+<#if admin_access><a href="${baseUrl?if_exists}/login/removeLogin/${p.id?if_exists}" class="btn btn-danger">Remove</a></#if>
 <a href="${baseUrl?if_exists}/login/updateLogin/${p.id?if_exists}" class="btn btn-primary">Update</a>
 </td>
             </tr>
@@ -79,7 +80,7 @@
     </#if>
     </tbody>
 </table>
-
+<#if admin_access>
 <h2>Payment List</h2>
 <table class="table table-bordered table-striped table-hover">
     <thead>
@@ -119,4 +120,5 @@
     </#if>
     </tbody>
 </table>
+</#if>
 <#include "footer.ftl">

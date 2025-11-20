@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>Index</title>
+<title>Dynamics101 MMA Attendance</title>
 <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
@@ -63,13 +63,25 @@ padding-right: 5px !important;
 </style>
 
 </head>
-<div class="row padding-left-5 padding-right-5">
+<#assign admin_access=false>
+<#if authorities?has_content>
+<#if authorities?seq_contains("ROLE_ADMIN") >
+    <#assign admin_access=true>
+</#if>
+</#if>
+<div class="row-fluid padding-left-5 padding-right-5">
     <nav class="navbar navbar-inverse">
   <div class="container-fluid">
     <div class="navbar-header">
-      <a class="navbar-brand" href="${baseUrl}/">Dynamics 101 MMA</a>
+<#if admin_access>
+    <a class="navbar-brand" href="${baseUrl}/">Dynamics 101 MMA</a>
+<#else>
+    <a class="navbar-brand" href="${baseUrl}/attendance/addAttendance">Dynamics 101 MMA</a>
+</#if>
+
     </div>
     <ul class="nav navbar-nav">
+<#if admin_access>
       <li class="active"><a href="${baseUrl}/">Home</a></li>
       <li class="dropdown">
           <a href="#" class="dropdown-toggle" data-toggle="dropdown">
@@ -79,6 +91,7 @@ padding-right: 5px !important;
             <li class="padding-bottom-5"><a href="${baseUrl}/customer/createCustomer">Create Student</a></li>
             <li class="padding-bottom-5"><a href="${baseUrl}/customer/viewCustomers">View Students</a></li>
           </ul>
+</li>
         <li class="dropdown">
           <a href="#" class="dropdown-toggle" data-toggle="dropdown">
             Attendance <span class="caret"></span>
@@ -89,7 +102,16 @@ padding-right: 5px !important;
             <li class="padding-bottom-5"><a href="${baseUrl}/attendance">View Attendance</a></li>
           </ul>
         </li>
-      <li><a href="#">Report</a></li>
+<#else>
+<li class="dropdown">
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+            Attendance <span class="caret"></span>
+          </a>
+          <ul class="dropdown-menu">
+            <li class="padding-bottom-5"><a href="${baseUrl}/attendance/addAttendance">Create Attendance</a></li>
+          </ul>
+        </li>
+</#if>
     </ul>
   <!-- ============ RIGHT SIDE ============= -->
     <ul class="nav navbar-nav navbar-right">

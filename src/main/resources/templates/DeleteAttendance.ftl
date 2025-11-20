@@ -2,7 +2,7 @@
 <div class=" my-5">
   <h2 class="mb-4">Attendance Delete Form</h2>
 
-  <form action="deleteAttendance" method="post">
+  <form action="${baseUrl?if_exists}/attendance/deleteAttendance" method="post">
 
     <div class="mb-3">
       <input type="text" class="form-control" name="name" id="studentNames" placeholder="Search by Name" <#if name?has_content>value="${name?if_exists}" </#if> required>

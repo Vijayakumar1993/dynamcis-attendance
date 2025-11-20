@@ -9,10 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
 import java.time.YearMonth;
@@ -88,6 +85,12 @@ public class AttendanceController {
     @GetMapping("addAttendance")
     public String AddAttendance(HttpSession session, Model model){
         model.addAttribute("customers", customerRepostitary.findAll());
+        Customer customer = (Customer) session.getAttribute("userLogin");
+        if(customer!=null){
+            List<Attendance> attendanceList = repositary.findByCustomerIdOrderByDateDesc(customer.getId());
+            model.addAttribute("attendanceList", attendanceList);
+            model.addAttribute("customer", customer);
+        }
         return  "AddAttendance";
     }
     @GetMapping("removeAttendance")
@@ -97,19 +100,60 @@ public class AttendanceController {
     }
     @PostMapping("createAttendance")
     @Transactional
-    public String createAttendance(@RequestParam("id") String id, @RequestParam("attendanceDate") String attendanceDate, Model model){
+    public String createAttendance(@RequestParam("id") String id, @RequestParam("attendanceDate") String attendanceDate, HttpSession session, Model model){
         model.addAttribute("customers", customerRepostitary.findAll());
+        if(id==null || id==""){
+            model.addAttribute("error_msg","Invalid Customer");
+            return "AddAttendance";
+        }
         Customer customer = customerRepostitary.findById(Long.parseLong(id)).get();
+        model.addAttribute("customer",customer);
         LocalDate attandenceDate = LocalDate.parse(attendanceDate);
+
+
+        List<Attendance> atts = repositary.findByCustomerIdAndDate(customer.getId(),attandenceDate);
+        if(atts.size()>0){
+            List<Attendance> attendanceList = repositary.findByCustomerIdOrderByDateDesc(customer.getId());
+            model.addAttribute("attendanceList", attendanceList);
+            model.addAttribute("error_msg","Attendance done for the given date "+attendanceDate+" for the student "+customer.getName());
+            return "AddAttendance";
+        }
         repositary.save(new Attendance(Long.parseLong(customer.getId().toString()),attandenceDate));
-        return "redirect:/attendance";
+        List<Attendance> attendanceList = repositary.findByCustomerIdOrderByDateDesc(customer.getId());
+        model.addAttribute("attendanceList", attendanceList);
+        return "AddAttendance";
     }
+
+    @GetMapping("removeSingleAttendance/{attId}")
+    @Transactional
+    public String removeSingleAttendance(@PathVariable("attId") String attId,HttpSession session, Model model){
+        Customer customer = (Customer) session.getAttribute("userLogin");
+        model.addAttribute("customer",customer);
+        repositary.findById(Long.parseLong(attId)).ifPresent(ac->{
+            Customer newCustomer = customerRepostitary.findById(ac.getCustomerId()).get();
+            model.addAttribute("customer",newCustomer);
+            repositary.deleteById(Long.parseLong(attId));
+            List<Attendance> attendanceList = repositary.findByCustomerIdOrderByDateDesc(newCustomer.getId());
+            model.addAttribute("attendanceList", attendanceList);
+        });
+
+        model.addAttribute("customers", customerRepostitary.findAll());
+        return "AddAttendance";
+    }
+
+
     @PostMapping("deleteAttendance")
     @Transactional
     public String deleteAttendance(@RequestParam("id") String id, @RequestParam("attendanceDate") String attendanceDate, Model model){
+        if(id==null || id==""){
+            model.addAttribute("error_msg","Invalid Customer");
+            return "AddAttendance";
+        }
         Customer customer = customerRepostitary.findById(Long.parseLong(id)).get();
         LocalDate attandenceDate = LocalDate.parse(attendanceDate);
         repositary.deleteByCustomerIdAndDate(Long.parseLong(customer.getId().toString()),attandenceDate);
+        List<Attendance> attendanceList = repositary.findByCustomerIdOrderByDateDesc(customer.getId());
+        model.addAttribute("attendanceList", attendanceList);
         return "redirect:/attendance";
     }
 }

@@ -18,6 +18,8 @@ import org.springframework.boot.jdbc.DataSourceBuilder;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -29,6 +31,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Configuration
 public class Configurer implements WebMvcConfigurer {
@@ -57,12 +60,17 @@ public class Configurer implements WebMvcConfigurer {
                         request.getServerPort();
                 HttpSession session = request.getSession();
                 session.setAttribute("baseUrl", baseUrl);
-                String userLoginId = SecurityContextHolder.getContext().getAuthentication().getName();
+                Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+                String userLoginId = authentication.getName();
                 List<Users> users = loginRepositary.findByUsername(userLoginId);
                 if(users.size()>0){
                     Users user  = users.get(0);
                     Customer customer = customerRepostitary.findById(user.getCustomerId()).get();
                     session.setAttribute("userLogin",customer);
+                    session.setAttribute("authorities", authentication.getAuthorities()
+                            .stream()
+                            .map(GrantedAuthority::getAuthority)
+                            .collect(Collectors.toSet()));
                 }
                 return true;
             }
@@ -89,6 +97,17 @@ public class Configurer implements WebMvcConfigurer {
                .csrf(httpSecurityCsrfConfigurer -> httpSecurityCsrfConfigurer.disable())
                 .authorizeHttpRequests(authorizationManagerRequestMatcherRegistry
                         -> authorizationManagerRequestMatcherRegistry
+                        .requestMatchers("/attendance/createAttendance").hasRole("USER")
+                        .requestMatchers("/attendance/addAttendance").hasRole("USER")
+                        .requestMatchers("/attendance/removeSingleAttendance/**").hasRole("USER")
+                        .requestMatchers("/customer/viewCustomer/**").hasRole("USER")
+                        .requestMatchers("/login/updateLogin/**").hasRole("USER")
+                        .requestMatchers("/login/updateLoginSetup").hasRole("USER")
+                        .requestMatchers("/").hasRole("ADMIN")
+                        .requestMatchers("/attendance/**").hasRole("ADMIN")
+                        .requestMatchers("/customer/**").hasRole("ADMIN")
+                        .requestMatchers("/payment/**").hasRole("ADMIN")
+                        .requestMatchers("/login/**").hasRole("ADMIN")
                         .anyRequest().authenticated())
                .formLogin(log->log
                        .loginProcessingUrl("/login")
@@ -114,9 +133,11 @@ public class Configurer implements WebMvcConfigurer {
                 customerRepostitary.save(admin);
                 Users users1 = new Users("admin", encoder.encode("admin"),true);
                 users1.setCustomerId(customerRepostitary.findByNameContaining("admin").get(0).getId());
-                Authorities authorities = new Authorities("admin","ROLE_USER");
+                Authorities authorities = new Authorities("admin","ROLE_USER",admin.getId());
+                Authorities adminAuthorities = new Authorities("admin","ROLE_ADMIN",admin.getId());
                 repositary.save(users1);
                 authoritiesRepositary.save(authorities);
+                authoritiesRepositary.save(adminAuthorities);
             }
         };
     }

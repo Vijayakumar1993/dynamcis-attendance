@@ -46,7 +46,7 @@
     <h2 class="mb-4">Students - Attendance Sheet</h2>
 
     <div class="table-responsive">
-        <table class="table table-bordered attendance-table">
+        <table class="table table-bordered attendance-table table-responsive">
             <thead class="table-dark">
                 <tr>
                     <th>Id</th>

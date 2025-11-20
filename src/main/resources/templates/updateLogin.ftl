@@ -7,7 +7,7 @@
 
             <div class="panel panel-primary">
                 <div class="panel-heading text-center">
-                    <h3 class="panel-title">Create Login</h3>
+                    <h3 class="panel-title">Update Login</h3>
                 </div>
 
                 <div class="panel-body">
@@ -56,8 +56,10 @@
 
                         <input type="hidden" name="enabled" value="true">
 
-                        <button class="btn btn-primary btn-block btn-lg" type="submit">Login</button>
-
+                        <button class="btn btn-primary btn-block btn-lg" type="submit">Update</button>
+<#if user?has_content>
+                        <a href="${baseUrl?if_exists}/customer/viewCustomer/${user.customerId?if_exists}" class="btn btn-default btn-block btn-lg" type="submit">Cancel</a>
+</#if>
                     </form>
 
                 </div>

@@ -47,10 +47,10 @@
     </ul>
 
     <!-- Tab Content -->
-    <div class="tab-content" style="margin-top:20px;">
+    <div class="tab-content " style="margin-top:20px;">
 
         <!-- 30 Days -->
-        <div id="thirty" class="tab-pane fade in active">
+        <div id="thirty" class="table-responsive tab-pane fade in active">
             <table class="table table-bordered">
                 <thead class="thead-dark">
                     <tr>
@@ -84,7 +84,7 @@
         </div>
 
         <!-- 30-60 Days -->
-        <div id="sixty" class="tab-pane fade">
+        <div id="sixty" class="table-responsive tab-pane fade">
             <table class="table table-bordered">
                 <thead class="thead-dark">
                     <tr>
@@ -118,7 +118,7 @@
         </div>
 
         <!-- 60-90 Days -->
-        <div id="ninety" class="tab-pane fade">
+        <div id="ninety" class="table-responsive tab-pane fade">
             <table class="table table-bordered">
                 <thead class="thead-dark">
                     <tr>
@@ -152,7 +152,7 @@
         </div>
 
         <!-- 90+ Days -->
-        <div id="other" class="tab-pane fade">
+        <div id="other" class="table-responsive tab-pane fade">
             <table class="table table-bordered">
                 <thead class="thead-dark">
                     <tr>
@@ -187,7 +187,7 @@
 
 
  <!-- Pendings -->
-        <div id="pendings" class="tab-pane fade">
+        <div id="pendings" class="table-responsive tab-pane fade">
             <table class="table table-bordered">
                 <thead class="thead-dark">
                     <tr>
