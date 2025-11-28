@@ -8,7 +8,7 @@
 var names = [
         <#if customers?has_content>
             <#list customers as c>
-                { label: "${c.name}", value: "${c.id}" }<#if c?has_next>,</#if>
+                { label: "${c.name?if_exists}(${c.phone?if_exists})", value: "${c.id?if_exists}" }<#if c?has_next>,</#if>
             </#list>
         </#if>
     ];
@@ -29,6 +29,7 @@ $("#studentId").val(""); // clear id
 </script>
 <script>
     $(document).ready(function () {
+$.fn.dataTable.ext.errMode = 'console';
 $('.table').DataTable({
 "pageLength": 5,
 "lengthMenu": [5, 10, 25, 50, 100],

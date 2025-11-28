@@ -2,31 +2,42 @@
 
 <!-- Cards Row -->
 <div class="row g-4">
-    <div class="col-md-3">
-        <div class="card p-3 text-center bg-primary text-white">
-            <h4>Total Students</h4>
-            <h3>${total?default("0")}</h2>
+    <div class="col-md-2">
+        <div class="border-50px animate__animated animate__rubberBand card p-3 text-center bg-primary text-white">
+            <h4>Total Active Students</h4>
+            <h3>${totalActiveStudents?default("0")}</h2>
         </div>
     </div>
-
-    <div class="col-md-3">
-        <div class="card p-3 text-center bg-success text-white">
+<div class="col-md-2">
+        <div class="border-50px animate__animated animate__rubberBand card p-3 text-center bg-danger text-white">
+            <h4>Total Inactive Students</h4>
+            <h3>${totalInactiveStudents?default("0")}</h2>
+        </div>
+    </div>
+    <div class="col-md-2">
+        <div class="border-50px animate__animated animate__rubberBand card p-3 text-center bg-success text-white">
             <h4>Present Today</h4>
             <h3>${presents?default("0")}</h2>
         </div>
     </div>
 
-    <div class="col-md-3">
-        <div class="card p-3 text-center bg-danger text-white">
+    <div class="col-md-2">
+        <div class="border-50px animate__animated animate__rubberBand card p-3 text-center bg-danger text-white">
             <h4>Absent Today</h4>
             <h3>${absents?default("0")}</h2>
         </div>
     </div>
 
-    <div class="col-md-3">
-        <div class="card p-3 text-center bg-warning text-white">
+    <div class="col-md-2">
+        <div class="border-50px animate__animated animate__rubberBand card p-3 text-center bg-warning text-white">
             <h4>Fees Pending</h4>
             <h3>${fees?default("0")}</h2>
+        </div>
+    </div>
+  <div class="col-md-2">
+        <div class="border-50px animate__animated animate__rubberBand card p-3 text-center bg-info text-white">
+            <h4>Due Soon</h4>
+            <h3>${priorThirtyDays?size?default("0")}</h2>
         </div>
     </div>
 </div>
@@ -34,17 +45,17 @@
 <br/>
 
 <!-- Aging Panel -->
-<div class="panel panel-primary">
+<div class="panel panel-primary animate__animated animate__slideInUp">
     <div class="panel-heading">Fee Pending Reports</div>
 
     <!-- Nav Tabs -->
     <ul class="nav nav-tabs" style="margin-top:15px;">
-        <li class="active"><a data-toggle="tab" href="#priorThirtyDays">-30 Days (${priorThirtyDays?size?default("0")})</a></li>
-        <li><a data-toggle="tab" href="#thirty">+30 Days (${thirtyDays?size?default("0")})</a></li>
-        <li><a data-toggle="tab" href="#sixty">30 to 60 Days (${sixtyDays?size?default("0")})</a></li>
-        <li><a data-toggle="tab" href="#ninety">60 to 90 Days (${nintyDays?size?default("0")})</a></li>
-        <li><a data-toggle="tab" href="#other">90+ Days (${otherDays?size?default("0")})</a></li>
-        <li><a data-toggle="tab" href="#pendings">Pending Balance (${pendings?size?default("0")})</a></li>
+        <li class="active"><a data-toggle="tab"  class="bg-info text-white" href="#priorThirtyDays">Due Soon (Next 30 Days) (${priorThirtyDays?size?default("0")})</a></li>
+        <li><a data-toggle="tab" href="#thirty"  class="bg-info text-white">Overdue (0–30 Days) (${thirtyDays?size?default("0")})</a></li>
+        <li><a data-toggle="tab" class="bg-info text-white" href="#sixty">30–60 Days (${sixtyDays?size?default("0")})</a></li>
+        <li><a data-toggle="tab"  class="bg-info text-white" href="#ninety">60–90 Days (${nintyDays?size?default("0")})</a></li>
+        <li><a data-toggle="tab" class="bg-info text-white" href="#other">Older than 90 Days (${otherDays?size?default("0")})</a></li>
+        <li><a data-toggle="tab" class="bg-info text-white" href="#pendings">Pending Balance (${pendings?size?default("0")})</a></li>
     </ul>
 
     <!-- Tab Content -->
@@ -258,7 +269,7 @@
 </div>
 
 <!-- Recent Activity Table -->
-<div class="panel panel-primary" style="margin-top:40px;">
+<div class="panel panel-primary animate__animated animate__slideInUp" style="margin-top:40px;">
     <div class="panel-heading">Recent Attendance</div>
 
     <div class="table-responsive">

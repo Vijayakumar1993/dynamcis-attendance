@@ -1,63 +1,85 @@
 <#include "home.ftl">
 
-<div class="mt-5">
-<h2 class="mb-4">
+<div class="card shadow-sm mb-4">
+    <div class="card-header bg-primary text-white">
+       <h2 class="mb-4">
     ${customer.name?capitalize?if_exists} Details
    <#if admin_access><a href="/payment/receivePayment/${customer.id?if_exists}" class="btn btn-default pull-right">Receive Payment</a>
  <a href="/login/createLogin/${customer.id?if_exists}" class="btn btn-default pull-right" style="margin-right: 2px" >Create Login</a></#if>
 </h2>
-    <#if customer??>
-        <div class="table-responsive">
-            <table class="table table-striped table-bordered">
-                <tbody>
-                    <tr>
-                        <th>ID</th>
-                        <td>${customer.id?if_exists}</td>
-                    </tr>
-                    <tr>
-                        <th>Name</th>
-                        <td class="text-capitalize">${customer.name?if_exists}</td>
-                    </tr>
-                    <tr>
-                        <th>Guardian / Father / Spouse Name</th>
-                        <td class="text-capitalize">${customer.guardianName?if_exists}</td>
-                    </tr>
-                    <tr>
-                        <th>Phone</th>
-                        <td>${customer.phone?if_exists}</td>
-                    </tr>
-                    <tr>
-                        <th>Email</th>
-                        <td>${customer.email?if_exists}</td>
-                    </tr>
-                    <tr>
-                        <th>Gender</th>
-                        <td>${customer.gender?if_exists?capitalize}</td>
-                    </tr>
-                    <tr>
-                        <th>Status</th>
-                        <td <#if customer.status=="INACTIVE"> class="absent" <#else> "present" </#if>>${customer.status?if_exists}</td>
-                    </tr>
-                    <tr>
-                        <th>Joined Date</th>
-                        <td>${customer.joiningDate?if_exists?date("yyyy-MM-dd")?string("EEE, MMM d yyyy")}</td>
-                    </tr>
-                    <tr>
-                        <th>Created Date</th>
-                        <td>${customer.createdDate?if_exists?date("yyyy-MM-dd")?string("EEE, MMM d yyyy")}</td>
-                    </tr>
-                    <tr>
-                        <th>Created By</th>
-                        <td>${customer.createdBy?if_exists}</td>
-                    </tr>
-                </tbody>
-            </table>
+    </div>
+
+    <div class="card-body">
+
+        <div class="row mb-3">
+            <div class="col-sm-4 font-weight-bold">ID</div>
+            <div class="col-sm-8">${customer.id?if_exists}</div>
         </div>
-    <#else>
-        <div class="alert alert-warning">
-            Customer not found.
+
+        <div class="row mb-3">
+            <div class="col-sm-4 font-weight-bold">Name</div>
+            <div class="col-sm-8 text-capitalize">${customer.name?if_exists}</div>
         </div>
-    </#if>
+
+        <div class="row mb-3">
+            <div class="col-sm-4 font-weight-bold">Guardian / Father / Spouse</div>
+            <div class="col-sm-8 text-capitalize">${customer.guardianName?if_exists}</div>
+        </div>
+
+        <div class="row mb-3">
+            <div class="col-sm-4 font-weight-bold">Phone</div>
+            <div class="col-sm-8">${customer.phone?if_exists}</div>
+        </div>
+
+        <div class="row mb-3">
+            <div class="col-sm-4 font-weight-bold">Email</div>
+            <div class="col-sm-8">${customer.email?if_exists}</div>
+        </div>
+
+        <div class="row mb-3">
+            <div class="col-sm-4 font-weight-bold">Gender</div>
+            <div class="col-sm-8">${customer.gender?if_exists?capitalize}</div>
+        </div>
+
+        <div class="row mb-3">
+            <div class="col-sm-4 font-weight-bold">Status</div>
+            <div class="col-sm-8 <#if customer.status=='INACTIVE'>absent<#else>present</#if>">
+                <span class="<#if customer.status=='INACTIVE'>text-danger font-weight-bold<#else>text-success font-weight-bold</#if>">
+                    ${customer.status?if_exists}
+                </span>
+            </div>
+        </div>
+
+        <div class="row mb-3">
+            <div class="col-sm-4 font-weight-bold">Joined Date</div>
+            <div class="col-sm-8">
+                ${customer.joiningDate?if_exists?date("yyyy-MM-dd")?string("EEE, MMM d yyyy")}
+            </div>
+        </div>
+
+        <#if customer.renewalDate?has_content>
+        <div class="row mb-3">
+            <div class="col-sm-4 font-weight-bold">Renewel Date</div>
+            <div class="col-sm-8">
+                ${customer.renewalDate?if_exists?date("yyyy-MM-dd")?string("EEE, MMM d yyyy")}
+            </div>
+        </div>
+        </#if>
+        <#if customer.createdDate?has_content>
+        <div class="row mb-3">
+            <div class="col-sm-4 font-weight-bold">Created Date</div>
+            <div class="col-sm-8">
+                ${customer.createdDate?if_exists?date("yyyy-MM-dd")?string("EEE, MMM d yyyy")}
+            </div>
+        </div>
+        </#if>
+
+        <div class="row mb-3">
+            <div class="col-sm-4 font-weight-bold">Created By</div>
+            <div class="col-sm-8">${customer.createdBy?if_exists}</div>
+        </div>
+
+    </div>
 
 </div>
 <h2>User Login Details</h2>
@@ -87,7 +109,7 @@
         </#list>
     <#else>
         <tr>
-            <td colspan="6" class="text-center text-danger">No Logins found</td>
+            <td colspan="4" class="text-center text-danger">No Logins found</td>
         </tr>
     </#if>
     </tbody>
@@ -115,7 +137,7 @@
                 <td>${p.paymentId?if_exists}</td>
                 <td>₹${p.amount?if_exists}</td>
                 <td>₹${p.balance?if_exists}</td>
-                <td>${p.paymentDate?if_exists}</td>
+                <td>${p.paymentDate?if_exists?if_exists?date("yyyy-MM-dd")?string("EEE, MMM d yyyy")}</td>
                 <td>${p.paymentMethod?if_exists?capitalize}</td>
                 <td>${p.tenure?if_exists}</td>
                 <td>${p.remarks!""}</td>
@@ -127,7 +149,7 @@
         </#list>
     <#else>
         <tr>
-            <td colspan="6" class="text-center text-danger">No payments found</td>
+            <td colspan="8" class="text-center text-danger">No payments found</td>
         </tr>
     </#if>
     </tbody>

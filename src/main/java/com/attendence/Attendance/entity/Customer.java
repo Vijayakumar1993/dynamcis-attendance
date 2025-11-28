@@ -23,6 +23,7 @@ public class Customer {
     private String gender;
     private String status;
     private LocalDate joiningDate;
+    private LocalDate renewalDate;
     private Long period;
 
     private String createdBy;
@@ -130,5 +131,13 @@ public class Customer {
 
     public void setCreatedDate(LocalDate createdDate) {
         this.createdDate = createdDate;
+    }
+
+    public LocalDate getRenewalDate() {
+        return renewalDate;
+    }
+
+    public void setRenewalDate(LocalDate renewalDate) {
+        this.renewalDate = renewalDate;
     }
 }

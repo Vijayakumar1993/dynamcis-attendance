@@ -14,6 +14,10 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
+import java.time.temporal.ChronoUnit;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 @Controller
@@ -68,71 +72,86 @@ public class CustomerController {
             return "redirect:/customer/viewCustomer/"+customer.getId();
         }
 
-}
+    }
 
-@GetMapping("viewCustomers")
-public String viewCustomers(Model model){
-    List<Customer> customers = customerRepostitary.findAll();
-    model.addAttribute("customers",customers);
-    return "findCustomers";
-}
+    @GetMapping("viewCustomers")
+    public String viewCustomers(Model model){
+        List<Customer> customers  = customerRepostitary.findAll().stream().map(customer->{
+            if(customer.getCreatedBy()!=null){
+                customer.setCreatedBy(customerRepostitary.findById(Long.parseLong(customer.getCreatedBy())).get().getName());
+                return customer;
+            }else
+                return customer;
+        }).toList();
+        model.addAttribute("customers",customers);
+        return "findCustomers";
+    }
 
-@PostMapping("viewCustomers")
-public String viewCustomers(@RequestParam(value = "name",required = false) String name,@RequestParam(value = "phone",required = false) String phone, @RequestParam(value = "email",required = false) String email,
-                            @RequestParam(value = "gender",required = false) String gender, @RequestParam(value = "status",required = false) String status,
-                            @RequestParam(value = "guardianName",required = false) String guardianName, @RequestParam(value = "createdBy",required = false) String createdBy, Model model){
-    model.addAttribute("name", name);
-    model.addAttribute("phone",phone);
-    model.addAttribute("email",email);
-    model.addAttribute("gender",gender);
-    model.addAttribute("status",status);
-    model.addAttribute("guardianName",guardianName);
-    model.addAttribute("createdBy",createdBy);
-    if (name != null && name.isBlank()) name = null;
-    if (email != null && email.isBlank()) email = null;
-    if (phone != null && phone.isBlank()) phone = null;
-    if (gender != null && gender.isBlank()) gender = null;
-    if (status != null && status.isBlank()) status = null;
-    if (guardianName != null && guardianName.isBlank()) guardianName = null;
-    if (createdBy != null && createdBy.isBlank()) createdBy = null;
-    List<Customer> customers = customerRepostitary.searchCustomer(name,email, phone, gender, status,guardianName,createdBy);
-    model.addAttribute("customers",customers);
-    return "findCustomers";
-}
+    @PostMapping("viewCustomers")
+    public String viewCustomers(@RequestParam(value = "name",required = false) String name,@RequestParam(value = "phone",required = false) String phone, @RequestParam(value = "email",required = false) String email,
+                                @RequestParam(value = "gender",required = false) String gender, @RequestParam(value = "status",required = false) String status,
+                                @RequestParam(value = "guardianName",required = false) String guardianName, @RequestParam(value = "createdBy",required = false) String createdBy, Model model){
+        model.addAttribute("name", name);
+        model.addAttribute("phone",phone);
+        model.addAttribute("email",email);
+        model.addAttribute("gender",gender);
+        model.addAttribute("status",status);
+        model.addAttribute("guardianName",guardianName);
+        model.addAttribute("createdBy",createdBy);
+        if (name != null && name.isBlank()) name = null;
+        if (email != null && email.isBlank()) email = null;
+        if (phone != null && phone.isBlank()) phone = null;
+        if (gender != null && gender.isBlank()) gender = null;
+        if (status != null && status.isBlank()) status = null;
+        if (guardianName != null && guardianName.isBlank()) guardianName = null;
+        if (createdBy != null && createdBy.isBlank()) createdBy = null;
+        List<Customer> customers = customerRepostitary.searchCustomer(name,email, phone, gender, status,guardianName,createdBy);
+        model.addAttribute("customers",customers);
+        return "findCustomers";
+    }
 
-@GetMapping("editCustomer/{id}")
-public String editCustomer(@PathVariable("id") String id, Model model){
-    Customer customer =  customerRepostitary.findById(Long.parseLong(id)).get();
-    model.addAttribute("customer",customer);
-    return "customer";
-}
-@GetMapping("viewCustomer/{id}")
-public String viewCustomerById(@PathVariable("id") String id, Model model){
-    Customer customer =  customerRepostitary.findById(Long.parseLong(id)).get();
-    List<Payment> payments = paymentRepositary.findByCustomerId(Long.parseLong(id));
-    List<Users> users = loginServices.findUsers(id);
-    if(customer.getCreatedDate()!=null)
-        customer.setCreatedBy(customerRepostitary.findById(Long.parseLong(customer.getCreatedBy())).get().getName());
-    model.addAttribute("customer",customer);
-    model.addAttribute("payments",payments);
-    model.addAttribute("users",users);
-    return "viewCustomers";
-}
+    @GetMapping("editCustomer/{id}")
+    public String editCustomer(@PathVariable("id") String id, Model model){
+        Customer customer =  customerRepostitary.findById(Long.parseLong(id)).get();
+        model.addAttribute("customer",customer);
+        return "customer";
+    }
+    @GetMapping("viewCustomer/{id}")
+    public String viewCustomerById(@PathVariable("id") String id, Model model){
+        Customer customer =  customerRepostitary.findById(Long.parseLong(id)).get();
+        List<Payment> payments = paymentRepositary.findByCustomerId(Long.parseLong(id));
+        List<Users> users = loginServices.findUsers(id);
+        if(customer.getCreatedDate()!=null)
+            customer.setCreatedBy(customerRepostitary.findById(Long.parseLong(customer.getCreatedBy())).get().getName());
 
-@GetMapping("deleteCustomer/{id}")
-public String deleteCustomer(@PathVariable("id") String id){
-    Customer customer = customerRepostitary.findById(Long.parseLong(id)).get();
-    customer.setStatus("INACTIVE");
-    customerRepostitary.save(customer);
+        //renewal date calculation
+        payments.sort(Comparator.comparing(Payment::getPaymentDate));
+        if(payments.size()>0){
+            Payment latestPayment = payments.get(0);
+            LocalDate paymentDate = latestPayment.getPaymentDate();
+            LocalDate nextRenewel = ChronoUnit.MONTHS.addTo(paymentDate,latestPayment.getTenure());
+            customer.setRenewalDate(nextRenewel);
+        }
+        model.addAttribute("customer",customer);
+        model.addAttribute("payments",payments);
+        model.addAttribute("users",users);
+        return "viewCustomers";
+    }
 
-    List<Users> users = loginServices.findUsers(customer.getId().toString());
-    users.stream().forEach(user->{
-        user.setEnabled(false);
-        loginRepositary.save(user);
-    });
+    @GetMapping("deleteCustomer/{id}")
+    public String deleteCustomer(@PathVariable("id") String id){
+        Customer customer = customerRepostitary.findById(Long.parseLong(id)).get();
+        customer.setStatus("INACTIVE");
+        customerRepostitary.save(customer);
+
+        List<Users> users = loginServices.findUsers(customer.getId().toString());
+        users.stream().forEach(user->{
+            user.setEnabled(false);
+            loginRepositary.save(user);
+        });
 
 
-    return "redirect:/customer/viewCustomers";
-}
+        return "redirect:/customer/viewCustomers";
+    }
 
 }

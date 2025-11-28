@@ -71,7 +71,10 @@ public class AttendanceController {
         for (Map.Entry<Long, List<Attendance>> integerListEntry : groupedAttendanceList.entrySet()) {
             entries.put(customerRepostitary.getById(integerListEntry.getKey()), integerListEntry.getValue());
         }
-        model.addAttribute("dates",entries);
+        model.addAttribute("dates",entries.entrySet()
+                .stream()
+                .filter(att -> att.getKey().getStatus().equalsIgnoreCase("active"))
+                .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue)));
         List<String> days = new LinkedList<>();
         LocalDate currentDate = from;
         while (!currentDate.isAfter(to)) {
@@ -102,6 +105,7 @@ public class AttendanceController {
     @Transactional
     public String createAttendance(@RequestParam("id") String id, @RequestParam("attendanceDate") String attendanceDate, HttpSession session, Model model){
         model.addAttribute("customers", customerRepostitary.findAll());
+        Customer userLogin = (Customer) session.getAttribute("userLogin");
         if(id==null || id==""){
             model.addAttribute("error_msg","Invalid Customer");
             return "AddAttendance";
@@ -118,7 +122,9 @@ public class AttendanceController {
             model.addAttribute("error_msg","Attendance done for the given date "+attendanceDate+" for the student "+customer.getName());
             return "AddAttendance";
         }
-        repositary.save(new Attendance(Long.parseLong(customer.getId().toString()),attandenceDate));
+        Attendance att = new Attendance(Long.parseLong(customer.getId().toString()), attandenceDate);
+        att.setCreatedBy(userLogin.getId().toString());
+        repositary.save(att);
         List<Attendance> attendanceList = repositary.findByCustomerIdOrderByDateDesc(customer.getId());
         model.addAttribute("attendanceList", attendanceList);
         return "AddAttendance";

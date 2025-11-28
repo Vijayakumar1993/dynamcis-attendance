@@ -67,7 +67,7 @@
                     <#list dates as key, atts>
                         <tr>
                             <td>${key.id!}</td>
-<td><a href="${baseUrl?if_exists}/customer/viewCustomer/${key.id!}" target="_BLANK">${key.name!}</a></td>
+<td><b><a href="${baseUrl?if_exists}/customer/viewCustomer/${key.id!}" target="_BLANK">${key.name!}</a></b></td>
 
                             <#list days as day>
                                 <#assign valid = "N">

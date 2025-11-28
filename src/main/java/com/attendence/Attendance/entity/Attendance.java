@@ -15,6 +15,7 @@ public class Attendance {
     private Long id;
     private Long customerId;
     private LocalDate date;
+    private String createdBy;
 
     public Attendance(){}
 
@@ -47,16 +48,24 @@ public class Attendance {
         this.date = date;
     }
 
+    public String getCreatedBy() {
+        return createdBy;
+    }
+
+    public void setCreatedBy(String createdBy) {
+        this.createdBy = createdBy;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Attendance that = (Attendance) o;
-        return Objects.equals(id, that.id) && Objects.equals(customerId, that.customerId) && Objects.equals(date, that.date);
+        return Objects.equals(id, that.id) && Objects.equals(customerId, that.customerId) && Objects.equals(date, that.date) && Objects.equals(createdBy, that.createdBy);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, customerId, date);
+        return Objects.hash(id, customerId, date, createdBy);
     }
 }

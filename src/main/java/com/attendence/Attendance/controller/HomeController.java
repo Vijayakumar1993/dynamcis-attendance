@@ -35,7 +35,8 @@ public class HomeController {
     @GetMapping("/")
     public String home(HttpServletRequest request, HttpSession session, Model model){
         List<Customer> customers = customerRepostitary.findAll();
-        model.addAttribute("total", customers.size());
+        model.addAttribute("totalActiveStudents", customers.stream().filter(customer -> customer.getStatus().equalsIgnoreCase("active")).toList().size());
+        model.addAttribute("totalInactiveStudents", customers.stream().filter(customer -> !customer.getStatus().equalsIgnoreCase("active")).toList().size());
         LocalDate currentDate = LocalDate.now();
         model.addAttribute("presents",attendanceRepositary.countByDate(currentDate));
         List<Long> customerIds = customers.stream()

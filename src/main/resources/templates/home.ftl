@@ -9,10 +9,19 @@
 
 <link rel="stylesheet"
       href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.min.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
 
 <link rel="stylesheet"
       href="https://code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css">
 <style>
+.card-header{
+border-radius: 5px !important;
+}
+.card {
+border-radius: 0px !important;
+box-shadow: 0 0px 0px rgba(0, 0, 0, 0.1) !important;
+padding: 2px !important;
+}
 .attendance-table th, .attendance-table td {
 text-align: center;
 vertical-align: middle;
@@ -22,7 +31,10 @@ writing-mode: vertical-rl; /* vertical, right-to-left */
 text-orientation: mixed;    /* keep letters normal */
 transform: rotate(180deg);  /* optional: flip to bottom → top */
 }
-
+.font-weight-bold{
+    font-weight: bold;
+    padding-bottom: 10px;
+}
 .present {
 background-color: #d4edda !important; /* green */
 }
@@ -39,11 +51,11 @@ input.form-control{
     margin-left: 260px;
     padding: 30px;
 }
-h2{
-    background: #337ab7;
-    color: white;
-    padding: 4px;
-    border-radius: 5px;
+h2,.panel-heading{
+    background: black !important;
+    color: white !important;
+    padding: 6px !important;
+    border-radius: 5px !important;
 }
 
 .card {
@@ -65,6 +77,12 @@ padding-right: 5px !important;
 button {
     margin-top: 3px;
 }
+.border-50px{
+    border-radius: 50px !important;
+}
+thead{
+    background: #fcf8e3!important;
+}
 </style>
 
 </head>
@@ -75,7 +93,7 @@ button {
 </#if>
 </#if>
 <div class="row-fluid padding-left-5 padding-right-5">
-    <nav class="navbar navbar-inverse">
+    <nav class="navbar navbar-inverse sticky-top">
   <div class="container-fluid">
     <div class="navbar-header">
 <#if admin_access>
