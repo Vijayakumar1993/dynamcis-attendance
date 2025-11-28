@@ -18,12 +18,15 @@ public class Customer {
     private String email;
 
     private String phone;
+    private String guardianName;
 
     private String gender;
     private String status;
     private LocalDate joiningDate;
     private Long period;
 
+    private String createdBy;
+    private LocalDate createdDate;
     public Customer() {
     }
 
@@ -103,5 +106,29 @@ public class Customer {
 
     public void setPeriod(Long period) {
         this.period = period;
+    }
+
+    public String getGuardianName() {
+        return guardianName;
+    }
+
+    public void setGuardianName(String guardianName) {
+        this.guardianName = guardianName;
+    }
+
+    public String getCreatedBy() {
+        return createdBy;
+    }
+
+    public void setCreatedBy(String createdBy) {
+        this.createdBy = createdBy;
+    }
+
+    public LocalDate getCreatedDate() {
+        return createdDate;
+    }
+
+    public void setCreatedDate(LocalDate createdDate) {
+        this.createdDate = createdDate;
     }
 }

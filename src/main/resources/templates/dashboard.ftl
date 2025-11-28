@@ -39,7 +39,8 @@
 
     <!-- Nav Tabs -->
     <ul class="nav nav-tabs" style="margin-top:15px;">
-        <li class="active"><a data-toggle="tab" href="#thirty">30 Days (${thirtyDays?size?default("0")})</a></li>
+        <li class="active"><a data-toggle="tab" href="#priorThirtyDays">-30 Days (${priorThirtyDays?size?default("0")})</a></li>
+        <li><a data-toggle="tab" href="#thirty">+30 Days (${thirtyDays?size?default("0")})</a></li>
         <li><a data-toggle="tab" href="#sixty">30 to 60 Days (${sixtyDays?size?default("0")})</a></li>
         <li><a data-toggle="tab" href="#ninety">60 to 90 Days (${nintyDays?size?default("0")})</a></li>
         <li><a data-toggle="tab" href="#other">90+ Days (${otherDays?size?default("0")})</a></li>
@@ -49,8 +50,42 @@
     <!-- Tab Content -->
     <div class="tab-content " style="margin-top:20px;">
 
+ <!-- 30-60 Days -->
+        <div id="priorThirtyDays" class="table-responsive tab-pane fade in active">
+            <table class="table table-bordered">
+                <thead class="thead-dark">
+                    <tr>
+                        <th>Student</th>
+                        <th>Email</th>
+                        <th>Phone</th>
+                        <th>Payment Date</th>
+                        <th>Amount</th>
+                        <th>Balance</th>
+                    </tr>
+                </thead>
+                <tbody>
+                <#if priorThirtyDays?has_content>
+                    <#list priorThirtyDays as customer>
+                        <tr>
+                            <td><a href="${baseUrl?if_exists}/customer/viewCustomer/${customer.id?if_exists}" target="_BLANK">${customer.name?if_exists}</a></td>
+                            <td>${customer.email?if_exists}</td>
+                            <td>${customer.phone?if_exists}</td>
+                            <td>${customer.joiningDate?date("yyyy-MM-dd")?string("EEE, MMM d yyyy")}</td>
+                            <td>${customer.amount?if_exists}</td>
+                            <td>${customer.balance?if_exists}</td>
+                        </tr>
+                    </#list>
+                <#else>
+                    <tr>
+                        <td colspan="6" class="text-center text-muted">No Records found.</td>
+                    </tr>
+                </#if>
+                </tbody>
+            </table>
+        </div>
+
         <!-- 30 Days -->
-        <div id="thirty" class="table-responsive tab-pane fade in active">
+        <div id="thirty" class="table-responsive tab-pane fade">
             <table class="table table-bordered">
                 <thead class="thead-dark">
                     <tr>

@@ -2,9 +2,9 @@
 
 <div class="mt-5">
 <h2 class="mb-4">
-    ${customer.name?if_exists} Details
-   <#if admin_access> &nbsp;<a href="/payment/receivePayment/${customer.id?if_exists}" class="btn btn-default pull-right">Recieve Payment</a>
-  &nbsp;<a href="/login/createLogin/${customer.id?if_exists}" class="btn btn-default pull-right" >Create Login</a></#if>
+    ${customer.name?capitalize?if_exists} Details
+   <#if admin_access><a href="/payment/receivePayment/${customer.id?if_exists}" class="btn btn-default pull-right">Receive Payment</a>
+ <a href="/login/createLogin/${customer.id?if_exists}" class="btn btn-default pull-right" style="margin-right: 2px" >Create Login</a></#if>
 </h2>
     <#if customer??>
         <div class="table-responsive">
@@ -17,6 +17,10 @@
                     <tr>
                         <th>Name</th>
                         <td class="text-capitalize">${customer.name?if_exists}</td>
+                    </tr>
+                    <tr>
+                        <th>Guardian / Father / Spouse Name</th>
+                        <td class="text-capitalize">${customer.guardianName?if_exists}</td>
                     </tr>
                     <tr>
                         <th>Phone</th>
@@ -32,11 +36,19 @@
                     </tr>
                     <tr>
                         <th>Status</th>
-                        <td>${customer.status?if_exists}</td>
+                        <td <#if customer.status=="INACTIVE"> class="absent" <#else> "present" </#if>>${customer.status?if_exists}</td>
                     </tr>
                     <tr>
                         <th>Joined Date</th>
                         <td>${customer.joiningDate?if_exists?date("yyyy-MM-dd")?string("EEE, MMM d yyyy")}</td>
+                    </tr>
+                    <tr>
+                        <th>Created Date</th>
+                        <td>${customer.createdDate?if_exists?date("yyyy-MM-dd")?string("EEE, MMM d yyyy")}</td>
+                    </tr>
+                    <tr>
+                        <th>Created By</th>
+                        <td>${customer.createdBy?if_exists}</td>
                     </tr>
                 </tbody>
             </table>
@@ -65,7 +77,7 @@
             <tr>
                 <td>${p.id?if_exists}</td>
                 <td>${p.username?if_exists}</td>
-                <td><#if p.enabled?default(false)> Yes <#else> No </#if></td>
+                <td<#if p.enabled?default(false)> class="present" <#else> class="absent" </#if>><#if p.enabled?default(false)> Yes <#else> No </#if></td>
 <td>
 
 <#if admin_access><a href="${baseUrl?if_exists}/login/removeLogin/${p.id?if_exists}" class="btn btn-danger">Remove</a></#if>
@@ -108,8 +120,8 @@
                 <td>${p.tenure?if_exists}</td>
                 <td>${p.remarks!""}</td>
 <td>
-<a href="${baseUrl?if_exists}/payment/receivePayment/${customer.id?if_exists}?paymentId=${p.paymentId?if_exists}" class="btn btn-primary">Update Payment</a>
-<a href="${baseUrl?if_exists}/payment/removePayment/${p.paymentId?if_exists}?customerId=${customer.id?if_exists}" class="btn btn-danger">Remove Payment</a>
+<a href="${baseUrl?if_exists}/payment/receivePayment/${customer.id?if_exists}?paymentId=${p.paymentId?if_exists}" class="btn btn-primary">Update</a>
+<a href="${baseUrl?if_exists}/payment/removePayment/${p.paymentId?if_exists}?customerId=${customer.id?if_exists}" class="btn btn-danger">Remove</a>
 </td>
             </tr>
         </#list>

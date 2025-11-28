@@ -9,12 +9,25 @@
             <form action="/customer/addCustomer" method="post">
 
                 <input type="hidden" name="id" value="<#if customer??>${customer.id?if_exists}</#if>" />
+
+     <#if userLogin?has_content>
+                    <input type="hidden" name="createdBy" value="${userLogin.id?if_exists}" />
+    </#if>
+<input type="hidden" id="createdDate" name="createdDate" class="form-control" required value="${.now?string('yyyy-MM-dd')}">
                 <!-- Name -->
                 <div class="mb-3">
                     <label class="form-label">Full Name</label>
                     <input type="text" name="name" class="form-control" placeholder="Enter full name" value="<#if customer??>${customer.name?if_exists}</#if>" required>
                 </div>
-
+                <!-- GuradianName -->
+                <div class="mb-3">
+                    <label class="form-label">Guardian / Father / Spouse Name</label>
+                    <input type="text"
+                           name="guardianName"
+                           class="form-control"
+                           placeholder="Enter Guardian / Father / Spouse Name"
+                           value="<#if customer??>${customer.guardianName?if_exists}</#if>"
+                           required> </div>
                 <!-- Age -->
                 <div class="mb-3">
                     <label class="form-label">Phone Number</label>

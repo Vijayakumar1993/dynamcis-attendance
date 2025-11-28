@@ -59,6 +59,7 @@ public class HomeController {
         model.addAttribute("attendance", lists);
 
         //find the fees pending from the customer
+        List<Map<String,String>> priorThirtyDays = new LinkedList<>();
         List<Map<String, String>> thirtyDays = new LinkedList<>();
         List<Map<String, String>> sixtyDays = new LinkedList<>();
         List<Map<String, String>> nintyDays = new LinkedList<>();
@@ -81,8 +82,8 @@ public class HomeController {
                     LocalDate compareDate = payment.getPaymentDate();
                     Long tenure = payment.getTenure();
                     LocalDate customerDate =  compareDate.plusMonths(tenure);
+                    Long daysDiff = Math.abs(ChronoUnit.DAYS.between(customerDate,currentDate));
                     if(currentDate.isAfter(customerDate)){
-                        Long daysDiff = ChronoUnit.DAYS.between(customerDate,currentDate);
                         if(daysDiff<=30){
                             thirtyDays.add(details);
                         }else if(daysDiff>=31 && daysDiff<=60){
@@ -91,6 +92,10 @@ public class HomeController {
                             nintyDays.add(details);
                         }else {
                             otherDays.add(details);
+                        }
+                    }else {
+                        if(daysDiff<=30){
+                            priorThirtyDays.add(details);
                         }
                     }
                     if(payment.getBalance()>0){
@@ -105,6 +110,7 @@ public class HomeController {
         model.addAttribute("sixtyDays", sixtyDays);
         model.addAttribute("nintyDays", nintyDays);
         model.addAttribute("otherDays", otherDays);
+        model.addAttribute("priorThirtyDays", priorThirtyDays);
         model.addAttribute("pendings", pendings);
         return "dashboard";
     }

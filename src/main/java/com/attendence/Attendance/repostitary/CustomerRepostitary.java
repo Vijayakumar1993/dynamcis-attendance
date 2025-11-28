@@ -16,13 +16,17 @@ AND   (:email IS NULL OR LOWER(c.email) LIKE LOWER(CONCAT('%', :email, '%')))
 AND   (:phone IS NULL OR LOWER(c.phone) LIKE LOWER(CONCAT('%', :phone, '%')))
 AND   (:gender IS NULL OR LOWER(c.gender) = LOWER(:gender))
 AND   (:status IS NULL OR LOWER(c.status) = LOWER(:status))
+AND   (:guardianName IS NULL OR LOWER(c.guardianName) = LOWER(:guardianName))
+AND   (:createdBy IS NULL OR LOWER(c.status) = LOWER(:createdBy))
 """)
     List<Customer> searchCustomer(
             @Param("name") String name,
             @Param("email") String email,
             @Param("phone") String phone,
             @Param("gender") String gender,
-            @Param("status") String status
+            @Param("status") String status,
+            @Param("guardianName") String guardianName,
+            @Param("createdBy") String createdBy
     );
 
     List<Customer> findByPhone(String phone);

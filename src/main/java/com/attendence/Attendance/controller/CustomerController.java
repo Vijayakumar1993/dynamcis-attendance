@@ -79,18 +79,23 @@ public String viewCustomers(Model model){
 
 @PostMapping("viewCustomers")
 public String viewCustomers(@RequestParam(value = "name",required = false) String name,@RequestParam(value = "phone",required = false) String phone, @RequestParam(value = "email",required = false) String email,
-                            @RequestParam(value = "gender",required = false) String gender, @RequestParam(value = "status",required = false) String status, Model model){
+                            @RequestParam(value = "gender",required = false) String gender, @RequestParam(value = "status",required = false) String status,
+                            @RequestParam(value = "guardianName",required = false) String guardianName, @RequestParam(value = "createdBy",required = false) String createdBy, Model model){
     model.addAttribute("name", name);
     model.addAttribute("phone",phone);
     model.addAttribute("email",email);
     model.addAttribute("gender",gender);
     model.addAttribute("status",status);
+    model.addAttribute("guardianName",guardianName);
+    model.addAttribute("createdBy",createdBy);
     if (name != null && name.isBlank()) name = null;
     if (email != null && email.isBlank()) email = null;
     if (phone != null && phone.isBlank()) phone = null;
     if (gender != null && gender.isBlank()) gender = null;
     if (status != null && status.isBlank()) status = null;
-    List<Customer> customers = customerRepostitary.searchCustomer(name,email, phone, gender, status);
+    if (guardianName != null && guardianName.isBlank()) guardianName = null;
+    if (createdBy != null && createdBy.isBlank()) createdBy = null;
+    List<Customer> customers = customerRepostitary.searchCustomer(name,email, phone, gender, status,guardianName,createdBy);
     model.addAttribute("customers",customers);
     return "findCustomers";
 }
@@ -106,6 +111,8 @@ public String viewCustomerById(@PathVariable("id") String id, Model model){
     Customer customer =  customerRepostitary.findById(Long.parseLong(id)).get();
     List<Payment> payments = paymentRepositary.findByCustomerId(Long.parseLong(id));
     List<Users> users = loginServices.findUsers(id);
+    if(customer.getCreatedDate()!=null)
+        customer.setCreatedBy(customerRepostitary.findById(Long.parseLong(customer.getCreatedBy())).get().getName());
     model.addAttribute("customer",customer);
     model.addAttribute("payments",payments);
     model.addAttribute("users",users);

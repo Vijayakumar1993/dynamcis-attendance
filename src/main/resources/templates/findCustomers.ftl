@@ -70,6 +70,8 @@
                     <th>Phone</th>
                     <th>Email</th>
                     <th>Joined Date</th>
+                    <th>Created Date</th>
+                    <th>Created By</th>
                     <th></th>
                 </tr>
             </thead>
@@ -83,6 +85,8 @@
                             <td>${c.phone?if_exists}</td>
                             <td>${c.email?if_exists}</td>
                             <td>${c.joiningDate?if_exists}</td>
+                            <td>${c.createdDate?if_exists}</td>
+                            <td>${c.createdBy?if_exists}</td>
                             <td>
                <a href="${baseUrl?if_exists}/customer/deleteCustomer/${c.id?if_exists}" class="btn btn-danger">Deactivate</a>
                <a href="${baseUrl?if_exists}/customer/editCustomer/${c.id?if_exists}" class="btn btn-primary">Edit</a>
