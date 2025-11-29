@@ -26,6 +26,7 @@ public class Customer {
     private LocalDate renewalDate;
     private Long period;
     private String pack;
+    private String address;
 
     private String createdBy;
     private LocalDate createdDate;
@@ -149,5 +150,13 @@ public class Customer {
 
     public void setPack(String pack) {
         this.pack = pack;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
     }
 }

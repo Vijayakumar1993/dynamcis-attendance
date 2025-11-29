@@ -45,6 +45,10 @@
             <div class="col-sm-4 font-weight-bold">Email</div>
             <div class="col-sm-8">${customer.email?if_exists}</div>
         </div>
+        <div class="row mb-3">
+            <div class="col-sm-4 font-weight-bold">Address</div>
+            <div class="col-sm-8">${customer.address?if_exists}</div>
+        </div>
 
         <div class="row mb-3">
             <div class="col-sm-4 font-weight-bold">Gender</div>
