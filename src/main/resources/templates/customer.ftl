@@ -45,7 +45,17 @@
                     </select>
                 </div>
 
-
+                <div class="mb-3">
+                    <label class="form-label">Package</label>
+                    <select class="form-control" name="pack" id="pack" required>
+                    <option value="">-- Select --</option>
+                        <#if packages?has_content>
+                            <#list packages as c>
+                                <option value="${c.configId?if_exists}" <#if customer?has_content><#if customer.pack=='${c.configId?if_exists}'> selected </#if></#if>>${c.configValue?capitalize?if_exists}</option>
+                            </#list>
+                        </#if>
+                    </select>
+                </div>
 
                 <!-- Email -->
                 <div class="mb-3">

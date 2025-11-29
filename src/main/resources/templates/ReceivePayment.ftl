@@ -1,5 +1,5 @@
 <#include "home.ftl">
-<h3 class="text-center">Receive Payment</h3>
+<h2 class="text-center">Receive Payment</h2>
 <hr>
 
 <form action="${baseUrl}/payment/completePayment" method="post" class="container">
@@ -27,12 +27,12 @@
             <div class="form-group">
                 <label>Amount</label>
                 <input type="number" name="amount" min="0" class="form-control"
-                       placeholder="Enter amount" value="<#if payment?has_content>${payment.amount?if_exists?replace(",", "")}</#if>" required>
+                       placeholder="Enter amount" value="<#if payment?has_content>${payment.amount?if_exists?replace(",", "")}<#else>${amount?if_exists?replace(",", "")}</#if>" required>
             </div>
 <div class="form-group">
                 <label>Tenure</label>
                 <input type="number" name="tenure" class="form-control"
-                       placeholder="Enter Tenure" value="<#if payment?has_content>${payment.tenure?if_exists}</#if>"  required>
+                       placeholder="Enter Tenure" value="<#if payment?has_content>${payment.tenure?if_exists}<#else>${tenure?if_exists}</#if>"  required>
             </div>
             <!-- Amount -->
  <div class="form-group">
@@ -60,7 +60,7 @@
             <div class="form-group">
                 <label>Balance</label>
                 <input type="number" name="balance" min="0" class="form-control"
-                       placeholder="Enter amount" required value="<#if payment?has_content>${payment.balance?if_exists?replace(",", "")}</#if>" >
+                       placeholder="Enter amount" required value="<#if payment?has_content>${payment.balance?if_exists?replace(",", "")}<#else>0</#if>" >
             </div>
 
              <div class="form-group">

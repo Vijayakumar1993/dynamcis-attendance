@@ -4,13 +4,13 @@
 <div class="row g-4">
     <div class="col-md-2">
         <div class="border-50px animate__animated animate__rubberBand card p-3 text-center bg-primary text-white">
-            <h4>Total Active Students</h4>
+            <h4>Active Students</h4>
             <h3>${totalActiveStudents?default("0")}</h2>
         </div>
     </div>
 <div class="col-md-2">
         <div class="border-50px animate__animated animate__rubberBand card p-3 text-center bg-danger text-white">
-            <h4>Total Inactive Students</h4>
+            <h4>Inactive Students</h4>
             <h3>${totalInactiveStudents?default("0")}</h2>
         </div>
     </div>

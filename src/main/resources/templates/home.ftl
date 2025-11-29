@@ -41,6 +41,17 @@ background-color: #d4edda !important; /* green */
 .absent {
 background-color: #f8d7da !important; /* red */
 }
+.dt-button{
+background: #337ab7;
+color: #ffffff;
+border-radius: 8px;
+border-color: #d9edf7;
+}
+
+.dt-buttons{
+padding-bottom: 10px !important;
+}
+
 .padding-bottom-5{
     padding-bottom: 5px;
 }
@@ -83,6 +94,18 @@ button {
 thead{
     background: #fcf8e3!important;
 }
+span.present{
+background: green !important;
+color: white !important;
+padding: 5px !important;
+border-radius: 5px;
+}
+span.absent{
+background: #d9534f !important;
+color: white !important;
+padding: 5px !important;
+border-radius: 5px;
+}
 </style>
 
 </head>
@@ -123,6 +146,15 @@ thead{
             <li class="padding-bottom-5"><a href="${baseUrl}/attendance/addAttendance">Create Attendance</a></li>
             <li class="padding-bottom-5"><a href="${baseUrl}/attendance/removeAttendance">Remove Attendance</a></li>
             <li class="padding-bottom-5"><a href="${baseUrl}/attendance">View Attendance</a></li>
+          </ul>
+        </li>
+    <li class="dropdown">
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+            Settings <span class="caret"></span>
+          </a>
+          <ul class="dropdown-menu">
+            <li class="padding-bottom-5"><a href="${baseUrl}/settings">Create Configuration</a></li>
+            <li class="padding-bottom-5"><a href="${baseUrl}/settings/viewConfigurations">View Configurations</a></li>
           </ul>
         </li>
 <#else>

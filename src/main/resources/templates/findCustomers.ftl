@@ -23,7 +23,7 @@
         <!-- Gender -->
         <div class="col-md-6 mb-3 padding-bottom-5">
             <select name="gender" class="form-control form-select">
-                <option value="">-</option>
+                <option value="">-- Select --</option>
                 <option value="male" <#if gender?has_content && gender == "male">selected</#if>>Male</option>
                 <option value="female" <#if gender?has_content && gender == "female">selected</#if>>Female</option>
                 <option value="other" <#if gender?has_content && gender == "other">selected</#if>>Other</option>
@@ -40,11 +40,22 @@
         <!-- Status -->
         <div class="col-md-6 mb-3 padding-bottom-5">
             <select name="status" class="form-control form-select">
-                <option value="">-</option>
+                <option value="">-- Select --</option>
                 <option value="ACTIVE" <#if status?has_content && status=='ACTIVE'>selected</#if>>Active</option>
                 <option value="INACTIVE" <#if status?has_content && status=='INACTIVE'>selected</#if>>Inactive</option>
             </select>
         </div>
+
+   <div class="col-md-6 mb-3 padding-bottom-5">
+                    <select class="form-control" name="pack" id="pack">
+                    <option value="">-- Select --</option>
+                        <#if packages?has_content>
+                            <#list packages as c>
+                                <option value="${c.configId?if_exists}" <#if pack?has_content && pack=='${c.configId?if_exists}'> selected </#if>>${c.configValue?capitalize?if_exists}</option>
+                            </#list>
+                        </#if>
+                    </select>
+                </div>
 
         <!-- Submit Btn -->
         <div class="col-md-6 mb-3 padding-bottom-5">
@@ -71,7 +82,6 @@
                     <th>Email</th>
                     <th>Joined Date</th>
                     <th>Created Date</th>
-                    <th>Created By</th>
                     <th></th>
                 </tr>
             </thead>
@@ -86,7 +96,6 @@
                             <td>${c.email?if_exists}</td>
                             <td>${c.joiningDate?if_exists}</td>
                             <td>${c.createdDate?if_exists}</td>
-                            <td>${c.createdBy?if_exists}</td>
                             <td>
                <a href="${baseUrl?if_exists}/customer/deleteCustomer/${c.id?if_exists}" class="btn btn-danger">Deactivate</a>
                <a href="${baseUrl?if_exists}/customer/editCustomer/${c.id?if_exists}" class="btn btn-primary">Edit</a>
@@ -95,7 +104,7 @@
                     </#list>
                 <#else>
                     <tr>
-                        <td colspan="5" class="text-center text-muted">
+                        <td colspan="7" class="text-center text-muted">
                             No customers found.
                         </td>
                     </tr>

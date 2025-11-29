@@ -25,6 +25,7 @@ public class Customer {
     private LocalDate joiningDate;
     private LocalDate renewalDate;
     private Long period;
+    private String pack;
 
     private String createdBy;
     private LocalDate createdDate;
@@ -37,12 +38,13 @@ public class Customer {
         this.phone = phone;
     }
 
-    public Customer(String name, String email, String phone,String gender, String status, LocalDate joiningDate, Long period) {
+    public Customer(String name, String email, String phone,String gender, String status, LocalDate joiningDate, Long period, String pack) {
         this(name,email,phone);
         this.gender = gender;
         this.status = status;
         this.joiningDate = joiningDate;
         this.period = period;
+        this.pack = pack;
     }
 
     public Long getId() {
@@ -139,5 +141,13 @@ public class Customer {
 
     public void setRenewalDate(LocalDate renewalDate) {
         this.renewalDate = renewalDate;
+    }
+
+    public String getPack() {
+        return pack;
+    }
+
+    public void setPack(String pack) {
+        this.pack = pack;
     }
 }

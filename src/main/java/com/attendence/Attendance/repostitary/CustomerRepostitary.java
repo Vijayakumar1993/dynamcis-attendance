@@ -18,6 +18,7 @@ AND   (:gender IS NULL OR LOWER(c.gender) = LOWER(:gender))
 AND   (:status IS NULL OR LOWER(c.status) = LOWER(:status))
 AND   (:guardianName IS NULL OR LOWER(c.guardianName) = LOWER(:guardianName))
 AND   (:createdBy IS NULL OR LOWER(c.status) = LOWER(:createdBy))
+AND   (:pack IS NULL OR LOWER(c.pack) = LOWER(:pack))
 """)
     List<Customer> searchCustomer(
             @Param("name") String name,
@@ -26,7 +27,8 @@ AND   (:createdBy IS NULL OR LOWER(c.status) = LOWER(:createdBy))
             @Param("gender") String gender,
             @Param("status") String status,
             @Param("guardianName") String guardianName,
-            @Param("createdBy") String createdBy
+            @Param("createdBy") String createdBy,
+            @Param("pack") String pack
     );
 
     List<Customer> findByPhone(String phone);

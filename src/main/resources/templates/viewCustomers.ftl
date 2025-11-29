@@ -4,8 +4,11 @@
     <div class="card-header bg-primary text-white">
        <h2 class="mb-4">
     ${customer.name?capitalize?if_exists} Details
-   <#if admin_access><a href="/payment/receivePayment/${customer.id?if_exists}" class="btn btn-default pull-right">Receive Payment</a>
- <a href="/login/createLogin/${customer.id?if_exists}" class="btn btn-default pull-right" style="margin-right: 2px" >Create Login</a></#if>
+   <#if admin_access>
+<a href="/payment/receivePayment/${customer.id?if_exists}" class="btn btn-default pull-right">Receive Payment</a>
+ <a href="/login/createLogin/${customer.id?if_exists}" class="btn btn-default pull-right" style="margin-right: 2px" >Create Login</a>
+<a href="/customer/editCustomer/${customer.id?if_exists}" class="btn btn-default pull-right"  style="margin-right: 2px">Edit</a>
+</#if>
 </h2>
     </div>
 
@@ -26,6 +29,13 @@
             <div class="col-sm-8 text-capitalize">${customer.guardianName?if_exists}</div>
         </div>
 
+<#if pack?has_content>
+        <div class="row mb-3">
+            <div class="col-sm-4 font-weight-bold">Package</div>
+            <div class="col-sm-8 text-capitalize">${pack.configValue?if_exists}</div>
+        </div>
+</#if>
+
         <div class="row mb-3">
             <div class="col-sm-4 font-weight-bold">Phone</div>
             <div class="col-sm-8">${customer.phone?if_exists}</div>
@@ -43,8 +53,8 @@
 
         <div class="row mb-3">
             <div class="col-sm-4 font-weight-bold">Status</div>
-            <div class="col-sm-8 <#if customer.status=='INACTIVE'>absent<#else>present</#if>">
-                <span class="<#if customer.status=='INACTIVE'>text-danger font-weight-bold<#else>text-success font-weight-bold</#if>">
+            <div class="col-sm-8">
+                <span class="<#if customer.status=='INACTIVE'>absent font-weight-bold<#else>present </#if>">
                     ${customer.status?if_exists}
                 </span>
             </div>

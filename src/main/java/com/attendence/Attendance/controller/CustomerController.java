@@ -7,6 +7,8 @@ import com.attendence.Attendance.repostitary.CustomerRepostitary;
 import com.attendence.Attendance.repostitary.LoginRepositary;
 import com.attendence.Attendance.repostitary.PaymentRepositary;
 import com.attendence.Attendance.services.LoginServices;
+import com.attendence.Attendance.util.Utility;
+import jdk.jshell.execution.Util;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -40,14 +42,19 @@ public class CustomerController {
     @Autowired
     private PaymentRepositary paymentRepositary;
 
+    @Autowired
+    private Utility utility;
+
     @GetMapping("createCustomer")
-    public String customer(){
+    public String customer(Model model){
+        model.addAttribute("packages",utility.getConfigs("packages","name"));
         return "customer";
     }
     @PostMapping("addCustomer")
     public String createCustomer(@ModelAttribute Customer customer, Model model){
         List<Customer> existingCustomer  = customerRepostitary.findByPhone(customer.getPhone());
         model.addAttribute("customer",customer);
+        model.addAttribute("packages",utility.getConfigs("packages","name"));
         if(existingCustomer.size()>0 && customer.getId()==null){
             model.addAttribute("error_msg","Already Student registered, please use different phone number");
             return "customer";
@@ -83,6 +90,7 @@ public class CustomerController {
             }else
                 return customer;
         }).toList();
+        model.addAttribute("packages",utility.getConfigs("packages","name"));
         model.addAttribute("customers",customers);
         return "findCustomers";
     }
@@ -90,7 +98,7 @@ public class CustomerController {
     @PostMapping("viewCustomers")
     public String viewCustomers(@RequestParam(value = "name",required = false) String name,@RequestParam(value = "phone",required = false) String phone, @RequestParam(value = "email",required = false) String email,
                                 @RequestParam(value = "gender",required = false) String gender, @RequestParam(value = "status",required = false) String status,
-                                @RequestParam(value = "guardianName",required = false) String guardianName, @RequestParam(value = "createdBy",required = false) String createdBy, Model model){
+                                @RequestParam(value = "guardianName",required = false) String guardianName, @RequestParam(value = "pack",required = false) String pack, @RequestParam(value = "createdBy",required = false) String createdBy, Model model){
         model.addAttribute("name", name);
         model.addAttribute("phone",phone);
         model.addAttribute("email",email);
@@ -98,15 +106,18 @@ public class CustomerController {
         model.addAttribute("status",status);
         model.addAttribute("guardianName",guardianName);
         model.addAttribute("createdBy",createdBy);
+        model.addAttribute("pack",pack);
         if (name != null && name.isBlank()) name = null;
         if (email != null && email.isBlank()) email = null;
         if (phone != null && phone.isBlank()) phone = null;
         if (gender != null && gender.isBlank()) gender = null;
         if (status != null && status.isBlank()) status = null;
+        if (pack != null && pack.isBlank()) pack = null;
         if (guardianName != null && guardianName.isBlank()) guardianName = null;
         if (createdBy != null && createdBy.isBlank()) createdBy = null;
-        List<Customer> customers = customerRepostitary.searchCustomer(name,email, phone, gender, status,guardianName,createdBy);
+        List<Customer> customers = customerRepostitary.searchCustomer(name,email, phone, gender, status,guardianName,createdBy,pack);
         model.addAttribute("customers",customers);
+        model.addAttribute("packages",utility.getConfigs("packages","name"));
         return "findCustomers";
     }
 
@@ -114,6 +125,7 @@ public class CustomerController {
     public String editCustomer(@PathVariable("id") String id, Model model){
         Customer customer =  customerRepostitary.findById(Long.parseLong(id)).get();
         model.addAttribute("customer",customer);
+        model.addAttribute("packages",utility.getConfigs("packages","name"));
         return "customer";
     }
     @GetMapping("viewCustomer/{id}")
@@ -133,6 +145,7 @@ public class CustomerController {
             customer.setRenewalDate(nextRenewel);
         }
         model.addAttribute("customer",customer);
+        model.addAttribute("pack", utility.getConfig(customer.getPack()));
         model.addAttribute("payments",payments);
         model.addAttribute("users",users);
         return "viewCustomers";
