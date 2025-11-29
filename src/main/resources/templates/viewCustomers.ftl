@@ -6,9 +6,10 @@
     ${customer.name?capitalize?if_exists} Details
    <#if admin_access>
 <a href="/payment/receivePayment/${customer.id?if_exists}" class="btn btn-default pull-right">Receive Payment</a>
- <a href="/login/createLogin/${customer.id?if_exists}" class="btn btn-default pull-right" style="margin-right: 2px" >Create Login</a>
-<a href="/customer/editCustomer/${customer.id?if_exists}" class="btn btn-default pull-right"  style="margin-right: 2px">Edit</a>
-</#if>
+ <a href="/login/createLogin/${customer.id?if_exists}" class="btn btn-default pull-right" style="margin-right: 2px" >Create Login</a></#if>
+<a class="btn btn-default pull-right" data-toggle="modal" style="margin-right: 2px" data-target="#myModal">Upload Document </a>
+<#if admin_access><a href="/customer/editCustomer/${customer.id?if_exists}" class="btn btn-default pull-right"  style="margin-right: 2px">Edit</a></#if>
+
 </h2>
     </div>
 
@@ -169,4 +170,78 @@
     </tbody>
 </table>
 </#if>
+
+<h2>Documents</h2>
+<table class="table table-bordered table-striped table-hover">
+    <thead>
+        <tr class="info">
+            <th>Id</th>
+            <th>Document Type</th>
+            <th>Document</th>
+            <th>Delete</th>
+        </tr>
+    </thead>
+
+    <tbody>
+    <#if docs?has_content>
+        <#list docs as p>
+            <tr>
+                <td>${p.documentId?if_exists}</td>
+                <td>${p.documentType?if_exists}</td>
+                <td><a href="${baseUrl?if_exists}/documents/download/${p.documentId?if_exists}" class="btn btn-primary">Download</a></td>
+                <td><a href="${baseUrl?if_exists}/documents/deleteDocument/${p.documentId?if_exists}/${customer.id?if_exists}" class="btn btn-danger">Remove</a></td>
+            </tr>
+        </#list>
+    <#else>
+        <tr>
+            <td colspan="4" class="text-center text-danger">No Documents found</td>
+        </tr>
+    </#if>
+    </tbody>
+</table>
+
+
+<!-- model popup -->
+
+
+<!-- The Modal -->
+<form action="/documents/upload" method="post" enctype="multipart/form-data" class="mt-3">
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog">
+  <div class="modal-dialog" role="document">
+
+    <div class="modal-content">
+
+      <!-- Header -->
+      <div class="modal-header">
+        <h4 class="modal-title">Document Upload</h4>
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+      </div>
+
+      <!-- Body -->
+      <div class="modal-body">
+          <select class="form-control" name="documentType" id="documentType" required>
+                            <option value="">-- Select --</option>
+                                <#if documents?has_content>
+                                    <#list documents as c>
+                                        <option value="${c.configId?if_exists}">${c.configValue?capitalize?if_exists}</option>
+                                    </#list>
+                                </#if>
+                            </select>
+                <input type="hidden" name="customerId" value="${customer.id?if_exists}">
+                <input type="file" name="file" class="form-control mb-2" required>
+
+      </div>
+
+      <!-- Footer -->
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        <button type="submit" class="btn btn-primary">Save</button>
+      </div>
+
+    </div>
+
+  </div>
+</div>
+  </form>
+<!-- end model popup -->
 <#include "footer.ftl">

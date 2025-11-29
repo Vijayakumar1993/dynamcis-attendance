@@ -6,6 +6,7 @@ import com.attendence.Attendance.entity.Users;
 import com.attendence.Attendance.repostitary.CustomerRepostitary;
 import com.attendence.Attendance.repostitary.LoginRepositary;
 import com.attendence.Attendance.repostitary.PaymentRepositary;
+import com.attendence.Attendance.services.DocumentServices;
 import com.attendence.Attendance.services.LoginServices;
 import com.attendence.Attendance.util.Utility;
 import jdk.jshell.execution.Util;
@@ -28,6 +29,9 @@ public class CustomerController {
 
     @Autowired
     private CustomerRepostitary customerRepostitary;
+
+    @Autowired
+    private DocumentServices services;
 
 
     @Autowired
@@ -91,6 +95,7 @@ public class CustomerController {
                 return customer;
         }).toList();
         model.addAttribute("packages",utility.getConfigs("packages","name"));
+        model.addAttribute("documents",utility.getConfigs("documents","name"));
         model.addAttribute("customers",customers);
         return "findCustomers";
     }
@@ -118,6 +123,7 @@ public class CustomerController {
         List<Customer> customers = customerRepostitary.searchCustomer(name,email, phone, gender, status,guardianName,createdBy,pack);
         model.addAttribute("customers",customers);
         model.addAttribute("packages",utility.getConfigs("packages","name"));
+        model.addAttribute("documents",utility.getConfigs("documents","name"));
         return "findCustomers";
     }
 
@@ -148,6 +154,8 @@ public class CustomerController {
         model.addAttribute("pack", utility.getConfig(customer.getPack()));
         model.addAttribute("payments",payments);
         model.addAttribute("users",users);
+        model.addAttribute("documents",utility.getConfigs("documents","name"));
+        model.addAttribute("docs",services.findByCustomerId(customer.getId()));
         return "viewCustomers";
     }
 
