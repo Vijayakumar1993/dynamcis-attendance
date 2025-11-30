@@ -66,7 +66,7 @@
                 <!-- Address -->
                 <div class="mb-3">
                     <label class="form-label">Address</label>
-                    <textarea name="address" class="form-control" rows="3" placeholder="Enter full address" ><#if customer??>${customer.name?if_exists}</#if></textarea>
+                    <textarea name="address" class="form-control" rows="3" placeholder="Enter full address" ><#if customer??>${customer.address?if_exists}</#if></textarea>
                 </div>
 
                 <div class="mb-3">

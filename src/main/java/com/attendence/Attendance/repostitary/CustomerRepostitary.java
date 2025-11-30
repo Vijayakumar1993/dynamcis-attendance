@@ -5,6 +5,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
+import java.time.LocalDate;
 import java.util.List;
 
 public interface CustomerRepostitary extends JpaRepository<Customer, Long> {
@@ -31,5 +32,6 @@ AND   (:pack IS NULL OR LOWER(c.pack) = LOWER(:pack))
             @Param("pack") String pack
     );
 
+    List<Customer> findByJoiningDateBetween(LocalDate from, LocalDate to);
     List<Customer> findByPhone(String phone);
 }

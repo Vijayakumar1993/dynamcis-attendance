@@ -19,4 +19,5 @@ public interface AttendanceRepositary extends JpaRepository<Attendance,Long> {
     List<Long> getCustomerIdByDate(@Param("date") LocalDate date);
     List<Attendance> findByCustomerIdOrderByDateDesc(Long customerId);
     List<Attendance> findByCustomerIdAndDate(Long customerId, LocalDate date);
+    List<Attendance> findByDateBetween(LocalDate from, LocalDate to);
 }

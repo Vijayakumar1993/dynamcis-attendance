@@ -43,9 +43,144 @@
 </div>
 
 <br/>
+<div class="row">
+<div class="col-lg-6 col-md-6  d-flex">
+<div class="panel panel-primary animate__animated animate__slideInUp w-100 h-100 equal-panel">
+    <h3 class="text-center">Student Enrollment Trend
+<form action="${baseUrl?if_exists}/control" method="post" class="row g-2 align-items-center" style="margin-bottom: 5px;margin-top: 5px;margin-left: 0px;">
+<div class="row text-center">
+    <div class="col-md-2 col-lg-2">
+        <input type="date" id="from" name="from"
+               class="form-control"
+               required
+               <#if from?has_content>
+                   value="${from?if_exists}"
+               <#else>
+                   value="${.now?string('yyyy-MM-dd')}"
+               </#if>
+        >
+    </div>
 
-<!-- Aging Panel -->
-<div class="panel panel-primary animate__animated animate__slideInUp">
+    <div class="col-md-2 col-lg-2">
+        <input type="date" id="to" name="to"
+               class="form-control"
+               required
+               <#if to?has_content>
+                   value="${to?if_exists}"
+               <#else>
+                   value="${.now?string('yyyy-MM-dd')}"
+               </#if>
+        >
+    </div>
+
+    <div class="col-md-2 col-lg-2">
+        <select name="chartType" class="form-control" required>
+            <option value="">Select Type</option>
+            <option <#if chartType?has_content && chartType=="bar">selected</#if> value="bar">Bar</option>
+            <option <#if chartType?has_content && chartType=="line">selected</#if> value="line">Line</option>
+            <option <#if chartType?has_content && chartType=="pie">selected</#if> value="pie">Pie</option>
+            <option <#if chartType?has_content && chartType=="doughnut">selected</#if> value="doughnut">DoughNut</option>
+            <option <#if chartType?has_content && chartType=="radar">selected</#if> value="radar">Radar</option>
+            <option <#if chartType?has_content && chartType=="polarArea">selected</#if> value="polarArea">Polar Area</option>
+            <option <#if chartType?has_content && chartType=="scatter">selected</#if> value="scatter">Scatter</option>
+            <option <#if chartType?has_content && chartType=="bubble">selected</#if> value="bubble">Bubble</option>
+        </select>
+    </div>
+    <div class="col-md-2 col-lg-2">
+        <select name="type" class="form-control" required>
+            <option value="">Select Type</option>
+            <option <#if type?has_content && type=="Week">selected</#if> value="Week">By Week</option>
+            <option <#if type?has_content && type=="Month">selected</#if> value="Month">By Month</option>
+            <option <#if type?has_content && type=="Year">selected</#if> value="Year">By Year</option>
+        </select>
+    </div>
+
+    <div class="col-md-2 col-lg-2">
+        <input type="submit" value="Submit" class="btn btn-info">
+    </div>
+    <div class="col-md-2 col-lg-2">
+        <input type="button" value="Clear" class="btn btn-info">
+    </div>
+</div>
+    <div class="panel panel-default">
+        <div class="panel-heading">Student Growth <#if type?has_content>By ${type?if_exists}</#if></div>
+        <div class="panel-body">
+            <canvas id="myChart" height="250"></canvas>
+        </div>
+    </div>
+</div>
+</div>
+
+<div class="col-lg-6 col-md-6  d-flex">
+<div class="panel panel-primary animate__animated animate__slideInUp w-100 h-100 equal-panel">
+    <h3 class="text-center">Student Attendance Report
+<div class="row text-center">
+    <div class="col-md-2 col-lg-2">
+        <input type="date" id="atFrom" name="atFrom"
+               class="form-control"
+               required
+               <#if atFrom?has_content>
+                   value="${atFrom?if_exists}"
+               <#else>
+                   value="${.now?string('yyyy-MM-dd')}"
+               </#if>
+        >
+    </div>
+
+    <div class="col-md-2 col-lg-2">
+        <input type="date" id="atTo" name="atTo"
+               class="form-control"
+               required
+               <#if atTo?has_content>
+                   value="${atTo?if_exists}"
+               <#else>
+                   value="${.now?string('yyyy-MM-dd')}"
+               </#if>
+        >
+    </div>
+ <div class="col-md-2 col-lg-2">
+        <select name="atChartType" class="form-control" required>
+            <option value="">Select Type</option>
+            <option <#if atChartType?has_content && atChartType=="bar">selected</#if> value="bar">Bar</option>
+            <option <#if atChartType?has_content && atChartType=="line">selected</#if> value="line">Line</option>
+            <option <#if atChartType?has_content && atChartType=="pie">selected</#if> value="pie">Pie</option>
+            <option <#if atChartType?has_content && atChartType=="doughnut">selected</#if> value="doughnut">DoughNut</option>
+            <option <#if atChartType?has_content && atChartType=="radar">selected</#if> value="radar">Radar</option>
+            <option <#if atChartType?has_content && atChartType=="polarArea">selected</#if> value="polarArea">Polar Area</option>
+            <option <#if atChartType?has_content && atChartType=="scatter">selected</#if> value="scatter">Scatter</option>
+            <option <#if atChartType?has_content && atChartType=="bubble">selected</#if> value="bubble">Bubble</option>
+        </select>
+    </div>
+    <div class="col-md-2 col-lg-2">
+        <select name="atType" class="form-control" required>
+            <option value="">Select Type</option>
+            <option <#if atType?has_content && atType=="Week">selected</#if> value="Week">By Week</option>
+            <option <#if atType?has_content && atType=="Month">selected</#if> value="Month">By Month</option>
+            <option <#if atType?has_content && atType=="Year">selected</#if> value="Year">By Year</option>
+        </select>
+    </div>
+
+    <div class="col-md-2 col-lg-2">
+        <input type="submit" value="Submit" class="btn btn-info">
+    </div>
+    <div class="col-md-2 col-lg-2">
+        <input type="button" value="Clear" class="btn btn-info">
+    </div>
+</div>
+</form>
+    <div class="panel panel-default">
+        <div class="panel-heading">Attendance Summary <#if type?has_content>By ${atType?if_exists}</#if></div>
+        <div class="panel-body">
+            <canvas id="myChart1" height="250"></canvas>
+        </div>
+    </div>
+</div>
+</div>
+</div>
+<!-- Aging Panel --><div class="row">
+<div class="row">
+<div class="col-lg-6 col-md-6  d-flex">
+<div class="panel panel-primary animate__animated animate__slideInUp w-100 h-100 equal-panel">
     <div class="panel-heading">Fee Pending Reports</div>
 
     <!-- Nav Tabs -->
@@ -231,7 +366,6 @@
             </table>
         </div>
 
-
  <!-- Pendings -->
         <div id="pendings" class="table-responsive tab-pane fade">
             <table class="table table-bordered">
@@ -267,9 +401,11 @@
         </div>
     </div>
 </div>
+</div>
 
+<div class="col-lg-6 col-md-6  d-flex">
 <!-- Recent Activity Table -->
-<div class="panel panel-primary animate__animated animate__slideInUp" style="margin-top:40px;">
+<div class="panel panel-primary animate__animated animate__slideInUp  w-100 h-100 equal-panel">
     <div class="panel-heading">Recent Attendance</div>
 
     <div class="table-responsive">
@@ -300,5 +436,6 @@
         </table>
     </div>
 </div>
-
+</div>
+</div>
 <#include "footer.ftl">

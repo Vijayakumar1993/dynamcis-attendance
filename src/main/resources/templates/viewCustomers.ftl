@@ -77,39 +77,114 @@
    </div>
 </div>
 <div class="col-md-12 col-sm-12 col-lg-12 col-xs-12">
-   <h2>User Login Details <#if admin_access>
-      <a href="/login/createLogin/${customer.id?if_exists}" class="btn btn-default pull-right" style="margin-right: 2px" >Create Login</a></#if>
+ <h2>Securities
+        <#if admin_access>
+          <a href="/login/createLogin/${customer.id?if_exists}" class="btn btn-default pull-right" style="margin-right: 2px">Create Login</a>
+        </#if>
       </h2>
-   <table class="table table-bordered table-striped table-hover">
-      <thead>
-         <tr class="info">
+  <!-- Nav tabs -->
+  <ul class="nav nav-tabs">
+    <li class="active"><a href="#loginDetails" data-toggle="tab"><b>User Login Details</b></a></li>
+    <li><a href="#roles" data-toggle="tab"><b>Roles</b></a></li>
+  </ul>
+
+  <!-- Tab panes -->
+  <div class="tab-content" style="margin-top:15px;">
+
+    <!-- Tab 1: User Login Details -->
+    <div class="tab-pane fade in active" id="loginDetails">
+
+      <table class="table table-bordered table-striped table-hover">
+        <thead>
+          <tr class="info">
             <th>Id</th>
             <th>User name</th>
             <th>Enabled</th>
             <th>Update</th>
-         </tr>
-      </thead>
-      <tbody>
-         <#if users?has_content>
-         <#list users as p>
-         <tr>
-            <td>${p.id?if_exists}</td>
-            <td>${p.username?if_exists}</td>
-            <td<#if p.enabled?default(false)> class="present" <#else> class="absent" </#if>><#if p.enabled?default(false)> Yes <#else> No </#if></td>
-            <td>
-               <a href="${baseUrl?if_exists}/login/updateLogin/${p.id?if_exists}" class="btn btn-primary">Update</a>
-               <#if admin_access><a href="${baseUrl?if_exists}/login/removeLogin/${p.id?if_exists}" class="btn btn-danger">Remove</a></#if>
+          </tr>
+        </thead>
+        <tbody>
+          <#if users?has_content>
+            <#list users as p>
+              <tr>
+                <td>${p.id?if_exists}</td>
+                <td>${p.username?if_exists}</td>
+                <td<#if p.enabled?default(false)> class="present" <#else> class="absent" </#if>>
+                  <#if p.enabled?default(false)> Yes <#else> No </#if>
+                </td>
+                <td>
+                  <a href="${baseUrl?if_exists}/login/updateLogin/${p.id?if_exists}" class="btn btn-primary">Update</a>
+                  <#if admin_access>
+                    <a href="${baseUrl?if_exists}/login/removeLogin/${p.id?if_exists}" class="btn btn-danger">Remove</a>
+                  </#if>
+                </td>
+              </tr>
+            </#list>
+          <#else>
+            <tr>
+              <td colspan="4" class="text-center text-danger">No Logins found</td>
+            </tr>
+          </#if>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Tab 2: Roles -->
+    <div class="tab-pane fade" id="roles">
+<#assign roleCustomerId = customer.id?if_exists>
+        <#assign roles = util.getAuthorites("${roleCustomerId}") />
+<#if roles?has_content>
+      <table class="table table-bordered table-striped table-hover">
+        <thead>
+          <tr class="info">
+            <th>Id</th>
+            <th>Student Name</th>
+            <th>User Name</th>
+            <th>Authority</th>
+            <th>Add Role</th>
+            <th>Remove Role</th>
+          </tr>
+        </thead>
+        <tbody>
+          <#if roles?has_content>
+            <#list roles as r>
+              <tr>
+                <td>${r.id?if_exists}</td>
+                <td>${customer.name?if_exists}</td>
+                <td>${r.username?if_exists}</td>
+                <td>${r.authority?if_exists}</td>
+                <td>
+            <form action="${baseUrl?if_exists}/authorities/createAuthority" method="post">
+         <div class="d-flex align-items-center gap-2">
+            <select name="role" class="form-control form-select" required>
+                <option value="">-- Select --</option>
+                <option value="ROLE_USER" <#if gender?has_content && gender == "ROLE_USER">selected</#if>>User</option>
+                <option value="ROLE_ADMIN" <#if gender?has_content && gender == "ROLE_ADMIN">selected</#if>>Admin</option>
+            </select>
+
+            <input type="hidden" name="username" value="${r.username?if_exists}">
+            <input type="hidden" name="customerId" value="${roleCustomerId}">
+
+            <input type="submit" class="btn btn-success" value="Add"/>
+        </div>
+    </form>
             </td>
-         </tr>
-         </#list>
-         <#else>
-         <tr>
-            <td colspan="4" class="text-center text-danger">No Logins found</td>
-         </tr>
-         </#if>
-      </tbody>
-   </table>
+                <td> <a href="${baseUrl?if_exists}/authorities/deleteAuthority/${r.id?if_exists}/${roleCustomerId}" class="btn btn-danger">Remove</a></td>
+              </tr>
+            </#list>
+          <#else>
+            <tr>
+              <td colspan="3" class="text-center text-danger">No Roles found</td>
+            </tr>
+          </#if>
+        </tbody>
+      </table>
+</#if>
+    </div>
+
+  </div>
 </div>
+
 <div class="col-md-12 col-sm-12 col-lg-12 col-xs-12">
    <#if admin_access>
    <h2>Payment List <#if admin_access>

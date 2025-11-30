@@ -6,12 +6,16 @@ import com.attendence.Attendance.entity.Payment;
 import com.attendence.Attendance.repostitary.AttendanceRepositary;
 import com.attendence.Attendance.repostitary.CustomerRepostitary;
 import com.attendence.Attendance.repostitary.PaymentRepositary;
+import com.attendence.Attendance.util.Utility;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
@@ -21,10 +25,14 @@ import java.util.List;
 import java.util.Map;
 
 @Controller
+@RequestMapping("/control")
 public class HomeController {
 
     @Autowired
     private CustomerRepostitary customerRepostitary;
+
+    @Autowired
+    private Utility utility;
 
     @Autowired
     private AttendanceRepositary attendanceRepositary;
@@ -32,7 +40,25 @@ public class HomeController {
     @Autowired
     private PaymentRepositary paymentRepositary;
 
-    @GetMapping("/")
+    @PostMapping("")
+    public String home(@RequestParam(value = "type", required = false) String type,
+                       @RequestParam(value = "from", required = false) String from,
+                       @RequestParam(value = "to", required = false) String to,
+                       @RequestParam(value = "atType", required = false) String atType,
+                       @RequestParam(value = "atFrom", required = false) String atFrom,
+                       @RequestParam(value = "atTo", required = false) String atTo,
+                       @RequestParam(value = "chartType", required = false) String chartType,
+                       @RequestParam(value = "atChartType", required = false) String atChartType
+            ,HttpServletRequest request, HttpSession session, Model model){
+        home(request,session, model);
+        utility.studentCountChart(type, LocalDate.parse(from), LocalDate.parse(to),model);
+        utility.studentAttendanceChart(atType, LocalDate.parse(atFrom), LocalDate.parse(atTo),model);
+        model.addAttribute("chartType",chartType);
+        model.addAttribute("atChartType",atChartType);
+        return "dashboard";
+    }
+
+    @GetMapping("")
     public String home(HttpServletRequest request, HttpSession session, Model model){
         List<Customer> customers = customerRepostitary.findAll();
         model.addAttribute("totalActiveStudents", customers.stream().filter(customer -> customer.getStatus().equalsIgnoreCase("active")).toList().size());
@@ -113,6 +139,11 @@ public class HomeController {
         model.addAttribute("otherDays", otherDays);
         model.addAttribute("priorThirtyDays", priorThirtyDays);
         model.addAttribute("pendings", pendings);
+
+        model.addAttribute("chartType","line");
+        model.addAttribute("atChartType","line");
+        utility.studentCountChart("Month", LocalDate.now().minusMonths(12), LocalDate.now(),model);
+        utility.studentAttendanceChart("Month", LocalDate.now().minusMonths(12), LocalDate.now(),model);
         return "dashboard";
     }
 

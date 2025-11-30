@@ -23,7 +23,7 @@
         <!-- Gender -->
         <div class="col-md-6 mb-3 padding-bottom-5">
             <select name="gender" class="form-control form-select">
-                <option value="">-- Select --</option>
+                <option value="">-- Select Gender--</option>
                 <option value="male" <#if gender?has_content && gender == "male">selected</#if>>Male</option>
                 <option value="female" <#if gender?has_content && gender == "female">selected</#if>>Female</option>
                 <option value="other" <#if gender?has_content && gender == "other">selected</#if>>Other</option>
@@ -40,7 +40,7 @@
         <!-- Status -->
         <div class="col-md-6 mb-3 padding-bottom-5">
             <select name="status" class="form-control form-select">
-                <option value="">-- Select --</option>
+                <option value="">-- Select Status--</option>
                 <option value="ACTIVE" <#if status?has_content && status=='ACTIVE'>selected</#if>>Active</option>
                 <option value="INACTIVE" <#if status?has_content && status=='INACTIVE'>selected</#if>>Inactive</option>
             </select>
@@ -48,7 +48,7 @@
 
    <div class="col-md-6 mb-3 padding-bottom-5">
                     <select class="form-control" name="pack" id="pack">
-                    <option value="">-- Select --</option>
+                    <option value="">-- Select Package--</option>
                         <#if packages?has_content>
                             <#list packages as c>
                                 <option value="${c.configId?if_exists}" <#if pack?has_content && pack=='${c.configId?if_exists}'> selected </#if>>${c.configValue?capitalize?if_exists}</option>

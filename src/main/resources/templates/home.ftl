@@ -15,6 +15,54 @@
 <link rel="stylesheet"
       href="https://code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css">
 <style>
+.equal-panel {
+height: 450px;       /* you can change the height */
+overflow-y: auto;    /* scroll only inside the panel */
+}
+.nav-tabs {
+border-bottom: 2px solid #ddd;
+gap: 8px; /* space between tabs */
+}
+.navbar-brand{
+    padding: 10px 15px !important;
+
+}
+.nav-tabs .nav-item {
+margin-bottom: -2px; /* align correctly */
+}
+
+.nav-tabs .nav-link {
+border: none !important;
+background: #f8f9fa;
+padding: 10px 18px;
+border-radius: 8px 8px 0 0;
+color: #495057;
+font-weight: 500;
+transition: 0.3s;
+}
+
+/* Hover effect */
+.nav-tabs .nav-link:hover {
+background: #e9ecef;
+color: #0d6efd;
+}
+
+/* Active tab styling */
+.nav-tabs .nav-link.active {
+background: #0d6efd !important;
+color: white !important;
+border: none !important;
+box-shadow: 0 -2px 8px rgba(0, 0, 0, 0.15);
+}
+
+/* Tab content card look */
+.tab-content {
+border: 1px solid #ddd;
+border-top: none;
+padding: 20px;
+border-radius: 0 0 10px 10px;
+background: #fff;
+}
 .card-header{
 border-radius: 5px !important;
 }
@@ -131,9 +179,14 @@ border-radius: 5px;
 
       <!-- Brand -->
       <#if admin_access>
-        <a class="navbar-brand" href="${baseUrl}/">Dynamics 101 MMA</a>
+                <a class="navbar-brand d-flex align-items-center gap-2" href="${baseUrl}/control">
+            <img src="${baseUrl}/images/logo.png" alt="Logo" style="height:32px; width:auto;"><#assign titleList = util.getConfigs("title", "name")>
+        </a>
       <#else>
-        <a class="navbar-brand" href="${baseUrl}/attendance/addAttendance">Dynamics 101 MMA</a>
+    <a class="navbar-brand d-flex align-items-center gap-2" href="${baseUrl}/attendance/addAttendance">Dynamics 101 MMA</a>>
+        <img src="${baseUrl}/images/logo.png" alt="Logo" style="height:32px; width:auto;">
+    </a>
+        <a class="navbar-brand"
       </#if>
     </div>
 
@@ -141,7 +194,7 @@ border-radius: 5px;
     <div class="collapse navbar-collapse" id="mainNavbar">
       <ul class="nav navbar-nav">
         <#if admin_access>
-          <li class="active"><a href="${baseUrl}/">Home</a></li>
+          <li class="active"><a href="${baseUrl}/control">Home</a></li>
 
           <li class="dropdown">
             <a href="#" class="dropdown-toggle" data-toggle="dropdown">Students <span class="caret"></span></a>
