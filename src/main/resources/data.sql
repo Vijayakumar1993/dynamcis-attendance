@@ -14,5 +14,5 @@ INSERT IGNORE INTO `configuration` VALUES (13,'Photo Document','name','documents
 INSERT IGNORE INTO `configuration` VALUES (14,'Voter Id Documents','name','documents','Voter Id');
 INSERT IGNORE INTO `configuration` VALUES (15,'Driving Licence Document','name','documents','Driving Licence');
 INSERT IGNORE INTO `configuration` VALUES (17,'Other Documents','name','documents','Other');
-INSERT IGNORE INTO `configuration` VALUES (18,'welcome message','welcome_msg','title','We’re excited to welcome you to the Dynamics 101 family. Please contact us to begin your journey with us!');
+INSERT IGNORE INTO `configuration` VALUES (18,'welcome message','welcome_msg','title','We are excited to welcome you to the Dynamics 101 family. Please contact us to begin your journey with us!');
 INSERT IGNORE INTO `configuration` VALUES (19,'Club name','name','title','Dynamics 101');

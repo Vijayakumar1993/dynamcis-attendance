@@ -95,7 +95,7 @@ input.form-control{
     padding: 30px;
 }
 h2,.panel-heading{
-    background: black !important;
+    background: #161615 !important;
     color: white !important;
     padding: 6px !important;
     border-radius: 5px !important;
@@ -137,4 +137,17 @@ background: #d9534f !important;
 color: white !important;
 padding: 5px !important;
 border-radius: 5px;
+}
+footer{
+    padding: 5px;
+}
+.bg-primary {
+    background: #161615 !important;
+}
+
+.btn-primary{
+    border-color: #161615 !important;
+    background: #161615;
+    color: yellow !important;
+
 }

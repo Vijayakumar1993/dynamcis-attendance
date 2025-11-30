@@ -89,17 +89,16 @@
     <div class="col-md-2 col-lg-2">
         <select name="type" class="form-control" required>
             <option value="">Select Type</option>
-            <option <#if type?has_content && type=="Week">selected</#if> value="Week">By Week</option>
+            <option <#if type?has_content && type=="Week">selected</#if> value="Week">By Date</option>
             <option <#if type?has_content && type=="Month">selected</#if> value="Month">By Month</option>
             <option <#if type?has_content && type=="Year">selected</#if> value="Year">By Year</option>
         </select>
     </div>
 
     <div class="col-md-2 col-lg-2">
-        <input type="submit" value="Submit" class="btn btn-info">
+        <button type="submit" value="Submit" class="btn btn-success"><span class="glyphicon glyphicon-search">&nbsp;Search</span></button>
     </div>
     <div class="col-md-2 col-lg-2">
-        <input type="button" value="Clear" class="btn btn-info">
     </div>
 </div>
     <div class="panel panel-default">
@@ -154,17 +153,17 @@
     <div class="col-md-2 col-lg-2">
         <select name="atType" class="form-control" required>
             <option value="">Select Type</option>
-            <option <#if atType?has_content && atType=="Week">selected</#if> value="Week">By Week</option>
+            <option <#if atType?has_content && atType=="Week">selected</#if> value="Week">By Date</option>
             <option <#if atType?has_content && atType=="Month">selected</#if> value="Month">By Month</option>
             <option <#if atType?has_content && atType=="Year">selected</#if> value="Year">By Year</option>
         </select>
     </div>
 
     <div class="col-md-2 col-lg-2">
-        <input type="submit" value="Submit" class="btn btn-info">
+        <button type="submit" value="Submit" class="btn btn-success"><span class="glyphicon glyphicon-search">&nbsp;Search</span></button>
     </div>
     <div class="col-md-2 col-lg-2">
-        <input type="button" value="Clear" class="btn btn-info">
+
     </div>
 </div>
 </form>

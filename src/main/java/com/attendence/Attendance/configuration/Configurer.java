@@ -105,13 +105,14 @@ public class Configurer implements WebMvcConfigurer {
                .csrf(httpSecurityCsrfConfigurer -> httpSecurityCsrfConfigurer.disable())
                 .authorizeHttpRequests(authorizationManagerRequestMatcherRegistry
                         -> authorizationManagerRequestMatcherRegistry
+                        .requestMatchers("/css/**","/images/**").permitAll()
                         .requestMatchers("/attendance/createAttendance").hasRole("USER")
                         .requestMatchers("/attendance/addAttendance").hasRole("USER")
                         .requestMatchers("/attendance/removeSingleAttendance/**").hasRole("USER")
                         .requestMatchers("/customer/viewCustomer/**").hasRole("USER")
                         .requestMatchers("/login/updateLogin/**").hasRole("USER")
                         .requestMatchers("/login/updateLoginSetup").hasRole("USER")
-                        .requestMatchers("/").hasRole("ADMIN")
+                        .requestMatchers("/control").hasRole("ADMIN")
                         .requestMatchers("/attendance/**").hasRole("ADMIN")
                         .requestMatchers("/customer/**").hasRole("ADMIN")
                         .requestMatchers("/payment/**").hasRole("ADMIN")
@@ -120,7 +121,11 @@ public class Configurer implements WebMvcConfigurer {
                .formLogin(log->log
                        .loginPage("/login")
                        .loginProcessingUrl("/doLogin")
-                       .defaultSuccessUrl("/")
+                       .failureHandler((request, response, exception) -> {
+                           request.getSession().setAttribute("errorMessage", "Invalid username or password");
+                           response.sendRedirect("/login");
+                       })
+                       .defaultSuccessUrl("/control",true)
                        .permitAll())
                .logout(httpSecurityLogoutConfigurer -> httpSecurityLogoutConfigurer
                        .logoutUrl("/logout")

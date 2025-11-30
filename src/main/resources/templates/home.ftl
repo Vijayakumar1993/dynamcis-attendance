@@ -45,10 +45,9 @@ ${titleList?first.configValue?if_exists}
             <img src="${baseUrl}/images/logo.png" alt="Logo" style="height:32px; width:auto;"><#assign titleList = util.getConfigs("title", "name")>
         </a>
       <#else>
-    <a class="navbar-brand d-flex align-items-center gap-2" href="${baseUrl}/attendance/addAttendance">Dynamics 101 MMA</a>>
-        <img src="${baseUrl}/images/logo.png" alt="Logo" style="height:32px; width:auto;">
-    </a>
-        <a class="navbar-brand"
+     <a class="navbar-brand d-flex align-items-center gap-2" href="${baseUrl}/attendance/addAttendance">
+            <img src="${baseUrl}/images/logo.png" alt="Logo" style="height:32px; width:auto;"><#assign titleList = util.getConfigs("title", "name")>
+        </a>
       </#if>
     </div>
 
@@ -61,32 +60,32 @@ ${titleList?first.configValue?if_exists}
           <li class="dropdown">
             <a href="#" class="dropdown-toggle" data-toggle="dropdown">Students <span class="caret"></span></a>
             <ul class="dropdown-menu">
-              <li><a href="${baseUrl}/customer/createCustomer">Create Student</a></li>
-              <li><a href="${baseUrl}/customer/viewCustomers">View Students</a></li>
+              <li><a href="${baseUrl}/customer/createCustomer"><span class="glyphicon glyphicon-user">&nbsp;</span>Create Student</a></li>
+              <li><a href="${baseUrl}/customer/viewCustomers"><span class="glyphicon glyphicon-search">&nbsp;</span>View Students</a></li>
             </ul>
           </li>
 
           <li class="dropdown">
             <a href="#" class="dropdown-toggle" data-toggle="dropdown">Attendance <span class="caret"></span></a>
             <ul class="dropdown-menu">
-              <li><a href="${baseUrl}/attendance/addAttendance">Create Attendance</a></li>
-              <li><a href="${baseUrl}/attendance/removeAttendance">Remove Attendance</a></li>
-              <li><a href="${baseUrl}/attendance">View Attendance</a></li>
+              <li><a href="${baseUrl}/attendance/addAttendance"><span class="glyphicon glyphicon-plus">&nbsp;</span>Create Attendance</a></li>
+              <li><a href="${baseUrl}/attendance/removeAttendance"><span class="glyphicon glyphicon-minus">&nbsp;</span>Remove Attendance</a></li>
+              <li><a href="${baseUrl}/attendance"><span class="glyphicon glyphicon-calendar">&nbsp;</span>View Attendance</a></li>
             </ul>
           </li>
 
           <li class="dropdown">
             <a href="#" class="dropdown-toggle" data-toggle="dropdown">Settings <span class="caret"></span></a>
             <ul class="dropdown-menu">
-              <li><a href="${baseUrl}/settings">Create Configuration</a></li>
-              <li><a href="${baseUrl}/settings/viewConfigurations">View Configurations</a></li>
+              <li><a href="${baseUrl}/settings"><span class="glyphicon glyphicon-asterisk">&nbsp;</span>Create Configuration</a></li>
+              <li><a href="${baseUrl}/settings/viewConfigurations"><span class="glyphicon glyphicon-list-alt">&nbsp;</span>View Configurations</a></li>
             </ul>
           </li>
         <#else>
           <li class="dropdown">
             <a href="#" class="dropdown-toggle" data-toggle="dropdown">Attendance <span class="caret"></span></a>
             <ul class="dropdown-menu">
-              <li><a href="${baseUrl}/attendance/addAttendance">Create Attendance</a></li>
+              <li><a href="${baseUrl}/attendance/addAttendance"><span class="glyphicon glyphicon-user">&nbsp;</span>Create Attendance</a></li>
             </ul>
           </li>
         </#if>

@@ -50,63 +50,67 @@ buttons: [
 ]
 });
     });
-const ctx = document.getElementById('myChart').getContext('2d');
-<#if monthCountMap?has_content>
-    new Chart(ctx, {
-type: '${chartType?if_exists}',
-data: {
-labels: [
-<#list monthCountMap?keys as k>
-"${k}"<#if k?has_next>,</#if>
-</#list>
-],
-datasets: [{
-label: 'Students Count',
-data: [
-<#list monthCountMap?values as v>
-${v}<#if v?has_next>,</#if>
-</#list>
-],
-borderWidth: 1
-}]
+var mychart = document.getElementById('myChart')
+if(mychart!=null){
+        const ctx = mychart.getContext('2d');
+        <#if monthCountMap?has_content>
+        new Chart(ctx, {
+        type: '${chartType?if_exists}',
+        data: {
+        labels: [
+        <#list monthCountMap?keys as k>
+        "${k}"<#if k?has_next>,</#if>
+        </#list>
+        ],
+        datasets: [{
+        label: 'Students Count',
+        data: [
+        <#list monthCountMap?values as v>
+        ${v}<#if v?has_next>,</#if>
+        </#list>
+        ],
+        borderWidth: 1
+        }]
         },
         options: {
-responsive: true,
-maintainAspectRatio: false
+        responsive: true,
+        maintainAspectRatio: false
+        }
+        });
+        </#if>
 }
-    });
-    </#if>
 
 
 
-
-
-    const ctx1 = document.getElementById('myChart1').getContext('2d');
+var mychart1 = document.getElementById('myChart1')
+if(mychart1!=null){
+    const ctx1 = mychart1.getContext('2d');
     <#if monthCountMap?has_content>
     new Chart(ctx1, {
-type: '${atChartType?if_exists}',
-data: {
-labels: [
-<#list atMonthCountMap?keys as k>
-"${k}"<#if k?has_next>,</#if>
-</#list>
-],
-datasets: [{
-label: 'Students Attendance',
-data: [
-<#list atMonthCountMap?values as v>
-${v}<#if v?has_next>,</#if>
-</#list>
-],
-borderWidth: 1
-}]
-},
-options: {
-responsive: true,
-maintainAspectRatio: false
+        type: '${atChartType?if_exists}',
+        data: {
+        labels: [
+        <#list atMonthCountMap?keys as k>
+        "${k}"<#if k?has_next>,</#if>
+        </#list>
+        ],
+        datasets: [{
+        label: 'Students Attendance',
+        data: [
+        <#list atMonthCountMap?values as v>
+        ${v}<#if v?has_next>,</#if>
+        </#list>
+        ],
+        borderWidth: 1
+        }]
+        },
+        options: {
+        responsive: true,
+        maintainAspectRatio: false
+        }
+        });
+        </#if>
 }
-});
-</#if>
 </script>
 <footer class="bg-dark text-white text-center py-3 fixed-bottom">
     © ${.now?string('yyyy')} <#assign titleList = util.getConfigs("title", "name")>
