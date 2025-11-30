@@ -164,7 +164,6 @@ public class CustomerController {
         model.addAttribute("users",users);
         model.addAttribute("documents",utility.getConfigs("documents","name"));
         model.addAttribute("docs",services.findByCustomerId(customer.getId()));
-        model.addAttribute("Base64UtilEncoder", Base64.getEncoder());
         return "viewCustomers";
     }
 

@@ -34,6 +34,7 @@ import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 import java.time.LocalDate;
+import java.util.Base64;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -75,6 +76,7 @@ public class Configurer implements WebMvcConfigurer {
                     Users user  = users.get(0);
                     Customer customer = customerRepostitary.findById(user.getCustomerId()).get();
                     session.setAttribute("userLogin",customer);
+                    session.setAttribute("Base64UtilEncoder", Base64.getEncoder());
                     session.setAttribute("authorities", authentication.getAuthorities()
                             .stream()
                             .map(GrantedAuthority::getAuthority)

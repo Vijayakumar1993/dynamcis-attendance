@@ -94,11 +94,19 @@ ${titleList?first.configValue?if_exists}
       <!-- Right Side -->
       <ul class="nav navbar-nav navbar-right">
         <li>
-          <#if userLogin?has_content>
-            <a href="${baseUrl?if_exists}/customer/viewCustomer/${userLogin.id?if_exists}">
-              <span class="glyphicon glyphicon-user">&nbsp;</span>${userLogin.name?if_exists}
-            </a>
-          </#if>
+         <#if userLogin??>
+    <a href="${baseUrl}/customer/viewCustomer/${userLogin.id}">
+        <#assign imageDocument = util.getPhotoByCustomerId(userLogin.id?string)! />
+        <#if imageDocument?? && imageDocument.document??>
+            <img style="height:20px; width:auto;padding: 0px;border-radius: 4px; border: 0px"
+                 src="data:image/png;base64,${Base64UtilEncoder.encodeToString(imageDocument.document)!}"
+                 class="img-fluid img-thumbnail" />
+            &nbsp;${userLogin.name!}
+        <#else>
+            <span class="glyphicon glyphicon-user"></span>&nbsp;${userLogin.name!}
+        </#if>
+    </a>
+</#if>
         </li>
 
         <li>

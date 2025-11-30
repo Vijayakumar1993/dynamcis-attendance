@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class DocumentServices {
@@ -25,6 +26,9 @@ public class DocumentServices {
     }
     public void remove(Long id){
         repositary.deleteById(id);
+    }
+    public Optional<Documents> findFirstByCustomerIdAndDocumentTypeOrderByDocumentIdDesc(Long customerId, String documentType){
+      return  repositary.findFirstByCustomerIdAndDocumentTypeOrderByDocumentIdDesc(customerId, documentType);
     }
 }
 

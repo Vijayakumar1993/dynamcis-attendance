@@ -145,9 +145,19 @@ footer{
     background: #161615 !important;
 }
 
-.btn-primary{
+.dt-button,.btn-primary,.btn-success{
     border-color: #161615 !important;
     background: #161615;
-    color: yellow !important;
+    color: #fad113 !important;
+}
+.dt-button:hover,.btn-primary:hover,.btn-success:hover {
+    border-color: #161615 !important;
+    background: #161615;
+    color: #fad113 !important;
+}
 
+.btn-danger{
+    background-color: #fad113 !important;
+    color: #000000 !important;
+    border-color: #fad113 !important;
 }

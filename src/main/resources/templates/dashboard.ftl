@@ -176,7 +176,7 @@
 </div>
 </div>
 </div>
-<!-- Aging Panel --><div class="row">
+<!-- Aging Panel -->
 <div class="row">
 <div class="col-lg-6 col-md-6  d-flex">
 <div class="panel panel-primary animate__animated animate__slideInUp w-100 h-100 equal-panel">
@@ -434,7 +434,6 @@
             </tbody>
         </table>
     </div>
-</div>
 </div>
 </div>
 <#include "footer.ftl">
