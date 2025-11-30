@@ -1,6 +1,8 @@
 package com.attendence.Attendance.util;
 
 import com.attendence.Attendance.entity.Configuration;
+import com.attendence.Attendance.entity.Customer;
+import com.attendence.Attendance.repostitary.CustomerRepostitary;
 import com.attendence.Attendance.services.ConfigurationServices;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
@@ -15,6 +17,13 @@ import java.util.stream.Collectors;
 public class Utility {
     @Autowired
     private ConfigurationServices configurationServices;
+
+    @Autowired
+    private CustomerRepostitary repostitary;
+
+    public Customer getCustomer(String id){
+        return repostitary.findById(Long.parseLong(id)).get();
+    }
 
     public  List<Configuration> getConfigs(String name, String key){
         return configurationServices.findByConfigNameAndConfigKey(name,key);

@@ -53,9 +53,16 @@ public class PaymentController {
     }
 
     @PostMapping("completePayment")
-    public String completePayment(@ModelAttribute Payment payment){
-            paymentRepositary.save(payment);
-            return "redirect:/customer/viewCustomer/"+payment.getCustomerId();
+    public String completePayment(@ModelAttribute Payment payment, @RequestParam( value = "closePayment", required = false) Boolean close){
+        if(close!=null && close){
+            List<Payment> existingPayments = paymentRepositary.findByCustomerIdAndStatusOrderByPaymentIdDesc(payment.getCustomerId(),"open");
+            existingPayments.forEach(payment1 -> {
+                payment1.setStatus("close");
+                paymentRepositary.save(payment1);
+            });
+        }
+        paymentRepositary.save(payment);
+        return "redirect:/customer/viewCustomer/"+payment.getCustomerId();
     }
 
     @GetMapping("/removePayment/{id}")

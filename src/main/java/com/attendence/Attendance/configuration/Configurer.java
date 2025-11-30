@@ -6,6 +6,7 @@ import com.attendence.Attendance.entity.Users;
 import com.attendence.Attendance.repostitary.AuthoritiesRepositary;
 import com.attendence.Attendance.repostitary.CustomerRepostitary;
 import com.attendence.Attendance.repostitary.LoginRepositary;
+import com.attendence.Attendance.util.Utility;
 import freemarker.ext.beans.BeansWrapperBuilder;
 import freemarker.template.TemplateHashModel;
 import jakarta.annotation.PostConstruct;
@@ -53,6 +54,9 @@ public class Configurer implements WebMvcConfigurer {
     @Autowired
     private CustomerRepostitary customerRepostitary;
 
+    @Autowired
+    private Utility utility;
+
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
         registry.addInterceptor(new HandlerInterceptor() {
@@ -65,6 +69,7 @@ public class Configurer implements WebMvcConfigurer {
                 session.setAttribute("baseUrl", baseUrl);
                 Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
                 String userLoginId = authentication.getName();
+                session.setAttribute("util",utility);
                 List<Users> users = loginRepositary.findByUsername(userLoginId);
                 if(users.size()>0){
                     Users user  = users.get(0);
@@ -113,7 +118,7 @@ public class Configurer implements WebMvcConfigurer {
                         .requestMatchers("/login/**").hasRole("ADMIN")
                         .anyRequest().authenticated())
                .formLogin(log->log
-                       .loginProcessingUrl("/login")
+                       .loginPage("/login")
                        .loginProcessingUrl("/doLogin")
                        .defaultSuccessUrl("/")
                        .permitAll())

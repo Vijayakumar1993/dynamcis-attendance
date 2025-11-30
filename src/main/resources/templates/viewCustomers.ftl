@@ -124,6 +124,7 @@
             <th>Payment Date</th>
             <th>Mode</th>
             <th>Tenure (Months)</th>
+            <th>Status</th>
             <th>Remarks</th>
             <th>Update</th>
          </tr>
@@ -138,6 +139,7 @@
             <td>${p.paymentDate?if_exists?if_exists?date("yyyy-MM-dd")?string("EEE, MMM d yyyy")}</td>
             <td>${p.paymentMethod?if_exists?capitalize}</td>
             <td>${p.tenure?if_exists}</td>
+            <td>${p.status?if_exists}</td>
             <td>${p.remarks!""}</td>
             <td>
                <a href="${baseUrl?if_exists}/payment/receivePayment/${customer.id?if_exists}?paymentId=${p.paymentId?if_exists}" class="btn btn-primary">Update</a>
@@ -163,6 +165,7 @@
          <tr class="info">
             <th>Id</th>
             <th>Document Type</th>
+            <th>Remarks</th>
             <th>Document</th>
          </tr>
       </thead>
@@ -171,7 +174,13 @@
          <#list docs as p>
          <tr>
             <td>${p.documentId?if_exists}</td>
-            <td>${p.documentType?if_exists}</td>
+            <td>
+
+<#assign docType = p.documentType?if_exists>
+<#assign updatedDocType = util.getConfig(docType)>
+${updatedDocType.configValue?if_exists}
+</td>
+<td>${p.comments?if_exists}</td>
             <td>
 
       <a class="btn btn-default" data-toggle="modal" style="margin-right: 2px" data-target="#viewModel_${p.documentId?if_exists}">View</a>
@@ -184,13 +193,20 @@
          <div class="modal-content">
             <!-- Header -->
             <div class="modal-header">
-               <h4 class="modal-title">Document Upload</h4>
+               <h4 class="modal-title"><b>${updatedDocType.configValue?if_exists}</b>
+
+</h4>
                <button type="button" class="close" data-dismiss="modal">&times;</button>
             </div>
             <!-- Body -->
             <div class="modal-body">
-               <img src="data:image/png;base64,${Base64UtilEncoder.encodeToString(p.document)}"
-     class="img-fluid img-thumbnail" />
+            <div class="card">
+              <img src="data:image/png;base64,${Base64UtilEncoder.encodeToString(p.document)}"
+                 class="img-fluid img-thumbnail" />
+              <div class="card-body">
+                <p class="card-text"><strong>${p.comments?if_exists}</strong></p>
+              </div>
+            </div>
             </div>
             <!-- Footer -->
             <div class="modal-footer">
@@ -226,7 +242,7 @@
             <!-- Body -->
             <div class="modal-body">
                <select class="form-control" name="documentType" id="documentType" required>
-                  <option value="">-- Select --</option>
+                  <option value="">-- Select Document--</option>
                   <#if documents?has_content>
                   <#list documents as c>
                   <option value="${c.configId?if_exists}">${c.configValue?capitalize?if_exists}</option>
@@ -234,7 +250,12 @@
                   </#if>
                </select>
                <input type="hidden" name="customerId" value="${customer.id?if_exists}">
-               <input type="file" name="file" class="form-control mb-2" required>
+              <div class="mb-3">
+                <input type="file" name="file" class="form-control mb-2" required>
+            </div>
+                <div class="mb-3">
+                    <textarea name="comments" class="form-control" rows="3" placeholder="Enter Comments...!"></textarea>
+                </div>
             </div>
             <!-- Footer -->
             <div class="modal-footer">

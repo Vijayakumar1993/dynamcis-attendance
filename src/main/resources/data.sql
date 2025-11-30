@@ -1,0 +1,16 @@
+INSERT IGNORE INTO `configuration` VALUES (1,' Gymnastics packages','name','packages','gymnastics');
+INSERT IGNORE INTO `configuration` VALUES (2,'Boxing Packages','name','packages','Boxing');
+INSERT IGNORE INTO `configuration` VALUES (3,'MMA Packages','name','packages','MMA');
+INSERT IGNORE INTO `configuration` VALUES (4,' Fitness Packages','name','packages',' Fitness');
+INSERT IGNORE INTO `configuration` VALUES (5,'Gymnastics Tenure','tenure','gymnastics','12');
+INSERT IGNORE INTO `configuration` VALUES (6,'Boxing Tenure','tenure','Boxing','12');
+INSERT IGNORE INTO `configuration` VALUES (7,'MMA Tenure','tenure','MMA','12');
+INSERT IGNORE INTO `configuration` VALUES (8,'Fitness Tenure','tenure','Fitness','12');
+INSERT IGNORE INTO `configuration` VALUES (9,'Gymnastics Amount','amount','gymnastics','10000');
+INSERT IGNORE INTO `configuration` VALUES (10,'Boxing Amount','amount','Boxing','10000');
+INSERT IGNORE INTO `configuration` VALUES (11,'MMA Amount','amount','MMA','10000');
+INSERT IGNORE INTO `configuration` VALUES (12,'Fitness Amount','amount','Fitness','10000');
+INSERT IGNORE INTO `configuration` VALUES (13,'Photo Document','name','documents','Photo');
+INSERT IGNORE INTO `configuration` VALUES (14,'Voter Id Documents','name','documents','Voter Id');
+INSERT IGNORE INTO `configuration` VALUES (15,'Driving Licence Document','name','documents','Driving Licence');
+INSERT IGNORE INTO `configuration` VALUES (17,'Other Documents','name','documents','Other');

@@ -25,10 +25,11 @@ public class DocumentsController {
     private ConfigurationServices configurationServices;
 
     @PostMapping("upload")
-    public String upload(@RequestParam("customerId") String customerId, @RequestParam("documentType") String documentType, Model model, MultipartFile file) throws IOException {
+    public String upload(@RequestParam("customerId") String customerId, @RequestParam("documentType") String documentType, @RequestParam("comments") String comments, Model model, MultipartFile file) throws IOException {
         Documents documents = new Documents();
         documents.setCustomerId(Long.parseLong(customerId));
         documents.setDocumentType(documentType);
+        documents.setComments(comments);
         documents.setDocument(file.getBytes());
         String originalName = file.getOriginalFilename();
         String extension = "";

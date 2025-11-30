@@ -10,6 +10,7 @@ public class Documents {
     private Long customerId;
     private String documentType;
     private String ext;
+    private String comments;
 
     @Lob
     @Column(columnDefinition = "LONGBLOB")
@@ -61,5 +62,13 @@ public class Documents {
 
     public void setExt(String ext) {
         this.ext = ext;
+    }
+
+    public String getComments() {
+        return comments;
+    }
+
+    public void setComments(String comments) {
+        this.comments = comments;
     }
 }

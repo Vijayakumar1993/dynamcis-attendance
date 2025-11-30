@@ -2,6 +2,7 @@
 <html>
 <head>
 <title>Dynamics101 MMA Attendance</title>
+<link rel="icon" type="image/x-icon" href="/images/logo.ico">
 <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="stylesheet"
@@ -116,83 +117,87 @@ border-radius: 5px;
 </#if>
 </#if>
 <div class="row-fluid padding-left-5 padding-right-5">
-    <nav class="navbar navbar-inverse sticky-top">
+ <nav class="navbar navbar-inverse navbar-fixed-top">
   <div class="container-fluid">
+    <!-- Navbar Header -->
     <div class="navbar-header">
-<#if admin_access>
-    <a class="navbar-brand" href="${baseUrl}/">Dynamics 101 MMA</a>
-<#else>
-    <a class="navbar-brand" href="${baseUrl}/attendance/addAttendance">Dynamics 101 MMA</a>
-</#if>
+      <!-- Collapsed Hamburger Button -->
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#mainNavbar" aria-expanded="false">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
 
+      <!-- Brand -->
+      <#if admin_access>
+        <a class="navbar-brand" href="${baseUrl}/">Dynamics 101 MMA</a>
+      <#else>
+        <a class="navbar-brand" href="${baseUrl}/attendance/addAttendance">Dynamics 101 MMA</a>
+      </#if>
     </div>
-    <ul class="nav navbar-nav">
-<#if admin_access>
-      <li class="active"><a href="${baseUrl}/">Home</a></li>
-      <li class="dropdown">
-          <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-            Students <span class="caret"></span>
-          </a>
-          <ul class="dropdown-menu">
-            <li class="padding-bottom-5"><a href="${baseUrl}/customer/createCustomer">Create Student</a></li>
-            <li class="padding-bottom-5"><a href="${baseUrl}/customer/viewCustomers">View Students</a></li>
-          </ul>
-</li>
-        <li class="dropdown">
-          <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-            Attendance <span class="caret"></span>
-          </a>
-          <ul class="dropdown-menu">
-            <li class="padding-bottom-5"><a href="${baseUrl}/attendance/addAttendance">Create Attendance</a></li>
-            <li class="padding-bottom-5"><a href="${baseUrl}/attendance/removeAttendance">Remove Attendance</a></li>
-            <li class="padding-bottom-5"><a href="${baseUrl}/attendance">View Attendance</a></li>
-          </ul>
-        </li>
-    <li class="dropdown">
-          <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-            Settings <span class="caret"></span>
-          </a>
-          <ul class="dropdown-menu">
-            <li class="padding-bottom-5"><a href="${baseUrl}/settings">Create Configuration</a></li>
-            <li class="padding-bottom-5"><a href="${baseUrl}/settings/viewConfigurations">View Configurations</a></li>
-          </ul>
-        </li>
-<#else>
-<li class="dropdown">
-          <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-            Attendance <span class="caret"></span>
-          </a>
-          <ul class="dropdown-menu">
-            <li class="padding-bottom-5"><a href="${baseUrl}/attendance/addAttendance">Create Attendance</a></li>
-          </ul>
-        </li>
-</#if>
-    </ul>
-  <!-- ============ RIGHT SIDE ============= -->
-    <ul class="nav navbar-nav navbar-right">
 
-      <!-- USERNAME DISPLAY -->
-      <li>
- <#if userLogin?has_content>
-        <a href="${baseUrl?if_exists}/customer/viewCustomer/${userLogin.id?if_exists}">
-          <span class="glyphicon glyphicon-user">&nbsp;</span>${userLogin.name?if_exists}
-        </a>
-</#if>
-      </li>
+    <!-- Navbar Links -->
+    <div class="collapse navbar-collapse" id="mainNavbar">
+      <ul class="nav navbar-nav">
+        <#if admin_access>
+          <li class="active"><a href="${baseUrl}/">Home</a></li>
 
-      <!-- LOGOUT BUTTON -->
-      <li>
-        <form action="${baseUrl}/logout" method="post" style="margin:0; padding:0;">
-          <button class="btn btn-danger navbar-btn" style="margin-right:10px;">
-            Logout
-          </button>
-        </form>
-      </li>
-    </ul>
+          <li class="dropdown">
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown">Students <span class="caret"></span></a>
+            <ul class="dropdown-menu">
+              <li><a href="${baseUrl}/customer/createCustomer">Create Student</a></li>
+              <li><a href="${baseUrl}/customer/viewCustomers">View Students</a></li>
+            </ul>
+          </li>
+
+          <li class="dropdown">
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown">Attendance <span class="caret"></span></a>
+            <ul class="dropdown-menu">
+              <li><a href="${baseUrl}/attendance/addAttendance">Create Attendance</a></li>
+              <li><a href="${baseUrl}/attendance/removeAttendance">Remove Attendance</a></li>
+              <li><a href="${baseUrl}/attendance">View Attendance</a></li>
+            </ul>
+          </li>
+
+          <li class="dropdown">
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown">Settings <span class="caret"></span></a>
+            <ul class="dropdown-menu">
+              <li><a href="${baseUrl}/settings">Create Configuration</a></li>
+              <li><a href="${baseUrl}/settings/viewConfigurations">View Configurations</a></li>
+            </ul>
+          </li>
+        <#else>
+          <li class="dropdown">
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown">Attendance <span class="caret"></span></a>
+            <ul class="dropdown-menu">
+              <li><a href="${baseUrl}/attendance/addAttendance">Create Attendance</a></li>
+            </ul>
+          </li>
+        </#if>
+      </ul>
+
+      <!-- Right Side -->
+      <ul class="nav navbar-nav navbar-right">
+        <li>
+          <#if userLogin?has_content>
+            <a href="${baseUrl?if_exists}/customer/viewCustomer/${userLogin.id?if_exists}">
+              <span class="glyphicon glyphicon-user">&nbsp;</span>${userLogin.name?if_exists}
+            </a>
+          </#if>
+        </li>
+
+        <li>
+          <form action="${baseUrl}/logout" method="post" style="margin:0; padding:0;">
+            <button class="btn btn-danger navbar-btn" style="margin-right:10px;">Logout</button>
+          </form>
+        </li>
+      </ul>
+    </div>
   </div>
 </nav>
 </div>
-<div class="container-fluid">
+<div class="container-fluid"  style="margin-top:70px">
 <#if error_msg?has_content>
 <div id="errorAlert"
      class="alert alert-danger"

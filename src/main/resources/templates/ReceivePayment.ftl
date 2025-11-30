@@ -1,9 +1,9 @@
 <#include "home.ftl">
-<h2 class="text-center">Receive Payment</h2>
-<hr>
+
 
 <form action="${baseUrl}/payment/completePayment" method="post" class="container">
 
+<h2 class="text-center">Receive Payment</h2>
     <!-- Hidden field -->
 <#if payment?has_content>
     <input type="hidden" name="paymentId"
@@ -44,6 +44,15 @@
                     <option <#if payment?has_content><#if payment.paymentMethod=="banktransfer">selected</#if></#if>  value="banktransfer">Bank Transfer</option>
                     <option <#if payment?has_content><#if payment.paymentMethod=="card">selected</#if></#if>  value="card">Card</option>
                 </select>
+            </div>
+ <!-- Close Payment Checkbox -->
+            <div class="form-group">
+                <div class="checkbox">
+                    <label>
+                        <input type="checkbox" name="closePayment" value="true" checked>
+                        <strong>Close Previous Payments</strong>
+                    </label>
+                </div>
             </div>
         </div>
 

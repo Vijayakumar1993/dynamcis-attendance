@@ -54,7 +54,11 @@
                         <#list attendanceList as a>
                             <tr>
                                 <td>${a.date?date("yyyy-MM-dd")?string("EEE, MMM d yyyy")}</td>
-                                <td>${a.createdBy?if_exists}</td>
+                                <td>
+
+<#assign createdBy = a.createdBy?if_exists>
+<#assign cust = util.getCustomer(createdBy)>
+${cust.name?if_exists}</td>
                                 <td><a href="${baseUrl?if_exists}/attendance/removeSingleAttendance/${a.id?if_exists}"> <span class="text-danger">&#10008;</span></a></td>
                             </tr>
                         </#list>
