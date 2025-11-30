@@ -3,6 +3,7 @@
                 Configuration is a critical part of the business. Please do not change any values without proper knowledge or prior approval.
             </marquee>
             <h2 class="mb-3">Configuration List</h2>
+<div class="table-responsive">
             <table class="table table-bordered table-striped table-hover">
                 <thead class="table-dark">
                     <tr>
@@ -39,4 +40,5 @@
                 </#if>
                 </tbody>
             </table>
+</div>
 <#include "footer.ftl">

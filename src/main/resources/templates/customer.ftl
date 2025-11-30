@@ -51,7 +51,9 @@
                     <option value="">-- Select --</option>
                         <#if packages?has_content>
                             <#list packages as c>
-                                <option value="${c.configId?if_exists}" <#if customer?has_content><#if customer.pack=='${c.configId?if_exists}'> selected </#if></#if>>${c.configValue?capitalize?if_exists}</option>
+<#if c?has_content>
+                                <option value="${c.configId?if_exists}" <#if customer?has_content><#if customer.pack?if_exists=='${c.configId?if_exists}'> selected </#if></#if>>${c.configValue?capitalize?if_exists}</option>
+</#if>
                             </#list>
                         </#if>
                     </select>

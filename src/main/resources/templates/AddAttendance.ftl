@@ -15,7 +15,7 @@
                     <input type="text" class="form-control"
                            name="name" id="studentNames"
                            placeholder="Search by Name"
-                           <#if customer?has_content>value="${customer.name}"</#if> />
+                           <#if customer?has_content>value="${customer.name}"</#if> <#if !admin_access> disabled</#if> />
 
                     <input type="hidden" class="form-control"
                            name="id" id="studentId"

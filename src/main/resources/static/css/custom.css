@@ -161,3 +161,32 @@ footer{
     color: #000000 !important;
     border-color: #fad113 !important;
 }
+.img-tooltip-container {
+    position: relative;
+    display: inline-block;
+}
+
+.small-img {
+    width: 70px;
+    cursor: pointer;
+}
+
+/* Tooltip hidden by default */
+.img-tooltip {
+    display: none;
+    position: absolute;
+    top: 100% !important;
+    right: 100% !important; /* Shift right side */
+    z-index: 1000;
+    background: white;
+    padding: 5px;
+    border: 1px solid #ccc;
+}
+
+.img-tooltip img {
+    width: 250px;  /* Large size */
+}
+
+.img-tooltip-container:hover .img-tooltip {
+    display: block;
+}

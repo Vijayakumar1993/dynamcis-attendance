@@ -7,7 +7,7 @@
 <#else>
  <span style="color: #00ff04">&#10004;</span>
 </#if>&nbsp;${customer.name?capitalize?if_exists} Details
-  <#if admin_access><a href="/customer/editCustomer/${customer.id?if_exists}" class="btn btn-default pull-right"  style="margin-right: 2px">Edit</a></#if>
+  <#if admin_access><a href="/customer/editCustomer/${customer.id?if_exists}" class="btn btn-default btn-xs pull-right"  style="margin-right: 2px">Edit</a></#if>
     </h2>
    <div class="col-md-6">
       <div class="row mb-3">
@@ -79,7 +79,7 @@
 <div class="col-md-12 col-sm-12 col-lg-12 col-xs-12">
  <h2>Securities
         <#if admin_access>
-          <a href="/login/createLogin/${customer.id?if_exists}" class="btn btn-default pull-right" style="margin-right: 2px">Create Login</a>
+          <a href="/login/createLogin/${customer.id?if_exists}" class="btn btn-default btn-xs pull-right" style="margin-right: 2px">Create Login</a>
         </#if>
       </h2>
   <!-- Nav tabs -->
@@ -92,7 +92,7 @@
   <div class="tab-content" style="margin-top:15px;">
 
     <!-- Tab 1: User Login Details -->
-    <div class="tab-pane fade in active" id="loginDetails">
+    <div class="tab-pane fade in active  table-responsive" id="loginDetails">
 
       <table class="table table-bordered table-striped table-hover">
         <thead>
@@ -130,7 +130,7 @@
     </div>
 
     <!-- Tab 2: Roles -->
-    <div class="tab-pane fade" id="roles">
+    <div class="tab-pane fade  table-responsive" id="roles">
 <#assign roleCustomerId = customer.id?if_exists>
         <#assign roles = util.getAuthorites("${roleCustomerId}") />
 <#if roles?has_content>
@@ -185,10 +185,10 @@
   </div>
 </div>
 
-<div class="col-md-12 col-sm-12 col-lg-12 col-xs-12">
+<div class="col-md-12 col-sm-12 col-lg-12 col-xs-12 table-responsive">
    <#if admin_access>
    <h2>Payment List <#if admin_access>
-      <a href="/payment/receivePayment/${customer.id?if_exists}" class="btn btn-default pull-right">Receive Payment</a></#if>
+      <a href="/payment/receivePayment/${customer.id?if_exists}" class="btn btn-default btn-xs pull-right">Receive Payment</a></#if>
       </h2>
    <table class="table table-bordered table-striped table-hover">
       <thead>
@@ -232,8 +232,8 @@
    </#if>
 </div>
 .
-<div class="col-md-12 col-sm-12 col-lg-12 col-xs-12">
-   <h2>Documents <a class="btn btn-default pull-right" data-toggle="modal" style="margin-right: 2px" data-target="#myModal">Upload Document </a>
+<div class="col-md-12 col-sm-12 col-lg-12 col-xs-12  table-responsive">
+   <h2>Documents <a class="btn btn-default btn-xs  pull-right" data-toggle="modal" style="margin-right: 2px" data-target="#myModal">Upload Document </a>
      </h2>
    <table class="table table-bordered table-striped table-hover">
       <thead>

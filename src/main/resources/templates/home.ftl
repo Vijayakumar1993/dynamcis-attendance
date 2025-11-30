@@ -98,10 +98,14 @@ ${titleList?first.configValue?if_exists}
     <a href="${baseUrl}/customer/viewCustomer/${userLogin.id}">
         <#assign imageDocument = util.getPhotoByCustomerId(userLogin.id?string)! />
         <#if imageDocument?? && imageDocument.document??>
-            <img style="height:20px; width:auto;padding: 0px;border-radius: 4px; border: 0px"
+<div class="img-tooltip-container">
+<img style="height:20px; width:auto;padding: 0px;border-radius: 4px; border: 0px"
                  src="data:image/png;base64,${Base64UtilEncoder.encodeToString(imageDocument.document)!}"
-                 class="img-fluid img-thumbnail" />
-            &nbsp;${userLogin.name!}
+                 class="img-fluid img-thumbnail small-img" />&nbsp;${userLogin.name!}
+    <div class="img-tooltip">
+       <img src="data:image/png;base64,${Base64UtilEncoder.encodeToString(imageDocument.document)!}"  />
+    </div>
+</div>
         <#else>
             <span class="glyphicon glyphicon-user"></span>&nbsp;${userLogin.name!}
         </#if>
