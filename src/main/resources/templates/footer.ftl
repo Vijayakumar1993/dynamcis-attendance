@@ -1,18 +1,17 @@
 </div>
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
-<script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
-<script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
+<script src="${baseUrl}/css/jquery-3.6.0.min.js"></script>
+<script src="${baseUrl}/css/bootstrap.min.js"></script>
+<script src="${baseUrl}/css/jquery-ui.js"></script>
+<script src="${baseUrl}/css/jquery.dataTables.min.js"></script>
 <!-- Buttons extension JS -->
-<script src="https://cdn.datatables.net/buttons/2.4.1/js/dataTables.buttons.min.js"></script>
-<script src="https://cdn.datatables.net/buttons/2.4.1/js/buttons.flash.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/pdfmake.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/vfs_fonts.js"></script>
-<script src="https://cdn.datatables.net/buttons/2.4.1/js/buttons.html5.min.js"></script>
-<script src="https://cdn.datatables.net/buttons/2.4.1/js/buttons.print.min.js"></script>
+<script src="${baseUrl}/css/dataTables.buttons.min.js"></script>
+<script src="${baseUrl}/css/jszip.min.js"></script>
+<script src="${baseUrl}/css/pdfmake.min.js"></script>
+<script src="${baseUrl}/css/vfs_fonts.js"></script>
+<script src="${baseUrl}/css/buttons.html5.min.js"></script>
+<script src="${baseUrl}/css/buttons.print.min.js"></script>
 
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="${baseUrl}/css/chart.js"></script>
 <script>
 // Build autocomplete list as label + value
 var names = [

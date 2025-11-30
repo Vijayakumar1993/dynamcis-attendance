@@ -48,7 +48,7 @@
 <div class="panel panel-primary animate__animated animate__slideInUp w-100 h-100 equal-panel">
     <h3 class="text-center">Student Enrollment Trend
 <form action="${baseUrl?if_exists}/control" method="post" class="row g-2 align-items-center" style="margin-bottom: 5px;margin-top: 5px;margin-left: 0px;">
-<div class="row text-center">
+<div class="row text-center" style="margin-bottom: 5px;margin-top: 5px;margin-left: 0px;">
     <div class="col-md-2 col-lg-2">
         <input type="date" id="from" name="from"
                class="form-control"
@@ -114,7 +114,7 @@
 <div class="col-lg-6 col-md-6  d-flex">
 <div class="panel panel-primary animate__animated animate__slideInUp w-100 h-100 equal-panel">
     <h3 class="text-center">Student Attendance Report
-<div class="row text-center">
+<div class="row text-center" style="margin-bottom: 5px;margin-top: 5px;margin-left: 0px;">
     <div class="col-md-2 col-lg-2">
         <input type="date" id="atFrom" name="atFrom"
                class="form-control"

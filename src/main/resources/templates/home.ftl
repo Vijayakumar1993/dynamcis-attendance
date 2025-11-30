@@ -1,161 +1,23 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>Dynamics101 MMA Attendance</title>
+<title><#assign titleList = util.getConfigs("title", "name")>
+<#if titleList?has_content>
+${titleList?first.configValue?if_exists}
+</#if></title>
 <link rel="icon" type="image/x-icon" href="/images/logo.ico">
 <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="stylesheet"
-      href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+      href="${baseUrl}/css/bootstrap.min.css">
 
 <link rel="stylesheet"
-      href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.min.css">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
+      href="${baseUrl}/css/jquery.dataTables.min.css">
+<link rel="stylesheet" href="${baseUrl}/css/animate.min.css"/>
 
 <link rel="stylesheet"
-      href="https://code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css">
-<style>
-.equal-panel {
-height: 450px;       /* you can change the height */
-overflow-y: auto;    /* scroll only inside the panel */
-}
-.nav-tabs {
-border-bottom: 2px solid #ddd;
-gap: 8px; /* space between tabs */
-}
-.navbar-brand{
-    padding: 10px 15px !important;
-
-}
-.nav-tabs .nav-item {
-margin-bottom: -2px; /* align correctly */
-}
-
-.nav-tabs .nav-link {
-border: none !important;
-background: #f8f9fa;
-padding: 10px 18px;
-border-radius: 8px 8px 0 0;
-color: #495057;
-font-weight: 500;
-transition: 0.3s;
-}
-
-/* Hover effect */
-.nav-tabs .nav-link:hover {
-background: #e9ecef;
-color: #0d6efd;
-}
-
-/* Active tab styling */
-.nav-tabs .nav-link.active {
-background: #0d6efd !important;
-color: white !important;
-border: none !important;
-box-shadow: 0 -2px 8px rgba(0, 0, 0, 0.15);
-}
-
-/* Tab content card look */
-.tab-content {
-border: 1px solid #ddd;
-border-top: none;
-padding: 20px;
-border-radius: 0 0 10px 10px;
-background: #fff;
-}
-.card-header{
-border-radius: 5px !important;
-}
-.card {
-border-radius: 0px !important;
-box-shadow: 0 0px 0px rgba(0, 0, 0, 0.1) !important;
-padding: 2px !important;
-}
-.attendance-table th, .attendance-table td {
-text-align: center;
-vertical-align: middle;
-}
-.vertical-text {
-writing-mode: vertical-rl; /* vertical, right-to-left */
-text-orientation: mixed;    /* keep letters normal */
-transform: rotate(180deg);  /* optional: flip to bottom → top */
-}
-.font-weight-bold{
-    font-weight: bold;
-    padding-bottom: 10px;
-}
-.present {
-background-color: #d4edda !important; /* green */
-}
-.absent {
-background-color: #f8d7da !important; /* red */
-}
-.dt-button{
-background: #337ab7;
-color: #ffffff;
-border-radius: 8px;
-border-color: #d9edf7;
-}
-
-.dt-buttons{
-padding-bottom: 10px !important;
-}
-
-.padding-bottom-5{
-    padding-bottom: 5px;
-}
-input.form-control{
-    padding-bottom: 5px !important;
-}
-.content {
-    margin-left: 260px;
-    padding: 30px;
-}
-h2,.panel-heading{
-    background: black !important;
-    color: white !important;
-    padding: 6px !important;
-    border-radius: 5px !important;
-}
-
-.card {
-    border-radius: 12px;
-    box-shadow: 0 2px 6px rgba(0,0,0,0.1);
-    padding: 2px !important;
-}
-.padding-top-5{
-    padding-top: 5px !important;
-}
-
-.padding-left-5{
-padding-left: 5px !important;
-}
-
-.padding-right-5{
-padding-right: 5px !important;
-}
-button {
-    margin-top: 3px;
-}
-.border-50px{
-    border-radius: 50px !important;
-}
-thead{
-    background: #fcf8e3!important;
-}
-span.present{
-background: green !important;
-color: white !important;
-padding: 5px !important;
-border-radius: 5px;
-}
-span.absent{
-background: #d9534f !important;
-color: white !important;
-padding: 5px !important;
-border-radius: 5px;
-}
-</style>
+      href="${baseUrl}/css/jquery-ui.css">
+<link rel="stylesheet" href="${baseUrl}/css/custom.css">
 
 </head>
 <#assign admin_access=false>
