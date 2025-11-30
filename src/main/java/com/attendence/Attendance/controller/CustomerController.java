@@ -1,5 +1,6 @@
 package com.attendence.Attendance.controller;
 
+import com.attendence.Attendance.entity.Configuration;
 import com.attendence.Attendance.entity.Customer;
 import com.attendence.Attendance.entity.Payment;
 import com.attendence.Attendance.entity.Users;
@@ -9,6 +10,7 @@ import com.attendence.Attendance.repostitary.PaymentRepositary;
 import com.attendence.Attendance.services.DocumentServices;
 import com.attendence.Attendance.services.LoginServices;
 import com.attendence.Attendance.util.Utility;
+import jakarta.servlet.http.HttpSession;
 import jdk.jshell.execution.Util;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.User;
@@ -19,6 +21,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
+import java.util.Base64;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
@@ -135,7 +138,12 @@ public class CustomerController {
         return "customer";
     }
     @GetMapping("viewCustomer/{id}")
-    public String viewCustomerById(@PathVariable("id") String id, Model model){
+    public String viewCustomerById(@PathVariable("id") String id, HttpSession session, Model model){
+        //check other user should not access
+        Customer userLogin = (Customer) session.getAttribute("userLogin");
+        if(!utility.getCurrentUserRoles().contains("ROLE_ADMIN") && !userLogin.getId().toString().equalsIgnoreCase(id)){
+            return "error";
+        }
         Customer customer =  customerRepostitary.findById(Long.parseLong(id)).get();
         List<Payment> payments = paymentRepositary.findByCustomerId(Long.parseLong(id));
         List<Users> users = loginServices.findUsers(id);
@@ -156,6 +164,7 @@ public class CustomerController {
         model.addAttribute("users",users);
         model.addAttribute("documents",utility.getConfigs("documents","name"));
         model.addAttribute("docs",services.findByCustomerId(customer.getId()));
+        model.addAttribute("Base64UtilEncoder", Base64.getEncoder());
         return "viewCustomers";
     }
 
