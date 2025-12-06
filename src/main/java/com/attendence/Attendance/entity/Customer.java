@@ -3,6 +3,7 @@ package com.attendence.Attendance.entity;
 import jakarta.persistence.*;
 
 import java.time.LocalDate;
+import java.time.Period;
 
 @Entity
 @Table(name = "customers")
@@ -15,11 +16,14 @@ public class Customer {
     @Column(nullable = false)
     private String name;
 
+    private int age;
     private String email;
 
     private String phone;
     private String guardianName;
 
+    private LocalDate dob;
+    private Float weight;
     private String gender;
     private String status;
     private LocalDate joiningDate;
@@ -27,6 +31,7 @@ public class Customer {
     private Long period;
     private String pack;
     private String address;
+    private String team;
 
     private String createdBy;
     private LocalDate createdDate;
@@ -158,5 +163,38 @@ public class Customer {
 
     public void setAddress(String address) {
         this.address = address;
+    }
+
+    public LocalDate getDob() {
+        return dob;
+    }
+
+    public void setDob(LocalDate dob) {
+        this.dob = dob;
+        this.age = Period.between(dob,LocalDate.now()).getYears();
+    }
+
+    public Float getWeight() {
+        return weight;
+    }
+
+    public void setWeight(Float weight) {
+        this.weight = weight;
+    }
+
+    public int getAge() {
+        return age;
+    }
+
+    public void setAge(int age) {
+        this.age = age;
+    }
+
+    public String getTeam() {
+        return team;
+    }
+
+    public void setTeam(String team) {
+        this.team = team;
     }
 }

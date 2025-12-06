@@ -1,7 +1,6 @@
 <#include "home.ftl" />
 
 <div class=" mt-4">
-
    <div class="panel panel-primary">
         <div class="panel-heading">Student's Details</div>
       <div class="panel-body">
@@ -58,6 +57,20 @@
                         </#if>
                     </select>
                 </div>
+ <div class="mb-3">
+                    <label class="form-label">Team</label>
+                    <select class="form-control" name="team" id="pack">
+                    <option value="">-- Select Team--</option>
+<#assign categorization = util.getConfigs("categorization", "name")>
+                        <#if categorization?has_content>
+                            <#list packages as c>
+<#if c?has_content>
+                                <option value="${c.configId?if_exists}" <#if customer?has_content><#if customer.pack?if_exists=='${c.configId?if_exists}'> selected </#if></#if>>${c.configValue?capitalize?if_exists}</option>
+</#if>
+                            </#list>
+                        </#if>
+                    </select>
+                </div>
 
                 <!-- Email -->
                 <div class="mb-3">
@@ -72,9 +85,20 @@
                 </div>
 
                 <div class="mb-3">
-                      <label for="joiningDate" class="form-label">Joined Date:</label>
+                      <label for="joiningDate" class="form-label">Joined Date</label>
                       <input type="date" id="joiningDate" name="joiningDate" class="form-control" required value="<#if customer??>${customer.joiningDate?if_exists}<#else>${.now?string('yyyy-MM-dd')}</#if>">
                 </div>
+
+                <div class="mb-3">
+                      <label for="dob" class="form-label">Date of Birth</label>
+                      <input type="date" id="dob" name="dob" class="form-control" required value="<#if customer??>${customer.dob?if_exists}</#if>">
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label">Weight</label>
+                    <input type="text" name="weight" class="form-control" placeholder="Enter Phone Number"  value="<#if customer??>${customer.weight?if_exists}</#if>"  required>
+                </div>
+
 
  <!-- Status -->
                 <div class="mb-3">

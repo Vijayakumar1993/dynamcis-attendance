@@ -1,4 +1,15 @@
 <#include "home.ftl">
+<#if customer?has_content && customer.dob?has_content>
+<#assign dob = customer.dob?date("yyyy-MM-dd")>
+<#assign today = .now?date>
+
+<#if dob?string("MM-dd") == today?string("MM-dd")>
+<marquee class="text-success" style="font-size:22px; margin-bottom:10px;">
+            🎉 Happy Birthday ${customer.name?if_exists}! 🎉
+        </marquee>
+<div id="star-container"></div>
+    </#if>
+</#if>
 <div class="col-md-12 col-sm-12 col-lg-12 col-xs-12">
 <h2 class="mb-4">
 
@@ -36,6 +47,22 @@
          <div class="col-sm-4 font-weight-bold">Email</div>
          <div class="col-sm-8">${customer.email?if_exists}</div>
       </div>
+      <div class="row mb-3">
+         <div class="col-sm-4 font-weight-bold">Age</div>
+         <div class="col-sm-8">${customer.age?if_exists}</div>
+      </div>
+
+    <#if customer.team?has_content>
+      <div class="row mb-3">
+         <div class="col-sm-4 font-weight-bold">Team</div>
+         <div class="col-sm-8">
+        <#assign team = util.getConfig(customer.team)>
+                    <#if team?has_content && team.configValue?has_content>
+                        ${team.configValue?if_exists}</div>
+                    </#if>
+
+        </div>
+ </#if>
    </div>
    <div class="col-md-6">
      <div class="row mb-3">
@@ -47,7 +74,19 @@
          <div class="col-sm-4 font-weight-bold">Address</div>
          <div class="col-sm-8">${customer.address?if_exists}</div>
       </div>
+ <div class="row mb-3">
+         <div class="col-sm-4 font-weight-bold">DOB</div>
+         <div class="col-sm-8">${customer.dob?if_exists?date("yyyy-MM-dd")?string("EEE, MMM d yyyy")}</div>
+      </div>
 
+ <div class="row mb-3">
+         <div class="col-sm-4 font-weight-bold">Weight</div>
+         <div class="col-sm-8">${customer.weight?if_exists}</div>
+      </div>
+ <div class="row mb-3">
+         <div class="col-sm-4 font-weight-bold">Status</div>
+         <div class="col-sm-8">${customer.status?if_exists}</div>
+      </div>
       <div class="row mb-3">
          <div class="col-sm-4 font-weight-bold">Joined Date</div>
          <div class="col-sm-8">

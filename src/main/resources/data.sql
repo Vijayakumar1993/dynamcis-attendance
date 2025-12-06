@@ -16,3 +16,11 @@ INSERT IGNORE INTO `configuration` VALUES (15,'Driving Licence Document','name',
 INSERT IGNORE INTO `configuration` VALUES (17,'Other Documents','name','documents','Other');
 INSERT IGNORE INTO `configuration` VALUES (18,'welcome message','welcome_msg','title','We are excited to welcome you to the Dynamics 101 family. Please contact us to begin your journey with us!');
 INSERT IGNORE INTO `configuration` VALUES (19,'Club name','name','title','Dynamics 101');
+INSERT IGNORE INTO `configuration` VALUES (20,'cub1','name','categorization','cub1');
+INSERT IGNORE INTO `configuration` VALUES (21,'cub2','name','categorization','cub2');
+INSERT IGNORE INTO `configuration` VALUES (22,'cub3','name','categorization','cub3');
+INSERT IGNORE INTO `configuration` VALUES (23,'junior','name','categorization','junior');
+INSERT IGNORE INTO `configuration` VALUES (24,'kid','name','categorization','kid');
+INSERT IGNORE INTO `configuration` VALUES (25,'senior','name','categorization','senior');
+INSERT IGNORE INTO `configuration` VALUES (26,'subjunior','name','categorization','subjunior');
+

@@ -65,9 +65,11 @@ if(mychart!=null){
         datasets: [{
         label: 'Students Count',
         data: [
+<#if monthCountMap?has_content>
         <#list monthCountMap?values as v>
         ${v}<#if v?has_next>,</#if>
         </#list>
+</#if>
         ],
         borderWidth: 1
         }]
@@ -85,7 +87,7 @@ if(mychart!=null){
 var mychart1 = document.getElementById('myChart1')
 if(mychart1!=null){
     const ctx1 = mychart1.getContext('2d');
-    <#if monthCountMap?has_content>
+    <#if atMonthCountMap?has_content>
     new Chart(ctx1, {
         type: '${atChartType?if_exists}',
         data: {
@@ -111,6 +113,33 @@ if(mychart1!=null){
         });
         </#if>
 }
+function createStar() {
+const star = document.createElement("div");
+    star.classList.add("star");
+    star.innerHTML = "✦";
+
+    // Random horizontal position
+    star.style.left = Math.random() * 100 + "vw";
+
+    // Random size
+    star.style.fontSize = (10 + Math.random() * 20) + "px";
+
+    // Random color
+    const colors = ["#ffeb3b", "#ff9800", "#ff4081", "#00e676", "#40c4ff", "#e040fb"];
+    star.style.color = colors[Math.floor(Math.random() * colors.length)];
+
+    document.getElementById("star-container").appendChild(star);
+
+    // Remove star after the fall
+    setTimeout(() => star.remove(), 3000);
+}
+
+// Sprinkle stars for 5 seconds
+let interval = setInterval(createStar, 40);
+
+setTimeout(() => {
+clearInterval(interval);
+}, 30000);
 </script>
 <footer class="bg-dark text-white text-center py-3 fixed-bottom">
     © ${.now?string('yyyy')} <#assign titleList = util.getConfigs("title", "name")>
