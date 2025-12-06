@@ -32,6 +32,7 @@ public class Customer {
     private String pack;
     private String address;
     private String team;
+    private String category;
 
     private String createdBy;
     private LocalDate createdDate;
@@ -196,5 +197,13 @@ public class Customer {
 
     public void setTeam(String team) {
         this.team = team;
+    }
+
+    public String getCategory() {
+        return category;
+    }
+
+    public void setCategory(String category) {
+        this.category = category;
     }
 }

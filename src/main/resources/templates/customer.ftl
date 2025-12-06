@@ -58,14 +58,14 @@
                     </select>
                 </div>
  <div class="mb-3">
-                    <label class="form-label">Team</label>
-                    <select class="form-control" name="team" id="pack">
-                    <option value="">-- Select Team--</option>
+                    <label class="form-label">Category</label>
+                    <select class="form-control" name="category" id="pack">
+                    <option value="">-- Select Category--</option>
 <#assign categorization = util.getConfigs("categorization", "name")>
                         <#if categorization?has_content>
-                            <#list packages as c>
+                            <#list categorization as c>
 <#if c?has_content>
-                                <option value="${c.configId?if_exists}" <#if customer?has_content><#if customer.pack?if_exists=='${c.configId?if_exists}'> selected </#if></#if>>${c.configValue?capitalize?if_exists}</option>
+                                <option value="${c.configId?if_exists}" <#if customer?has_content><#if customer.category?if_exists=='${c.configId?if_exists}'> selected </#if></#if>>${c.configValue?capitalize?if_exists}</option>
 </#if>
                             </#list>
                         </#if>

@@ -40,11 +40,11 @@
       </div>
       </#if>
       <div class="row mb-3">
-         <div class="col-sm-4 font-weight-bold">Phone</div>
+         <div class="col-sm-4 font-weight-bold">Phone(<span style="color: #2196f3;">&#128222;</span>)</div>
          <div class="col-sm-8">${customer.phone?if_exists}</div>
       </div>
       <div class="row mb-3">
-         <div class="col-sm-4 font-weight-bold">Email</div>
+         <div class="col-sm-4 font-weight-bold">Email(<span style="color: #ff5722;">&#9993;</span>)</div>
          <div class="col-sm-8">${customer.email?if_exists}</div>
       </div>
       <div class="row mb-3">
@@ -52,13 +52,13 @@
          <div class="col-sm-8">${customer.age?if_exists}</div>
       </div>
 
-    <#if customer.team?has_content>
+    <#if customer.category?has_content>
       <div class="row mb-3">
-         <div class="col-sm-4 font-weight-bold">Team</div>
+         <div class="col-sm-4 font-weight-bold">Category</div>
          <div class="col-sm-8">
-        <#assign team = util.getConfig(customer.team)>
-                    <#if team?has_content && team.configValue?has_content>
-                        ${team.configValue?if_exists}</div>
+        <#assign category = util.getConfig(customer.category)>
+                    <#if category?has_content && category.configValue?has_content>
+                        ${category.configValue?if_exists?capitalize}</div>
                     </#if>
 
         </div>
@@ -71,13 +71,15 @@
       </div>
 
  <div class="row mb-3">
-         <div class="col-sm-4 font-weight-bold">Address</div>
+         <div class="col-sm-4 font-weight-bold">Address(<span style="color: #4caf50;">&#127968;</span>)</div>
          <div class="col-sm-8">${customer.address?if_exists}</div>
       </div>
+<#if customer.dob?has_content>
  <div class="row mb-3">
          <div class="col-sm-4 font-weight-bold">DOB</div>
          <div class="col-sm-8">${customer.dob?if_exists?date("yyyy-MM-dd")?string("EEE, MMM d yyyy")}</div>
       </div>
+</#if>
 
  <div class="row mb-3">
          <div class="col-sm-4 font-weight-bold">Weight</div>

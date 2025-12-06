@@ -106,7 +106,13 @@ public class CustomerController {
     @PostMapping("viewCustomers")
     public String viewCustomers(@RequestParam(value = "name",required = false) String name,@RequestParam(value = "phone",required = false) String phone, @RequestParam(value = "email",required = false) String email,
                                 @RequestParam(value = "gender",required = false) String gender, @RequestParam(value = "status",required = false) String status,
-                                @RequestParam(value = "guardianName",required = false) String guardianName, @RequestParam(value = "pack",required = false) String pack, @RequestParam(value = "createdBy",required = false) String createdBy, Model model){
+                                @RequestParam(value = "guardianName",required = false) String guardianName,
+                                @RequestParam(value = "pack",required = false) String pack,
+                                @RequestParam(value = "createdBy",required = false) String createdBy,
+                                @RequestParam(value = "category", required = false) String category,
+                                @RequestParam(value="from", required = false) String from,
+                                @RequestParam(value = "to", required = false) String to,
+                                Model model){
         model.addAttribute("name", name);
         model.addAttribute("phone",phone);
         model.addAttribute("email",email);
@@ -115,6 +121,9 @@ public class CustomerController {
         model.addAttribute("guardianName",guardianName);
         model.addAttribute("createdBy",createdBy);
         model.addAttribute("pack",pack);
+        model.addAttribute("category",category);
+        model.addAttribute("from",from);
+        model.addAttribute("to",to);
         if (name != null && name.isBlank()) name = null;
         if (email != null && email.isBlank()) email = null;
         if (phone != null && phone.isBlank()) phone = null;
@@ -123,7 +132,10 @@ public class CustomerController {
         if (pack != null && pack.isBlank()) pack = null;
         if (guardianName != null && guardianName.isBlank()) guardianName = null;
         if (createdBy != null && createdBy.isBlank()) createdBy = null;
-        List<Customer> customers = customerRepostitary.searchCustomer(name,email, phone, gender, status,guardianName,createdBy,pack);
+        if (category != null && category.isBlank()) category = null;
+        if (from != null && from.isBlank()) from = "0";
+        if (to != null && to.isBlank()) to = "100000";
+        List<Customer> customers = customerRepostitary.searchCustomer(name,email, phone, gender, status,guardianName,createdBy,pack,category,Float.parseFloat(from),Float.parseFloat(to));
         model.addAttribute("customers",customers);
         model.addAttribute("packages",utility.getConfigs("packages","name"));
         model.addAttribute("documents",utility.getConfigs("documents","name"));

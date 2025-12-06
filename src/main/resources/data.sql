@@ -23,4 +23,3 @@ INSERT IGNORE INTO `configuration` VALUES (23,'junior','name','categorization','
 INSERT IGNORE INTO `configuration` VALUES (24,'kid','name','categorization','kid');
 INSERT IGNORE INTO `configuration` VALUES (25,'senior','name','categorization','senior');
 INSERT IGNORE INTO `configuration` VALUES (26,'subjunior','name','categorization','subjunior');
-

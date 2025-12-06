@@ -10,16 +10,20 @@ import java.util.List;
 
 public interface CustomerRepostitary extends JpaRepository<Customer, Long> {
     List<Customer> findByNameContaining(String name);
+
     @Query("""
-SELECT c FROM Customer c
-WHERE (:name IS NULL OR LOWER(c.name) LIKE LOWER(CONCAT('%', :name, '%')))
-AND   (:email IS NULL OR LOWER(c.email) LIKE LOWER(CONCAT('%', :email, '%')))
-AND   (:phone IS NULL OR LOWER(c.phone) LIKE LOWER(CONCAT('%', :phone, '%')))
-AND   (:gender IS NULL OR LOWER(c.gender) = LOWER(:gender))
-AND   (:status IS NULL OR LOWER(c.status) = LOWER(:status))
-AND   (:guardianName IS NULL OR LOWER(c.guardianName) = LOWER(:guardianName))
-AND   (:createdBy IS NULL OR LOWER(c.status) = LOWER(:createdBy))
-AND   (:pack IS NULL OR LOWER(c.pack) = LOWER(:pack))
+            SELECT c FROM Customer c
+            WHERE (:name IS NULL OR LOWER(c.name) LIKE LOWER(CONCAT('%', :name, '%')))
+    AND (:email IS NULL OR LOWER(c.email) LIKE LOWER(CONCAT('%', :email, '%')))
+    AND (:phone IS NULL OR LOWER(c.phone) LIKE LOWER(CONCAT('%', :phone, '%')))
+    AND (:gender IS NULL OR LOWER(c.gender) = LOWER(:gender))
+    AND (:status IS NULL OR LOWER(c.status) = LOWER(:status))
+    AND (:guardianName IS NULL OR LOWER(c.guardianName) = LOWER(:guardianName))
+    AND (:createdBy IS NULL OR LOWER(c.createdBy) = LOWER(:createdBy))
+    AND (:pack IS NULL OR LOWER(c.pack) = LOWER(:pack))
+    AND (:category IS NULL OR LOWER(c.category) = LOWER(:category))
+    AND (:minWeight IS NULL OR c.weight >= :minWeight)
+    AND (:maxWeight IS NULL OR c.weight <= :maxWeight)
 """)
     List<Customer> searchCustomer(
             @Param("name") String name,
@@ -29,9 +33,11 @@ AND   (:pack IS NULL OR LOWER(c.pack) = LOWER(:pack))
             @Param("status") String status,
             @Param("guardianName") String guardianName,
             @Param("createdBy") String createdBy,
-            @Param("pack") String pack
+            @Param("pack") String pack,
+            @Param("category") String category,
+            @Param("minWeight") Float minWeight,
+            @Param("maxWeight") Float maxWeight
     );
-
     List<Customer> findByJoiningDateBetween(LocalDate from, LocalDate to);
     List<Customer> findByPhone(String phone);
 }
