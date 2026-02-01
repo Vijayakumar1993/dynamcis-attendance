@@ -1,19 +1,81 @@
 package com.attendence.Attendance.repostitary;
 
 import com.attendence.Attendance.entity.Customer;
+import com.attendence.Attendance.entity.Team;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 
+import java.time.LocalDate;
 import java.util.List;
 
 public interface CustomerRepostitary extends JpaRepository<Customer, Long> {
     List<Customer> findByNameContaining(String name);
+
     @Query("""
-SELECT c FROM Customer c
-WHERE (:name IS NULL OR :name = '' OR LOWER(c.name) LIKE LOWER(CONCAT('%', :name, '%')))
-AND   (:email IS NULL OR :email = '' OR LOWER(c.email) LIKE LOWER(CONCAT('%', :email, '%')))
-AND   (:gender IS NULL OR :gender = '' OR LOWER(c.gender) LIKE LOWER(CONCAT('%', :gender, '%')))
-AND   (:status IS NULL OR :status = '' OR LOWER(c.status) LIKE LOWER(CONCAT('%', :status, '%')))
+            SELECT c FROM Customer c
+            WHERE (:name IS NULL OR LOWER(c.name) LIKE LOWER(CONCAT('%', :name, '%')))
+    AND (:email IS NULL OR LOWER(c.email) LIKE LOWER(CONCAT('%', :email, '%')))
+    AND (:phone IS NULL OR LOWER(c.phone) LIKE LOWER(CONCAT('%', :phone, '%')))
+    AND (:gender IS NULL OR LOWER(c.gender) = LOWER(:gender))
+    AND (:status IS NULL OR LOWER(c.status) = LOWER(:status))
+    AND (:guardianName IS NULL OR LOWER(c.guardianName) = LOWER(:guardianName))
+    AND (:pack IS NULL OR LOWER(c.pack) = LOWER(:pack))
+    AND (:category IS NULL OR LOWER(c.category) = LOWER(:category))
+    AND (:minWeight IS NULL OR c.weight >= :minWeight)
+    AND (:maxWeight IS NULL OR c.weight <= :maxWeight)
 """)
-    List<Customer> searchCustomers(String name, String email, String gender, String status);
+    List<Customer> searchCustomer(
+            @Param("name") String name,
+            @Param("email") String email,
+            @Param("phone") String phone,
+            @Param("gender") String gender,
+            @Param("status") String status,
+            @Param("guardianName") String guardianName,
+            @Param("pack") String pack,
+            @Param("category") String category,
+            @Param("minWeight") Float minWeight,
+            @Param("maxWeight") Float maxWeight
+    );
+    List<Customer> findByJoiningDateBetween(LocalDate from, LocalDate to);
+
+    @Query("""
+            SELECT c FROM Customer c
+    WHERE (:category IS NULL OR LOWER(c.category) = LOWER(:category))
+    AND (:gender IS NULL OR LOWER(c.gender) = LOWER(:gender))
+    AND (:minWeight IS NULL OR c.weight >= :minWeight)
+    AND (:maxWeight IS NULL OR c.weight <= :maxWeight)
+""")
+    List<Customer> searchCustomers(
+            @Param("category") String category,
+            @Param("gender") String gender,
+            @Param("minWeight") Float minWeight,
+            @Param("maxWeight") Float maxWeight
+    );
+    List<Customer> findByPhone(String phone);
+    List<Customer> findByTeam(Team team);
+    @Query("""
+   SELECT c FROM Customer c
+   WHERE c.team = :team
+     AND (:gender IS NULL OR :gender = '' OR c.gender = :gender)
+     AND (:category IS NULL OR :category = '' OR c.category = :category)
+     AND (:fromWeight IS NULL OR c.weight >= :fromWeight)
+     AND (:toWeight IS NULL OR c.weight <= :toWeight)
+""")
+    List<Customer> filterCustomers(
+            @Param("team") Team team,
+            @Param("gender") String gender,
+            @Param("category") String category,
+            @Param("fromWeight") Float fromWeight,
+            @Param("toWeight") Float toWeight
+    );
+    List<Customer> findByCreatedBy(Customer createdBy);
+    @Modifying
+    @Query("update Team t set t.createdBy = null where t.createdBy = :customer")
+    void clearTeam(Customer customer);
+
+    @Modifying
+    @Query("update Customer c set c.createdBy = null where c.createdBy = :customer")
+    void clearCreatedBy(Customer customer);
 }

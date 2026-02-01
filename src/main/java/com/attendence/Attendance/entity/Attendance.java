@@ -1,9 +1,6 @@
 package com.attendence.Attendance.entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 
 import java.time.LocalDate;
 import java.util.Objects;
@@ -13,12 +10,16 @@ public class Attendance {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private Long customerId;
+
+    @ManyToOne
+    @JoinColumn(name="customer_id")
+    private Customer customerId;
     private LocalDate date;
+    private String createdBy;
 
     public Attendance(){}
 
-    public Attendance(Long customerId, LocalDate date) {
+    public Attendance(Customer customerId, LocalDate date) {
         this.customerId = customerId;
         this.date = date;
     }
@@ -31,11 +32,11 @@ public class Attendance {
         this.id = id;
     }
 
-    public Long getCustomerId() {
+    public Customer getCustomerId() {
         return customerId;
     }
 
-    public void setCustomerId(Long customerId) {
+    public void setCustomerId(Customer customerId) {
         this.customerId = customerId;
     }
 
@@ -47,16 +48,24 @@ public class Attendance {
         this.date = date;
     }
 
+    public String getCreatedBy() {
+        return createdBy;
+    }
+
+    public void setCreatedBy(String createdBy) {
+        this.createdBy = createdBy;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Attendance that = (Attendance) o;
-        return Objects.equals(id, that.id) && Objects.equals(customerId, that.customerId) && Objects.equals(date, that.date);
+        return Objects.equals(id, that.id) && Objects.equals(customerId, that.customerId) && Objects.equals(date, that.date) && Objects.equals(createdBy, that.createdBy);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, customerId, date);
+        return Objects.hash(id, customerId, date, createdBy);
     }
 }
