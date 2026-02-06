@@ -10,12 +10,14 @@ import com.attendence.Attendance.entity.Customer;
 import com.attendence.Attendance.entity.LeadFollowUp;
 import com.attendence.Attendance.repostitary.CustomerRepostitary;
 import com.attendence.Attendance.repostitary.LeadFollowUpRepository;
+import com.attendence.Attendance.rest.LeadRestController;
 import com.attendence.Attendance.util.Utility;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.time.LocalDate;
 import java.util.Comparator;
@@ -155,6 +157,25 @@ public class LeadController {
             model.addAttribute("conversionByUser", followUpRepository.conversionByUser(LeadStatus.CONTACTED.getCode()));
             model.addAttribute("conversionTime", followUpRepository.conversionTime(LeadStatus.CONTACTED.getCode()));
             return "lead-reports";
+    }
+    @GetMapping("/lead")
+    public String Lead(Model model){
+        model.addAttribute("packages",utility.getConfigs("packages","name"));
+        return "createLead";
+    }
+    @PostMapping("/createOrStoreLead")
+    public String createLead(HttpSession session, @ModelAttribute Customer customer, RedirectAttributes model){
+        List<Customer> existingCustomer  = customerRepository.findByPhone(customer.getPhone());
+        Customer userLogin = (Customer) session.getAttribute("userLogin");
+        model.addAttribute("customer",customer);
+        if(existingCustomer.size()>0 && customer.getId()==null){
+            model.addAttribute("error_msg","Already Lead registered, please use different phone number");
+            return "createLead";
+        }
+        customer.setStatus("ACTIVE");
+        customer.setWeight(0f);
+        utility.createLead(customer, LeadStatus.NEW, LocalDate.now(), LocalDate.now(),userLogin);
+        return "redirect:/lead-management/viewLead/"+customer.getId();
     }
 
 }

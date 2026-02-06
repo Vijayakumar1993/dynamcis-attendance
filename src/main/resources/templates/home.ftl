@@ -87,6 +87,8 @@ ${titleList?first.configValue?if_exists}
             <span class="glyphicon glyphicon-user"></span> Leads <span class="caret"></span>
           </a>
           <ul class="dropdown-menu">
+<li><a href="${baseUrl}/lead-management/lead">
+              <span class="glyphicon glyphicon glyphicon-plus-sign"></span> Create Lead</a></li>
             <li><a href="${baseUrl}/lead-management/findLeads">
               <span class="glyphicon glyphicon-time"></span> Leads Followups</a></li>
  <li><a href="${baseUrl}/lead-management/reports">
@@ -239,6 +241,8 @@ ${titleList?first.configValue?if_exists}
             <span class="glyphicon glyphicon-user"></span> Leads <span class="caret"></span>
           </a>
           <ul class="dropdown-menu">
+            <li><a href="${baseUrl}/lead-management/lead">
+              <span class="glyphicon glyphicon glyphicon-plus-sign"></span> Create Lead</a></li>
             <li><a href="${baseUrl}/lead-management/findLeads">
               <span class="glyphicon glyphicon-time"></span> Leads Followups</a></li>
  <li><a href="${baseUrl}/lead-management/reports">

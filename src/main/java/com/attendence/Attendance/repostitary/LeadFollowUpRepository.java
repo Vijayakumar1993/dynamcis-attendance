@@ -4,6 +4,7 @@ import com.attendence.Attendance.entity.Configuration;
 import com.attendence.Attendance.entity.Customer;
 import com.attendence.Attendance.entity.LeadFollowUp;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
@@ -62,6 +63,15 @@ WHERE f.status.id = :convertedId
 GROUP BY f.lead.id
 """)
     List<Object[]> conversionTime(@Param("convertedId") Long convertedId);
+
+    void removeByLead(Customer customer);
+    @Modifying
+    @Query("""
+update LeadFollowUp t 
+set t.createdBy = null 
+where (:customer is not null and t.createdBy = :customer)
+""")
+    int clearCreatedBy(Customer customer);
 
 
 }

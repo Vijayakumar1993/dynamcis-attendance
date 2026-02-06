@@ -2,8 +2,18 @@
 <div class="col-md-12 col-sm-12 col-lg-12 col-xs-12">
 <h2 class="mb-4">
 ${customer.name?capitalize?if_exists} Details
- <a href="/customer/editCustomer/${customer.id?if_exists}" class="btn btn-default btn-xs pull-right"  style="margin-right: 2px">Edit</a>
-    </h2>
+ <a href="${baseUrl?if_exists}/customer/editCustomer/${customer.id?if_exists}" class="btn btn-default btn-xs pull-right"  style="margin-right: 2px">Edit</a>
+  <#assign authRoles = util.getAuthorites("${customer.id?if_exists}") />
+ <#assign showLead = false>
+                <#if authRoles?has_content>
+                    <#list authRoles as role>
+                        <#if role.authority?has_content && role.authority == "ROLE_LEAD"><#assign showLead = true></#if>
+                    </#list>
+<#if showLead>
+  <a target="_blank" href="${baseUrl?if_exists}/lead-management/viewLead/${customer.id?if_exists}" class="btn btn-default btn-xs pull-right"  style="margin-right: 2px">View Lead followup</a>
+</#if>
+</#if>
+   </h2>
    <div class="col-md-6">
       <div class="row mb-3">
          <div class="col-sm-4 font-weight-bold">Name</div>
@@ -193,9 +203,9 @@ ${customer.name?capitalize?if_exists} Details
                 <td>
             <form action="${baseUrl?if_exists}/authorities/createAuthority" method="post">
          <div class="d-flex align-items-center gap-2">
+<#assign completeRoles = util.roles() />
             <select name="role" class="form-control form-select" required>
                 <option value="">-- Select --</option>
-                <#assign completeRoles = util.roles()>
                 <#if completeRoles?has_content>
                     <#list completeRoles as role>
                             <option value="${role?if_exists}" <#if r.authority?has_content && r.authority == "${role?if_exists}">selected</#if>>${role.getDisplayName()?if_exists}</option>

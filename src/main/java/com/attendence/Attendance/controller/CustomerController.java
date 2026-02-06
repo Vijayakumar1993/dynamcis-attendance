@@ -2,10 +2,7 @@ package com.attendence.Attendance.controller;
 
 import com.attendence.Attendance.constants.Roles;
 import com.attendence.Attendance.entity.*;
-import com.attendence.Attendance.repostitary.AttendanceRepositary;
-import com.attendence.Attendance.repostitary.CustomerRepostitary;
-import com.attendence.Attendance.repostitary.LoginRepositary;
-import com.attendence.Attendance.repostitary.PaymentRepositary;
+import com.attendence.Attendance.repostitary.*;
 import com.attendence.Attendance.services.*;
 import com.attendence.Attendance.util.Utility;
 import jakarta.servlet.http.HttpSession;
@@ -266,6 +263,9 @@ public class CustomerController {
     @Autowired
     private CompetitionService competitionService;
 
+    @Autowired
+    private LeadFollowUpRepository followUpRepository;
+
     @GetMapping("removeCustomer/{id}")
     @Transactional
     public String removeCustomer(@PathVariable("id") String id,
@@ -276,11 +276,15 @@ public class CustomerController {
                 .orElse(null);
 
 
+
         if (customer == null) {
             redirectAttributes.addFlashAttribute(
                     "error_msg", "Customer not found");
             return "redirect:/customer/viewCustomers";
         }
+
+        followUpRepository.removeByLead(customer);
+        followUpRepository.clearCreatedBy(customer);
         List<TemCompetionCustomer> temCompetionCustomerServices1 = temCompetionCustomerServices.findByCustomer(customer);
         if(temCompetionCustomerServices1.size()>0){
             redirectAttributes.addFlashAttribute(

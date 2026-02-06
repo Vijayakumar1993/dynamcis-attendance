@@ -1,10 +1,12 @@
 package com.attendence.Attendance.util;
 
 import com.attendence.Attendance.constants.CompetitionStatus;
+import com.attendence.Attendance.constants.LeadStatus;
 import com.attendence.Attendance.constants.Roles;
 import com.attendence.Attendance.entity.*;
 import com.attendence.Attendance.repostitary.AttendanceRepositary;
 import com.attendence.Attendance.repostitary.CustomerRepostitary;
+import com.attendence.Attendance.repostitary.LeadFollowUpRepository;
 import com.attendence.Attendance.services.*;
 import com.itextpdf.text.Document;
 import com.itextpdf.text.Image;
@@ -262,5 +264,37 @@ public class Utility {
         } catch (Exception e) {
             logger.warn("Logo not found, skipping logo rendering", e);
         }
+    }
+
+    @Autowired
+    private LeadFollowUpRepository followUpRepository;
+
+    @Autowired
+    private AuthorityServices authorityServices;
+
+    public Customer createLead(Customer customer, LeadStatus role, LocalDate callDate, LocalDate nextCallDate, Customer userLogin){
+        if (customer == null) {
+            throw new IllegalArgumentException("Customer cannot be null");
+        }
+
+        Customer lead = repostitary.save(customer);
+
+        if(lead!=null){
+            LeadFollowUp followUp = new LeadFollowUp();
+            followUp.setStatus(getConfig(role.getCode()));
+            followUp.setLead(lead);
+            followUp.setCallDate(LocalDate.now());
+            followUp.setNextCallDate(LocalDate.now());
+            followUp.setExpectedJoinDate(null);
+            followUp.setCreatedBy(userLogin);
+            followUpRepository.save(followUp);
+        }
+        authorityServices.createAuthority(
+                null,
+                Roles.ROLE_LEAD,
+                lead.getId()
+        );
+
+        return lead;
     }
 }

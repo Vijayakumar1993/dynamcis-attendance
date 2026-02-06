@@ -9,6 +9,7 @@ import com.attendence.Attendance.repostitary.CustomerRepostitary;
 import com.attendence.Attendance.repostitary.LeadFollowUpRepository;
 import com.attendence.Attendance.services.AuthorityServices;
 import com.attendence.Attendance.util.Utility;
+import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cglib.core.Local;
 import org.springframework.web.bind.annotation.*;
@@ -43,29 +44,8 @@ public class LeadRestController {
     \"29\",\"createdDate\": \"2024-01-01\"}"
      */
     @PostMapping("/createLead")
-    public Customer createLead(@RequestBody Customer customer) {
-
-        if (customer == null) {
-            throw new IllegalArgumentException("Customer cannot be null");
-        }
-
-        Customer lead = customerRepostitary.save(customer);
-
-        if(lead!=null){
-            LeadFollowUp followUp = new LeadFollowUp();
-            followUp.setStatus(utility.getConfig(LeadStatus.NEW.getCode()));
-            followUp.setLead(lead);
-            followUp.setCallDate(LocalDate.now());
-            followUp.setNextCallDate(LocalDate.now());
-            followUp.setExpectedJoinDate(null);
-            followUpRepository.save(followUp);
-        }
-        authorityServices.createAuthority(
-                null,
-                Roles.ROLE_LEAD,
-                lead.getId()
-        );
-
-        return lead;
+    public Customer createLead(@RequestBody Customer customer, HttpSession session) {
+        Customer userLogin = (Customer) session.getAttribute("userLogin");
+        return utility.createLead(customer, LeadStatus.NEW,LocalDate.now(), LocalDate.now(),userLogin);
     }
 }
