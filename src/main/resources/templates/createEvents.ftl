@@ -150,7 +150,7 @@
                   </td>
                   <td>${c.weight?if_exists}</td>
                   <td>${c.gender?if_exists}</td>
-                  <td>${c.phone?if_exists}</td>
+                  <td><a href="tel:+91${c.phone?if_exists}">📞 ${c.phone?if_exists}</a></td>
                   <td>${c.email?if_exists}</td>
                   <td>${c.joiningDate?if_exists}</td>
                   <td>${c.createdDate?if_exists}</td>

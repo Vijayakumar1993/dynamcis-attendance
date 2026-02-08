@@ -2,10 +2,13 @@ package com.attendence.Attendance.controller;
 
 import com.attendence.Attendance.constants.CompetitionStatus;
 import com.attendence.Attendance.entity.*;
+import com.attendence.Attendance.model.UploadResult;
 import com.attendence.Attendance.repostitary.CustomerRepostitary;
 import com.attendence.Attendance.services.*;
 import com.attendence.Attendance.util.EventUtility;
 import com.attendence.Attendance.util.Utility;
+import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,6 +16,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.time.LocalDate;
@@ -47,6 +51,9 @@ public class FixtureController {
 
     @Autowired
     private MatchService matchService;
+
+    @Autowired
+    private PlayerUploadService playerUploadService;
 
     @GetMapping("")
     public String createFixture(Model model){
@@ -179,6 +186,38 @@ public class FixtureController {
             model.addAttribute("categories",competition.getCompetitionCategories().stream().map(CompetitionCategories::getCategory).toList());
 
         return "viewFixtures";
+    }
+    @GetMapping("/upload")
+    public String uploadPage() {
+        return "uploadPlayers";
+    }
+
+    @PostMapping("/upload")
+    public String uploadPlayers(
+            @RequestParam("file") MultipartFile file,
+            @RequestParam("teamId") Long teamId,
+            @RequestParam("category") String category,
+            HttpSession session,
+            Model model) {
+
+        UploadResult result = playerUploadService.processFile(file, teamId, category, session,model);
+        model.addAttribute("successCount", result.successCount);
+        model.addAttribute("failureCount", result.failureCount);
+        model.addAttribute("errors", result.errors);
+
+
+        return "uploadPlayers";
+    }
+
+    @GetMapping("/player-upload-template")
+    public void downloadTemplate(HttpServletResponse response) throws Exception {
+        response.setContentType("text/csv");
+        response.setHeader("Content-Disposition",
+                "attachment; filename=player_upload_template.csv");
+
+        response.getWriter().write(
+                "name,guardianName,phone,gender,email,dob,weight,address\n"
+        );
     }
 
 }

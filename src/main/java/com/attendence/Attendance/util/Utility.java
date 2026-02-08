@@ -19,6 +19,8 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 import org.springframework.ui.Model;
 
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
 import java.time.LocalDate;
 import java.time.format.TextStyle;
 import java.util.*;
@@ -296,5 +298,10 @@ public class Utility {
         );
 
         return lead;
+    }
+
+    public String encodeMsg(String msg){
+       return URLEncoder.encode(msg, StandardCharsets.UTF_8);
+
     }
 }

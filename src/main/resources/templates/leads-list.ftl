@@ -19,7 +19,7 @@
                         <#list newLeads as lead>
                             <div class="well well-sm">
                                 <strong>${lead.name}</strong><br/>
-                                📞 ${lead.phone}<br/>
+                                📞 <a href="tel:+91${lead.phone}">${lead.phone}</a><br/>
                                 ✉ ${lead.email}<br/>
                                 <a href="${baseUrl?if_exists}/lead-management/viewLead/${lead.id?if_exists}" class="btn btn-xs btn-primary" style="margin-top:5px;">
                                     Open
@@ -48,7 +48,7 @@
                             <div class="well well-sm">
                                 <strong>${f.lead.name}</strong><br/>
                                 📅 ${f.nextCallDate}<br/>
-                                📞 ${f.lead.phone}<br/>
+                                📞 <a href="tel:+91${f.lead.phone}">${f.lead.phone}</a><br/>
 
                                 <span class="label label-info"><#if f.interest??>${f.interest.configValue?if_exists}</#if></span>
                                 <span class="label label-danger"><#if f.priority??>${f.priority.configValue?if_exists}</#if></span>
@@ -82,7 +82,7 @@
                             <div class="well well-sm">
                                 <strong>${f.lead.name}</strong><br/>
                                 ⏰ Missed on: ${f.nextCallDate}<br/>
-                                📞 ${f.lead.phone}<br/>
+                                📞 <a href="tel:+91${f.lead.phone}">${f.lead.phone}</a><br/>
 
                                 <span class="label label-danger"><#if f.priority??>${f.priority.configValue?if_exists}</#if></span>
 

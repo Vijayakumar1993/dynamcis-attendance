@@ -79,5 +79,21 @@
 </div>
 </#macro>
 
+<#macro watsapp phone>
+<#assign cat = util.getConfig("49")>
+<#if cat?has_content>
+<#assign msg =  util.encodeMsg(cat.configValue) >
+<a
+  href="https://wa.me/${phone?if_exists}?if_exists}?text=${msg?if_exists}"
+  target="_blank"
+  class="whatsapp-btn"
+>
+  <img
+    src="${baseUrl}/images/WhatsApp.svg"
+    alt="WhatsApp"
+  />
+</a>
+</#if>
+</#macro>
 
 

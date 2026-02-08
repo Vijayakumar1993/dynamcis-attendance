@@ -94,7 +94,7 @@
 <#list absentees as c>
 <tr>
 <td>${c.name}</td>
-<td>${c.phone}</td>
+<td><a href="tel:+91${c.phone}">📞${c.phone}</a></td>
 </tr>
 </#list>
 </table>

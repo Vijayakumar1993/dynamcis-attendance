@@ -11,7 +11,7 @@
             <div class="well well-sm">
                 <div class="row">
                     <div class="col-sm-4"><strong>Name:</strong> ${lead.name}</div>
-                    <div class="col-sm-4"><strong>Phone:</strong> ${lead.phone}</div>
+                    <div class="col-sm-4"><strong>Phone:</strong><@watsapp "+91${lead.phone}" /><a href="tel:+91${lead.phone}">📞${lead.phone}</a></div>
                     <div class="col-sm-4"><strong>Email:</strong> ${lead.email}</div>
                 </div>
             </div>

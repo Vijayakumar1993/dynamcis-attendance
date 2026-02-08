@@ -53,5 +53,14 @@ INSERT IGNORE INTO `configuration` VALUES (45,'WEBSITE','name','lead-source','We
 INSERT IGNORE INTO `configuration` VALUES (46,'WALK_IN','name','lead-source','Walk In');
 INSERT IGNORE INTO `configuration` VALUES (47,'REFERRAL','name','lead-source','Referral');
 INSERT IGNORE INTO `configuration` VALUES (48,'SOCIAL_MEDIA','name','lead-source','Social Media');
+INSERT IGNORE INTO `configuration`
+VALUES (
+  49,
+  'WATSAPP_WELCOME_MSG',
+  'name',
+  'watsapp_welcome_msg',
+  'Hello, Welcome to Dynamics 101 MMA.\n\nWe’re happy to help with:\n• Training programs\n• Fees & schedules\n• Trial sessions\n\nHow can we assist you?'
+);
+
 
 

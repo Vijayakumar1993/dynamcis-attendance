@@ -89,6 +89,7 @@ ${titleList?first.configValue?if_exists}
           <ul class="dropdown-menu">
 <li><a href="${baseUrl}/lead-management/lead">
               <span class="glyphicon glyphicon glyphicon-plus-sign"></span> Create Lead</a></li>
+            <li class="divider"></li>
             <li><a href="${baseUrl}/lead-management/findLeads">
               <span class="glyphicon glyphicon-time"></span> Leads Followups</a></li>
  <li><a href="${baseUrl}/lead-management/reports">
@@ -160,6 +161,9 @@ ${titleList?first.configValue?if_exists}
               <span class="glyphicon glyphicon-user"></span> Create Coach</a></li>
             <li><a href="${baseUrl}/fixture/createPlayer">
               <span class="glyphicon glyphicon-user"></span> Create Player</a></li>
+            <li class="divider"></li>
+    <li><a href="${baseUrl}/fixture/upload">
+              <span class="glyphicon glyphicon-upload"></span> Upload Players</a></li>
           </ul>
         </li>
 
@@ -243,6 +247,7 @@ ${titleList?first.configValue?if_exists}
           <ul class="dropdown-menu">
             <li><a href="${baseUrl}/lead-management/lead">
               <span class="glyphicon glyphicon glyphicon-plus-sign"></span> Create Lead</a></li>
+            <li class="divider"></li>
             <li><a href="${baseUrl}/lead-management/findLeads">
               <span class="glyphicon glyphicon-time"></span> Leads Followups</a></li>
  <li><a href="${baseUrl}/lead-management/reports">

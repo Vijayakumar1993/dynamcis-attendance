@@ -31,7 +31,7 @@ ${customer.name?capitalize?if_exists} Details
       </#if>
       <div class="row mb-3">
          <div class="col-sm-4 font-weight-bold">Phone(<span style="color: #2196f3;">&#128222;</span>)</div>
-         <div class="col-sm-8">${customer.phone?if_exists}</div>
+         <div class="col-sm-8"><@watsapp "+91${customer.phone?if_exists}" /><a href="tel:+91${customer.phone?if_exists}">${customer.phone?if_exists}</a><br/></div>
       </div>
       <div class="row mb-3">
          <div class="col-sm-4 font-weight-bold">Email(<span style="color: #ff5722;">&#9993;</span>)</div>

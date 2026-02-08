@@ -161,7 +161,7 @@ value="${to?if_exists}"
 </td>
               <td>${c.weight?default("0")}</td>
               <td>${c.gender?if_exists}</td>
-              <td>${c.phone?if_exists}</td>
+              <td>📞 <a href="tel:+91${c.phone?if_exists}">${c.phone?if_exists}</a></td>
               <td>${c.email?if_exists}</td>
               <td>${c.team.teamName?if_exists}</td>
               <td><#if c.joiningDate??>${c.joiningDate}</#if></td>

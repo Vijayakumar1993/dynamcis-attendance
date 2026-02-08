@@ -137,6 +137,7 @@ public class Configurer implements WebMvcConfigurer {
                                 "/competition/rejectCompetition/**",
                                 "/competition/revokeCompetition/**",
                                 "/teams/viewTeam/**",
+                                "/teams/selection/**",
                                 "/teams/viewTeams",
                                 "/fixtureGateway/createTeamCompCustomer",
                                 "/fixture/createPlayer"

@@ -11,7 +11,7 @@ services:
       - mysqldata:/var/lib/mysql
 
   app:
-    image: vvijayakumarm/dynamics-att:1.0
+    image: vvijayakumarm/dynamics-att:1.1
     depends_on:
       - dynamics-mysql
     ports:

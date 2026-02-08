@@ -347,7 +347,7 @@ public class CustomerController {
 
 
         redirectAttributes.addFlashAttribute(
-                "success_msg", "Customer removed successfully");
+                "success_msg", "Person removed successfully");
 
         return "redirect:/customer/viewCustomers";
     }
